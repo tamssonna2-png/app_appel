@@ -1,0 +1,45 @@
+{% extends 'base.html' %} {% block title %}Mon Tableau de Bord{% endblock %}
+{%block content%}
+    <h1>Bienvenue, Professeur {{ user.last_name }} !</h1>
+    <p>Ceci est votre espace de gestion des appels.</p>
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'creer_matiere' %}" style="padding: 10px; background: blue; color: white; text-decoration: none; border-radius: 5px;">
+            + Ajouter une nouvelle matière
+        </a>
+    </div>
+    <h3>Mes Matières Enseignées</h3>
+    <table border="1" style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background: #eee;">
+                <th>Nom</th>
+                <th>Code</th>
+                <th>Crédits</th>
+                <th>Description</th>
+                <th>Ecole</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for m in matieres %}
+            <tr>
+                <td>{{ m.nom }}</td>
+                <td>{{ m.code }}</td>
+                <td>{{ m.credit }}</td>
+                <td>{{ m.description }}</td>
+                <td>{{ m.ecole.abreviation }}</td>
+                <td>
+                    <a href="{%url 'modifier_matiere' m.id%}">Modifier</a> | 
+                    <a href="{%url 'supprimer_matiere' m.id%}" 
+                    onclick="return confirm('Attention ! Voulez-vous vraiment supprimer la matière \'{{ m.nom }}\' ? Cette action est irréversible.')"
+                    style="color: red;">Supprimer</a>
+                    <a href="{%url 'consulter_matiere' m.id%}" style="color: green;">Consulter</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="text-align: center;">Vous n'avez pas encore créé de matières.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{%endblock%}

@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Liste des étudiants : {{ matiere.nom }}</h1>
+    <p>Code de l'unité : {{ matiere.code }}</p>
+    <p>Ecole : {{ matiere.ecole }}</p>
+
+    <a href="{%url 'creer_feuille' matiere.id%}"
+    onclick="return confirm('Voulez-vous vraiment commencer l\'appel pour cette matière ? Cela créera une nouvelle session pour aujourd\'hui.')" 
+   class="btn-primary">Commence l'appel</a>
+    <a href="{%url 'chercher_etudiant' matiere.id%}">Inscrire un nouvel étudiant</a>
+    <hr>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Matricule</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Nombre de presences</th>
+                <th>Nombre d'abscences</th>
+                <th>Total de seances</th>
+                <th>Nombre de points</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ins in inscriptions %}
+            <tr>
+                <td>{{ ins.etudiant.matricule }}</td>
+                <td>{{ ins.etudiant.last_name }}</td>
+                <td>{{ ins.etudiant.first_name }}</td>
+                <td>{{ ins.etudiant.email }}</td>
+                <td>{{ ins.nb_presences }}</td>
+                <td>{{ ins.nb_abscences }}</td>
+                <td>{{ nb_seances }}</td>
+                <td>{{ ins.note_actuelle }}</td><!--pourquoi ici c'est false alors que dans l'autre page ca valeur est bien affichée-->>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Aucun étudiant n'est encore inscrit à cette matière.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'exporter_bilan_pdf' matiere.id %}" 
+       style="background-color: #e74c3c; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-flex; align-items: center; gap: 8px;">
+        PDF 📥 Télécharger le bilan global
+    </a>
+</div>
+
+<div class="card">
+    <h3>Partager l'inscription</h3>
+    <p>Envoyez ce lien aux étudiants pour qu'ils s'inscrivent :</p>
+    <code id="lien-inscription">
+        http://{{ request.get_host }}{% url 'inscription_matiere' matiere.id %}
+    </code>
+    <button onclick="copyLink()">Copier le lien</button>
+</div>
+<form action="{% url 'reinitialiser_matiere' matiere.id %}" method="POST" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" 
+            onclick="return confirm('⚠️ ACTION IRRÉVERSIBLE ⚠️\n\nVoulez-vous vraiment réinitialiser la matière « {{ m.nom }} » ?\n\nCela va :\n- Supprimer TOUT l\'historique des appels\n- Désinscrire TOUS les étudiants')"
+            style="background-color: #ffc107; color: #000; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+        🔄 Réinitialiser
+    </button>
+</form>
+
+<form action="{% url 'vider_historique_matiere' matiere.id %}" method="POST" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" 
+            onclick="return confirm('Voulez-vous vraiment vider l\'historique de « {{ m.nom }} » ?\n\n- Les étudiants resteront inscrits.\n- Toutes les anciennes feuilles d\'appel seront supprimées.\n- Les compteurs de présences reviendront à zéro.')"
+            style="background-color: #17a2b8; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+        🗑️ Vider l'historique
+    </button>
+</form>
+ <div>
+        <h3>Historique des séances</h3>
+        <ul>
+            {% for h in historique %}
+            <li>
+                <strong>Séance n°{{ forloop.revcounter }}</strong> - {{ h.date|date:"d/m/Y H:i" }}
+                {% if h.id == feuille.id %} (Session actuelle) {% endif %}
+                {% if h.is_actif%}
+                    <a href="{% url 'consulter_feuille' h.id%}"
+                    style="color: green;">Consulter</a>
+                    <td> appel en cour</td>
+                {% else %}
+                    <a href="{% url 'consulter_feuille' h.id%}">Consulter</a>
+                {% endif %}
+                
+            </li>
+            {% empty %}
+            <li>Aucune séance enregistrée.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    
+<script>
+function copyLink() {
+    var copyText = document.getElementById("lien-inscription").innerText;
+    navigator.clipboard.writeText(copyText);
+    alert("Lien copié ! Partagez-le avec vos étudiants.");
+}
+</script>
+{% endblock %}

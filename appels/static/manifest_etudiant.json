@@ -1,0 +1,15 @@
+{
+  "name": "ENSTP App Étudiant",
+  "short_name": "App Étudiant",
+  "start_url": "/student/dashboard/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0066cc",
+  "icons": [
+    {
+      "src": "/static/images/icon_etudiant.png",
+      "sizes": "225x225",
+      "type": "image/png"
+    }
+  ]
+}

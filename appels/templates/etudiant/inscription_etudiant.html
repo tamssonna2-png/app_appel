@@ -1,0 +1,9 @@
+<h2>Inscription Etudiant</h2>
+<form method="post" onsubmit="return confirm('Cette opération est irréversible, assurez-vous que vos informations soient conformes')">
+    {% csrf_token %} 
+    {{form.as_p}} 
+    <button type="submit">Enregistrer</button>
+</form>
+<div>
+    <a href="{% url 'connexion_etudiant' %}">Deja un compte</a>
+</div>

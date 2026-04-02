@@ -1,0 +1,23 @@
+<h2>Connexion Enseignant</h2>
+
+<!--{% if messages %}
+    {% for message in messages %}
+        <p style="color: red;">{{ message }}</p>
+    {% endfor %}
+{% endif %}-->
+
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label>Identifiant (username ou email) :</label>
+        <input type="text" name="username" required>
+    </div>
+    <div>
+        <label>Mot de passe :</label>
+        <input type="password" name="password" required>
+    </div>
+    <button type="submit">Se connecter</button>
+    <div>
+        <a href="{% url 'inscription_enseignant' %}">creer un compte</a>
+    </div>
+</form>

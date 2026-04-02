@@ -1,0 +1,29 @@
+{% block content %}
+<div style="max-width: 400px; margin: 50px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+    <h2 style="text-align: center;">Espace Étudiant</h2>
+    <p style="text-align: center; color: #666;">Connectez-vous avec votre matricule</p>
+
+    <!--{% if messages %}
+        {% for message in messages %}
+            <p style="color: #e74c3c; background: #fadbd8; padding: 10px; border-radius: 5px;">{{ message }}</p>
+        {% endfor %}
+    {% endif %}-->
+
+    <form method="post">
+        {% csrf_token %}
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px;">Matricule ou Email :</label>
+            <input type="text" name="username" placeholder="Ex: 22U1234" required 
+                   style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+
+        <button type="submit" style="width: 100%; background-color: #28a745; color: white; padding: 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+            Accéder à mon espace
+        </button>
+    </form>
+
+    <div style="margin-top: 20px; text-align: center; font-size: 0.9em;">
+        <p>Pas encore inscrit ? <a href="{% url 'inscription_etudiant' %}">Créer un compte</a></p>
+    </div>
+</div>
+{%endblock%}

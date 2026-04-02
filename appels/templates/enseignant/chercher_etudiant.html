@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="mobile-container">
+    <div class="header-card">
+        <a href="{% url 'consulter_matiere' matiere.id %}" class="back-link">← Retour</a>
+        <h1>{{ matiere.nom }}</h1>
+        <span class="badge">{{ matiere.code }} - {{ matiere.ecole.abreviation }}</span>
+    </div>
+
+    <form method="GET" class="search-box">
+        <input type="text" name="matricule" placeholder="Entrez le matricule..." value="{{ query|default:'' }}" required>
+        <button type="submit">🔍</button>
+    </form>
+
+    <div class="result-area">
+        {% if erreur %}
+            <div class="alert alert-error">{{ erreur }}</div>
+        {% endif %}
+
+        {% if resultat %}
+            <div class="student-card">
+                <div class="student-info">
+                    <h3>{{ resultat.last_name }} {{ resultat.first_name }}</h3>
+                    <p>Matricule: <strong>{{ resultat.username }}</strong></p>
+                </div>
+
+                {% if deja_inscrit %}
+                    <div class="status-badge success">
+                        ✅ Déjà inscrit à ce cours
+                    </div>
+                {% else %}
+                    <form action="{% url 'inscrire_etudiant_par_ensei' matiere.id resultat.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-enroll">
+                            ➕ Inscrire l'étudiant
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+        {% elif query and not erreur %}
+            <p class="empty-msg">Entrez un matricule valide pour commencer.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

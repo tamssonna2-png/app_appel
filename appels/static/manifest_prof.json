@@ -1,0 +1,24 @@
+{
+  "name": "ENSTP App Prof",
+  "short_name": "App Prof",
+  "start_url": "/pro/dashboard/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#e63946",
+  "icons": [
+    {
+      "src": "/static/images/icon_prof.png",
+      "sizes": "320x320",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/static/images/icon_prof.png",
+      "sizes": "320x320",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ]
+}

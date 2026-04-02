@@ -1,0 +1,118 @@
+{% block content %}
+<h2>Détails de l'appel : {{ matiere.nom }}</h2>
+<p>Ecole : {{ matiere.ecole }}</p>
+<p>Séance du : <strong>{{ feuille.date|date:"d/m/Y H:i"}}</strong></p>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+    <div style="display: flex; gap: 5px;">
+        <button onclick="filtrerEtudiants('tous')" style="padding: 8px 12px; cursor: pointer; border-radius: 4px; border: 1px solid #ccc; background: #eee;">
+            👥 Tous
+        </button>
+        <button onclick="filtrerEtudiants('present')" style="padding: 8px 12px; cursor: pointer; border-radius: 4px; border: 1px solid #28a745; color: white; background: #28a745;">
+            ✅ Présents
+        </button>
+        <button onclick="filtrerEtudiants('absent')" style="padding: 8px 12px; cursor: pointer; border-radius: 4px; border: 1px solid #dc3545; color: white; background: #dc3545;">
+            ❌ Absents
+        </button>
+    </div>
+
+    <input type="text" id="rechercheNom" onkeyup="rechercherParNom()" placeholder="Rechercher un nom ou matricule..." 
+           style="padding: 8px; border-radius: 4px; border: 1px solid #ccc; width: 250px;">
+</div>
+{% if feuille.is_actif %}
+<form action="{% url 'cloturer_appel' feuille.id %}" method="POST" style="margin-bottom: 15px;">
+    {% csrf_token %}
+    <button type="submit" style="background-color: orange; color: black; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+        🔒 Clôturer l'appel
+    </button>
+</form>
+{%endif%}
+
+<table border="1" style="width: 100%; border-collapse: collapse;" id="tableau-presences">
+    <thead>
+        <tr style="background: #f4f4f4;">
+            <th>Matricule</th>
+            <th>Nom & Prénom</th>
+            <th>Statut</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in pointages %}
+        <tr class="ligne-etudiant {% if p.est_present %}is-present{% else %}is-absent{% endif %}">
+            <td>{{ p.etudiant.username }}</td>
+            <td class="nom-etudiant">{{ p.etudiant.last_name }} {{ p.etudiant.first_name }}</td>
+            <td>
+                {% if p.est_present %}
+                    <b style="color: green;">PRÉSENT</b>
+                {% else %}
+                    <b style="color: red;">ABSENT</b>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3" style="text-align: center; padding: 20px;">Aucun pointage enregistré.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+<div style="margin-top: 15px; padding: 15px; border: 1px solid #ddd; background: #fff; border-radius: 8px;">
+    <h4 style="margin-top: 0; color: #333;">📑 Exporter en PDF :</h4>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <a href="{% url 'exporter_pdf' feuille.id %}?filtre=tous" 
+           style="text-decoration: none; background: #e74c3c; color: white; padding: 8px 15px; border-radius: 5px; font-weight: bold;">
+           📕 Tout le monde
+        </a>
+        <a href="{% url 'exporter_pdf' feuille.id %}?filtre=present" 
+           style="text-decoration: none; background: #27ae60; color: white; padding: 8px 15px; border-radius: 5px; font-weight: bold;">
+           📗 Présents
+        </a>
+        <a href="{% url 'exporter_pdf' feuille.id %}?filtre=absent" 
+           style="text-decoration: none; background: #c0392b; color: white; padding: 8px 15px; border-radius: 5px; font-weight: bold;">
+           📙 Absents
+        </a>
+    </div>
+</div>
+<div style="display: flex; gap: 20px;">
+    <a href="{% url 'consulter_matiere' matiere.id%}" style="color: blue; font-weight: bold;">⬅️ Retour</a>
+    <a href="{% url 'supprimer_feuille' feuille.id  %}" 
+       onclick="return confirm('Attention ! Supprimer cette séance annulera tous les pointages. Confirmer ?')"
+       style="color: red;">
+       🗑️ Supprimer cette séance
+    </a>
+</div>
+
+<script>
+// Fonction pour les boutons Présent / Absent / Tous
+function filtrerEtudiants(filtre) {
+    const lignes = document.querySelectorAll('.ligne-etudiant');
+    lignes.forEach(ligne => {
+        if (filtre === 'tous') {
+            ligne.style.display = '';
+        } else if (filtre === 'present') {
+            ligne.style.display = ligne.classList.contains('is-present') ? '' : 'none';
+        } else if (filtre === 'absent') {
+            ligne.style.display = ligne.classList.contains('is-absent') ? '' : 'none';
+        }
+    });
+}
+
+// Fonction pour la recherche dynamique
+function rechercherParNom() {
+    let input = document.getElementById('rechercheNom').value.toUpperCase();
+    let lignes = document.querySelectorAll('.ligne-etudiant');
+    
+    lignes.forEach(ligne => {
+
+        let texte = ligne.innerText.toUpperCase();
+        if (texte.indexOf(input) > -1) {
+            ligne.style.display = "";
+        } else {
+            ligne.style.display = "none";
+        }
+    });
+}
+</script>
+{% endblock %}

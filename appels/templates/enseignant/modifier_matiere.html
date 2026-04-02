@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Modifier la matière : {{ matiere.nom }}</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Enregistrer les modifications</button>
+        <a href="{% url 'dashboard' %}">Annuler</a>
+    </form>
+{% endblock %}
