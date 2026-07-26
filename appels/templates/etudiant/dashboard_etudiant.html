@@ -17,7 +17,7 @@
     
     <form action="{% url 'traiter_lien_inscription' %}" method="POST" style="display: flex; gap: 10px;">
         {% csrf_token %}
-        <input type="text" name="lien_complet" placeholder="Ex: http://127.0.0.1:8000/inscription-matiere/1/" 
+        <input type="text" name="lien_complet" placeholder="Ex: http://127.0.0.1:8000/student/inscrire-matiere/1/" 
                style="flex: 1; padding: 10px; border-radius: 4px; border: 1px solid #ccc;" required>
         <button type="submit" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">
             S'inscrire

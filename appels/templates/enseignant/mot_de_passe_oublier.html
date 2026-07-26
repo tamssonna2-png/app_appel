@@ -1,0 +1,16 @@
+<h2>Mot de passe oublié ?</h2>
+
+{% if messages %}
+    {% for message in messages %}
+        <p style="color: red;">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<form method="post">
+    {% csrf_token %} 
+    {{form.as_p}} 
+    <button type="submit">Envoyer</button>
+</form>
+<div>
+    <a href="{% url 'connexion_enseignant' %}">Deja un compte</a>
+</div>

@@ -56,7 +56,7 @@ class Matiere(models.Model):
     nom = models.CharField(max_length=20)
     code = models.CharField(max_length=15)
     credit = models.PositiveIntegerField()
-    description = models.CharField(max_length=100)
+    description = models.CharField(max_length=100,null=True, blank=True)
     enseignant = models.ForeignKey(Enseignant,on_delete=models.SET_NULL, related_name="matieres",null=True,blank=True) 
     ecole = models.ForeignKey(Ecole,on_delete=models.CASCADE,related_name="matieres")
     est_pondere = models.BooleanField(default=False)

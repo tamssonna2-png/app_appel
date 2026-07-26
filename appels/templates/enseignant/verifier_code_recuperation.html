@@ -1,0 +1,50 @@
+{% block content %}
+<div class="container mt-5" style="max-width: 500px;">
+    <div class="card shadow-sm p-4" style="border-radius: 10px;">
+        
+        <!-- Gestion des messages d'erreur ou de succès de Django -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} text-center" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if etape == 'saisie_code' %}
+            <!-- FORMULAIRE ÉTAPE A : Saisie du code reçu par mail -->
+            <h2 class="h4 text-center mb-3">Vérification du code</h2>
+            <p class="text-muted text-center small">Entrez le code à 6 chiffres envoyé à votre adresse e-mail.</p>
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3 text-center">
+                    {{ form_code.as_p }}
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Vérifier le code</button>
+            </form>
+            
+        {% elif etape == 'nouveau_password' %}
+            <!-- FORMULAIRE ÉTAPE B : Définir le nouveau mot de passe -->
+            <h2 class="h4 text-center mb-3">Nouveau mot de passe</h2>
+            <p class="text-muted text-center small">Choisissez votre nouveau mot de passe de connexion.</p>
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form_password.as_p }}
+                </div>
+                <button type="submit" class="btn btn-success w-100">Enregistrer le mot de passe</button>
+            </form>
+        {% endif %}
+        
+        <hr class="my-4">
+        
+        <div class="text-center">
+            <a href="{% url 'mot_de_passe_oublier' %}" class="small text-decoration-none text-secondary">
+                Recommencer la procédure
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

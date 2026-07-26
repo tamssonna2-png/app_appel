@@ -103,3 +103,45 @@ class EtudiantForm(forms.ModelForm):
         if commit:
             etudiant.save()
         return etudiant
+
+
+
+class MotDePasseOblieForm(forms.Form):
+    email = forms.EmailField(
+        label='Entrez votre email',
+        widget=forms.EmailInput(attrs={'placeholder':'exemple@gmail.com',
+        'class':'form-control'})
+        )
+
+class VerifierCodeForm(forms.Form):
+    code_saisi = forms.CharField(
+        label="Code de vérification", 
+        max_length=6,
+        min_length=6,  # Sécurité : le code fait forcément 6 caractères
+        widget=forms.TextInput(attrs={
+            'placeholder': '🔏 Ex: 123456', 
+            'class': 'form-control text-center fw-bold fs-4',
+            'autocomplete': 'off'
+        })
+    )
+
+from django.core.exceptions import ValidationError
+
+class NouveauMotDePasseForm(forms.Form):
+    password = forms.CharField(
+        label="Nouveau mot de passe",
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Entrez le nouveau mot de passe'})
+    )
+    confirm_password = forms.CharField(
+        label="Confirmez le mot de passe",
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirmez le mot de passe'})
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
+
+        if password and confirm_password and password != confirm_password:
+            raise ValidationError("Les deux mots de passe ne correspondent pas.")
+        return cleaned_data

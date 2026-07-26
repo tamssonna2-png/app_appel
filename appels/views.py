@@ -1,12 +1,19 @@
 from django.shortcuts import render,redirect
-from .forms import EnseignantForm,MatiereForm,EtudiantForm
+from .forms import EnseignantForm,MatiereForm,EtudiantForm,MotDePasseOblieForm,VerifierCodeForm,NouveauMotDePasseForm
 from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth.hashers import check_password
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Personne,Enseignant,Matiere,Etudiant,FeuilleAppel,Presence,Inscription
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 import re
+from urllib.parse import urlparse
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.contrib.auth import get_user_model
+from django.conf import settings
+User = get_user_model()
 # Create your views here.
 
 
@@ -70,10 +77,13 @@ def connexion_enseignant(request):
         p_word = request.POST.get('password')
         try:
             u_name=Personne.objects.get(Q(username=identifiant) | Q(email=identifiant))
-            user = authenticate(request,username=u_name.username, password=p_word)
+            if u_name.check_password(p_word):
+                user = u_name
+            else:
+                user=None
         except Personne.DoesNotExist:
             user=None
-
+            
         if user is not None:
             if hasattr(user,'enseignant'):
 
@@ -85,6 +95,96 @@ def connexion_enseignant(request):
             messages.error(request,"Identifiant ou mot de passe incorrect.")
     return render(request,'enseignant/connexion.html')
 #http://127.0.0.1:8000/connexion-enseignant/
+
+
+def mot_de_passe_oublier(request):
+    if request.method == 'POST':
+        form = MotDePasseOblieForm(request.POST)
+        if form.is_valid():
+            email_saisie = form.cleaned_data['email']
+            user_exists = Enseignant.objects.filter(email=email_saisie).exists()
+            if user_exists:
+                code_recuperation = str (random.randint(100000,999999))  
+                request.session['reset_email']=email_saisie
+                request.session['reset_code']=code_recuperation
+                delais =600
+                request.session.set_expiry(delais)
+                sujet= "Code de Recuperation de mot de passe"
+                message = f"Bonjour,\n\nVoici votre code de récupération pour réinitialiser votre mot de passe : {code_recuperation}\n\nCe code est valide pendant 10 minutes."
+                expediteur = settings.DEFAULT_FROM_EMAIL
+                print("voici le code d recupération : ",code_recuperation)
+                try:
+                    send_mail(sujet,message,expediteur,[email_saisie])
+                    messages.success(request,"Un code de verification a été envoyé a votre email")
+                    return redirect('verifier_code_recuperation')
+                except Exception as e:
+                    messages.error(request,"Une erreur est survenue lors de l'envoie. Réessayez")
+                    print("probleme",e)
+            else:
+                messages.error(request,"Cet utilisateur n'existe pas ou n'est pas un enseignant verifier l'email")
+        else:
+            print("Erreurs du formulaire :",form.errors)
+    else:
+        form = MotDePasseOblieForm()
+    return render(request,'enseignant/mot_de_passe_oublier.html',{
+        'form':form
+    })
+
+User = get_user_model()
+
+def verifier_code_recuperation(request):
+    email_saisie = request.session.get('reset_email')
+    code_attendu = request.session.get('reset_code')
+
+    if not email_saisie or not code_attendu:
+        messages.error(request,"Session expirée ou invalide. Veullez recommencer")
+        return redirect('mot_de_passe_oublier')
+    
+    code_deja_valide = request.session.get('code_verified',False)
+    #code_deja_valide = False
+    if not code_deja_valide:
+        
+        if request.method == 'POST':
+            form_code = VerifierCodeForm(request.POST)
+            if form_code.is_valid():
+                code_saisie = form_code.cleaned_data['code_saisi']
+
+                if code_saisie == code_attendu:
+                    request.session['code_verified']=True
+                    messages.success(request,"code validé avec succes")
+                    return redirect('verifier_code_recuperation')
+                else:
+                    messages.error(request,"Code incorrect.Veuillez réesayer")
+        else:
+            form_code = VerifierCodeForm()
+
+        return render(request,'enseignant/verifier_code_recuperation.html',{
+        'form_code':form_code,
+        'etape':'saisie_code'
+        })
+    else:
+        if request.method=='POST':
+            form_password = NouveauMotDePasseForm(request.POST)
+            if form_password.is_valid():
+                nouveau_password = form_password.cleaned_data['password']
+
+                try:
+                    user = Enseignant.objects.get(email=email_saisie)
+                    user.set_password(nouveau_password)
+                    user.save()
+                    request.session.flush()
+                    messages.success(request,"Mot de passe réinitialisé avec succès ! vous pouvez vous connectez")
+                    return redirect('connexion_enseignant')
+                except User.DoesNotExist:
+                    messages.error(request,"Utilisateur introuvable")
+                    return redirect('mot_de_passe_oublier')
+        else:
+            form_password = NouveauMotDePasseForm()
+        return render(request, 'enseignant/verifier_code_recuperation.html', {
+        'form_password':form_password,
+        'etape': 'nouveau_password'
+    })
+    
 
 @login_required
 def dashboard(request):
@@ -632,7 +732,7 @@ def inscription_matiere(request,matiere_id):
         messages.error(request, "Accès refusé : tu n'as pas de profil étudiant.")
         return redirect('accueil')
     if matiere.ecole!=request.user.etudiant.ecole:
-        messages.error(request, "Accès refusé : vous ne faite pas partie de cette ecole.")
+        messages.error(request, "Accès refusé : vous ne faites pas partie de cette ecole.")
         return redirect('dashboard_etudiant')
     inscription,created = Inscription.objects.get_or_create(
         etudiant=mon_profil,
@@ -648,13 +748,18 @@ def inscription_matiere(request,matiere_id):
 @login_required
 def traiter_lien_inscription(request):
     if request.method == 'POST':
-        lien = request.POST.get('lien_complet','')
-        match = re.search(r'inscription-matiere/(\d+)',lien)
-        if match:
-            matiere_id = match.group(1)
-            return redirect('inscription_matiere',matiere_id=matiere_id)
-        else:
-            messages.error(request,"Le lien semble invalide. Assurez-vous de copier le lien complet. ")
+        lien = request.POST.get('lien_complet', '').strip()       
+        try:
+            chemin = urlparse(lien).path
+            match = re.search(r'^/student/(?:inscrire|inscription)-matiere/(\d+)/?$', chemin)           
+            if match:
+                matiere_id = int(match.group(1))
+                return redirect('inscription_matiere', matiere_id=matiere_id)
+            else:
+                messages.error(request, "Format du lien invalide ou non autorisé.")               
+        except Exception:
+            messages.error(request, "Impossible d'analyser le lien fourni.")
+            
     return redirect('dashboard_etudiant')
 
 
@@ -718,3 +823,8 @@ def valider_presence(request):
 def deconnexion_etudiant(request):
     logout(request)
     return redirect('connexion_etudiant')
+
+
+
+# myglobalenv (c'est l'environneent virtuel)
+#mot de passe du super user Clautel123456

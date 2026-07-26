@@ -46,6 +46,8 @@ urlpatterns = [
     path('pro/connexion/', views.connexion_enseignant, name='connexion_enseignant'),
     path('pro/deconnexion/', views.deconnexion_enseignant, name='deconnexion_enseignant'),
     path('pro/dashboard/', views.dashboard, name='dashboard'),
+    path('pro/mot-de-passe-oublier',views.mot_de_passe_oublier,name='mot_de_passe_oublier'),
+    path('pro/verifier-code',views.verifier_code_recuperation,name='verifier_code_recuperation'),
 
     # Gestion des Matières (CRUD)
     path('pro/matiere/creer/', views.creer_matiere, name='creer_matiere'),

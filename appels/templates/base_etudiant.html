@@ -62,7 +62,7 @@
             <a class="navbar-brand mx-auto text-white fw-bold" href="{% url 'dashboard_etudiant' %}">
                 🎓 MON ESPACE ÉTUDIANT
             </a>
-            <a href="{% url 'deconnexion_etudiant' %}" class="btn btn-sm btn-outline-light">Sortir</a>
+            <a href="{% url 'deconnexion_etudiant' %}" class="btn btn-sm btn-outline-light" onclick ="return confirm('Êtes-vous sûr de vouloir vous déconnecter ?');">Sortir</a>
         </div>
     </nav>
 

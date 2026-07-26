@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,19 +24,26 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-u9%^$moy=_#@!zf+m34+s^jlo#7bq3eyi&rr2q)dn!dij(#u9s'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG =os.environ.get('DEBUG','False')=='True'
 
-#ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = [
+ALLOWED_HOSTS = ['*']
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.ngrok-free.dev',
+    'https://*.ngrok-free.app',
+]
+
+"""ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'experienced-decorously-sharyl.ngrok-free.dev', # L'adresse précise
     '.ngrok-free.dev',                             # Autorise toutes les adresses ngrok de ce type
     '.ngrok-free.app',                             # Au cas où ngrok change d'extension
-]
+    '192.168.1.113',
+]"""
 # Application definition
 
 INSTALLED_APPS = [
@@ -78,11 +89,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}"""
+
+DATABASES = {
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
 }
 
 
@@ -127,6 +142,16 @@ STATICFILES_DIRS = [
 
 AUTH_USER_MODEL = 'appels.Personne'
 
-CSRF_TRUSTED_ORIGINS = [
+"""CSRF_TRUSTED_ORIGINS = [
     'https://experienced-decorously-sharyl.ngrok-free.dev',
-]
+]"""
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT =587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

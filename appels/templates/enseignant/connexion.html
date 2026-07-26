@@ -1,10 +1,10 @@
 <h2>Connexion Enseignant</h2>
 
-<!--{% if messages %}
+{% if messages %}
     {% for message in messages %}
-        <p style="color: red;">{{ message }}</p>
+        <p>{{ message }}</p>
     {% endfor %}
-{% endif %}-->
+{% endif %}
 
 <form method="post">
     {% csrf_token %}
@@ -19,5 +19,6 @@
     <button type="submit">Se connecter</button>
     <div>
         <a href="{% url 'inscription_enseignant' %}">creer un compte</a>
+        <a href="{% url 'mot_de_passe_oublier'%}">Mot de passe oublié ?</a>
     </div>
 </form>
