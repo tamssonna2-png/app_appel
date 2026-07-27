@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.hashers import check_password
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Personne,Enseignant,Matiere,Etudiant,FeuilleAppel,Presence,Inscription
+from .models import Personne,Enseignant,Matiere,Etudiant,FeuilleAppel,Presence,Inscription,Ecole
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 import re
@@ -83,7 +83,7 @@ def connexion_enseignant(request):
                 user=None
         except Personne.DoesNotExist:
             user=None
-            
+
         if user is not None:
             if hasattr(user,'enseignant'):
 
@@ -216,9 +216,11 @@ def creer_matiere(request):
     else:
         form = MatiereForm()
     mes_matieres = Matiere.objects.filter(enseignant = prof)
+    toutes_les_ecoles = Ecole.objects.all().order_by('nom')
     return render(request, 'enseignant/creer_matiere.html',{
         'form':form,
-        'matieres':mes_matieres
+        'matieres':mes_matieres,
+        'ecoles_all':toutes_les_ecoles
     })
 #http://127.0.0.1:8000/creer-matiere/
 
@@ -681,7 +683,9 @@ def inscription_etudiant(request):
             return redirect('dashboard_etudiant')
     else:
         form = EtudiantForm()
-    return render(request,'etudiant/inscription_etudiant.html',{'form':form})
+
+    toutes_les_ecoles = Ecole.objects.all().order_by('nom')
+    return render(request,'etudiant/inscription_etudiant.html',{'form':form,'ecoles_all':toutes_les_ecoles})
 #http://127.0.0.1:8000/inscription-etudiant/
 
 from django.views.decorators.csrf import ensure_csrf_cookie

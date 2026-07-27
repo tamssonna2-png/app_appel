@@ -3,43 +3,69 @@
 {% block content %}
     <h2>Ajouter une nouvelle matière</h2>
     
-    <form method="post">
+    <!-- On force le blocage de l'autocomplétion globale ici -->
+    <form method="post" autocomplete="off">
         {% csrf_token %}
-        {{ form.as_p }}
-        <div style="margin-bottom: 15px;">
-    <label>
-        <input type="checkbox" name="est_pondere" id="checkPonderation" 
-               {% if matiere.est_pondere %}checked{% endif %} onchange="toggleInputs()">
-        Activer la notation par assiduité pour ce cours 
         
-    </label>
-</div>
+        <p>
+            {{ form.nom.label_tag }}<br>
+            {{ form.nom }}
+            {{ form.nom.errors }}
+        </p>
+        <p>
+            {{ form.code.label_tag }}<br>
+            {{ form.code }}
+            {{ form.code.errors }}
+        </p>
+        <p>
+            {{ form.credit.label_tag }}<br>
+            {{ form.credit }}
+            {{ form.credit.errors }}
+        </p>
+        <p>
+            {{ form.description.label_tag }}<br>
+            {{ form.description }}
+            {{ form.description.errors }}
+        </p>
+        
+        <!-- Rendu identique avec le système de datalist -->
+        <p>
+            {{ form.ecole.label_tag }}<br>
+            {{ form.ecole }}
+            {{ form.ecole.errors }}
+            
+            <datalist id="liste-ecoles">
+                {% for e in ecoles_all %}
+                    <option value="{{e.abreviation }}   {{ e.nom }}"></option>
+                {% endfor %}
+            </datalist>
+        </p>
 
-<div id="inputsPonderation" style="display: {% if matiere.est_pondere %}block{% else %}none{% endif %}; border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
-    <div style="display: flex; gap: 20px;">
-        <p>
-            <label>Points / Présence :</label><br>
-            <input type="number" step="0.1" name="points_presence" value="{{ matiere.points_presence|default:0.0 }}">
-        </p>
-        <p>
-            <label>Points / Absence :</label><br>
-            <input type="number" step="0.1" name="points_absence" value="{{ matiere.points_absence|default:0.0 }}">
-        </p>
-    </div>
-</div>
+        <div style="margin-bottom: 15px;">
+            <label>
+                <input type="checkbox" name="est_pondere" id="checkPonderation" 
+                       {% if matiere.est_pondere %}checked{% endif %} onchange="toggleInputs()">
+                Activer la notation par assiduité pour ce cours 
+            </label>
+        </div>
+
+        <div id="inputsPonderation" style="display: {% if matiere.est_pondere %}block{% else %}none{% endif %}; border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
+            <div style="display: flex; gap: 20px;">
+                <p>
+                    <label>Points / Présence :</label><br>
+                    <input type="number" step="0.1" name="points_presence" value="{{ matiere.points_presence|default:0.0 }}">
+                </p>
+                <p>
+                    <label>Points / Absence :</label><br>
+                    <input type="number" step="0.1" name="points_absence" value="{{ matiere.points_absence|default:0.0 }}">
+                </p>
+            </div>
+        </div>
+        
         <button type="submit">Enregistrer</button>
     </form>
 
     <hr>
-
-    <!--<h3>Vos matières actuelles :</h3>
-    <ul>
-        {% for m in matieres %}
-            <li>{{ m.nom }} ({{ m.code }}) - {{ m.credit }} Crédits</li>
-        {% empty %}
-            <li>Vous n'avez pas encore créé de matières.</li>
-        {% endfor %}
-    </ul>-->
 
 <script>
 function toggleInputs() {

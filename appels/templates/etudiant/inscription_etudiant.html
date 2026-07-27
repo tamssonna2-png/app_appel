@@ -1,9 +1,35 @@
+{% block content %}
 <h2>Inscription Etudiant</h2>
-<form method="post" onsubmit="return confirm('Cette opération est irréversible, assurez-vous que vos informations soient conformes')">
+<form method="post" autocomplete="off" onsubmit="return confirm('Cette opération est irréversible, assurez-vous que vos informations soient conformes')">
     {% csrf_token %} 
-    {{form.as_p}} 
+    
+    <!-- Rendu propre et manuel des champs -->
+    <p>{{ form.username.label_tag }}<br>{{ form.username }}{{ form.username.errors }}</p>
+    <p>{{ form.last_name.label_tag }}<br>{{ form.last_name }}{{ form.last_name.errors }}</p>
+    <p>{{ form.first_name.label_tag }}<br>{{ form.first_name }}{{ form.first_name.errors }}</p>
+    
+    <!-- Le champ école avec sa datalist de recherche -->
+    <p>
+        {{ form.ecole.label_tag }}<br>
+        {{ form.ecole }}
+        {{ form.ecole.errors }}
+        <datalist id="liste-ecoles">
+            {% for e in ecoles_all %}
+                <option value="{{e.abreviation }}  {{ e.nom }}"></option>
+            {% endfor %}
+        </datalist>
+    </p>
+    
+    <p>{{ form.email.label_tag }}<br>{{ form.email }}{{ form.email.errors }}</p>
+    <p>{{ form.telephone.label_tag }}<br>{{ form.telephone }}{{ form.telephone.errors }}</p>
+    <p>{{ form.sexe.label_tag }}<br>{{ form.sexe }}{{ form.sexe.errors }}</p>
+    <p>{{ form.password.label_tag }}<br>{{ form.password }}{{ form.password.errors }}</p>
+    <p>{{ form.password_confirm.label_tag }}<br>{{ form.password_confirm }}{{ form.password_confirm.errors }}</p>
+    
     <button type="submit">Enregistrer</button>
 </form>
+
 <div>
-    <a href="{% url 'connexion_etudiant' %}">Deja un compte</a>
+    <a href="{% url 'connexion_etudiant' %}">Déjà un compte</a>
 </div>
+{% endblock %}

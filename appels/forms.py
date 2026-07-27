@@ -39,6 +39,14 @@ class EnseignantForm(forms.ModelForm):
         return cleaned_data
 
 class MatiereForm (forms.ModelForm):
+    ecole = forms.CharField(
+        label="Ecole",
+        widget=forms.TextInput(attrs={
+            'list': 'liste-ecoles', 
+            'autocomplete': 'off',
+            'placeholder': "Tapez pour rechercher un établissement..."
+        })
+    )
     class Meta:
         model = Matiere
         fields = ['nom','code','credit','description','ecole']#,'est_pondere']
@@ -47,7 +55,7 @@ class MatiereForm (forms.ModelForm):
             'code':'Code',
             'credit':'Credit',
             'description':'Description',
-            'ecole':'Ecole'
+            #'ecole':'Ecole'
             #'est_pondere':'Activer la notation par assiduité pour ce cours'
         } 
     
@@ -56,8 +64,23 @@ class MatiereForm (forms.ModelForm):
         self.fields['nom'].required = True
         self.fields['code'].required = True
         self.fields['credit'].required = True
-        self.fields['ecole'].queryset = Ecole.objects.all().order_by('nom')
+        """self.fields['ecole'].queryset = Ecole.objects.all().order_by('nom')
         self.fields['ecole'].empty_label = "Selection l'établissement"
+        self.fields['ecole'].widget.attrs.update({'id': 'select-ecole'})"""
+
+
+    def clean_ecole(self):
+        """
+        Sécurité : L'utilisateur saisit du texte, on doit retrouver l'objet Ecole
+        correspondant dans la base de données ou renvoyer une erreur.
+        """
+        nom_ecole = self.cleaned_data.get('ecole')
+        try:
+            # On cherche l'école par son nom exact
+            ecole_obj = Ecole.objects.get(nom=nom_ecole)
+            return ecole_obj
+        except Ecole.DoesNotExist:
+            raise forms.ValidationError("Cet établissement n'existe pas. Veuillez le sélectionner dans la liste.")
         
 class EtudiantForm(forms.ModelForm):
     password = forms.CharField(
@@ -67,6 +90,15 @@ class EtudiantForm(forms.ModelForm):
     password_confirm = forms.CharField(
         widget=forms.PasswordInput(),
         label="Confirmer le mot de passe"
+    )
+
+    ecole = forms.CharField(
+        label="Ecole",
+        widget=forms.TextInput(attrs={
+            'list': 'liste-ecoles', 
+            'autocomplete': 'off',  # Bloque l'historique "uy13" du navigateur
+            'placeholder': "Tapez pour rechercher votre établissement..."
+        })
     )
 
     class Meta:
@@ -87,6 +119,15 @@ class EtudiantForm(forms.ModelForm):
         self.fields['first_name'].required = True
         self.fields['sexe'].required = True
         self.fields['ecole'].required = True
+
+
+    
+    def clean_ecole(self):
+        nom_ecole = self.cleaned_data.get('ecole')
+        try:
+            return Ecole.objects.get(nom=nom_ecole)
+        except Ecole.DoesNotExist:
+            raise forms.ValidationError("Cet établissement n'existe pas. Veuillez le sélectionner dans la liste.")
 
     def clean(self):
         cleaned_data = super().clean()
