@@ -29,21 +29,23 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =os.environ.get('DEBUG','False')=='True'
 
-ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://*.ngrok-free.dev',
     'https://*.ngrok-free.app',
+    'https://*.onrender.com',
 ]
 
-"""ALLOWED_HOSTS = [
+ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'experienced-decorously-sharyl.ngrok-free.dev', # L'adresse précise
     '.ngrok-free.dev',                             # Autorise toutes les adresses ngrok de ce type
     '.ngrok-free.app',                             # Au cas où ngrok change d'extension
     '192.168.1.113',
-]"""
+    '.onrender.com',
+]
 # Application definition
 
 INSTALLED_APPS = [
