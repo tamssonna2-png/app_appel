@@ -386,14 +386,14 @@ def inscrire_etudiant_par_ensei(request,matiere_id,etudiant_id):
     matiere = get_object_or_404(Matiere,id=matiere_id,enseignant__id=request.user.id)
     etudiant = get_object_or_404(Etudiant,id=etudiant_id)
     nb_seances = FeuilleAppel.objects.filter(matiere=matiere).count()
+    if etudiant.ecole != matiere.ecole:
+        messages.error(request, "Cet étudiant n'appartient pas à cette école.")
+        return redirect('chercher_etudiant', matiere_id)
     inscription, created =Inscription.objects.get_or_create(
         etudiant=etudiant,
         matiere=matiere,
         defaults={'nb_presences':0,'nb_abscences':nb_seances}
-    )
-    if etudiant.ecole != matiere.ecole:
-        messages.error(request, "Cet étudiant n'appartient pas à cette école.")
-        return redirect('chercher_etudiant', matiere_id)
+    )  
     if created:
         messages.success(request,f"{etudiant.first_name} est maintenant inscrit à {matiere.nom}")
     else:
