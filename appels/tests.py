@@ -9,7 +9,7 @@ from django.contrib.messages import get_messages
 from django.contrib.auth import get_user_model
 from.models import Ecole,Enseignant,Etudiant,FeuilleAppel,Matiere,Personne,Inscription,Presence
 
-"""class TestAcceuil(TestCase):
+class TestAcceuil(TestCase):
     def setUp(self):
         #Préparation des utilisateurs de test (enseignant et étudiant).
         # Une école est nécessaire si tes modèles Enseignant/Etudiant y sont liés
@@ -64,7 +64,7 @@ from.models import Ecole,Enseignant,Etudiant,FeuilleAppel,Matiere,Personne,Inscr
         # 3. On vérifie la redirection vers 'dashboard_etudiant'
         self.assertRedirects(response, reverse('dashboard_etudiant'))
 
-Enseignant = get_user_model()
+#Enseignant = get_user_model()
 
 class TestInscriptionEnseignant(TestCase):
     def test_inscription_enseignant_affichage_formulaire(self):
@@ -101,7 +101,7 @@ class TestInscriptionEnseignant(TestCase):
         self.assertEqual(response.status_code,200)
         self.assertEqual(Enseignant.objects.count(),0)
         messages =[m.message for m in get_messages(response.wsgi_request)]
-        self.assertIn("Erreur lors de l'inscription",messages)"""
+        self.assertIn("Erreur lors de l'inscription",messages)
 
 class TestConnexionEnseignant(TestCase):
 

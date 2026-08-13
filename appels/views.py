@@ -301,7 +301,7 @@ def chercher_etudiant(request, matiere_id):
     deja_inscrit =False
     if query:
         try:
-            resultat=Etudiant.objects.get(username=query)
+            resultat=Etudiant.objects.get(username=query,ecole=matiere.ecole)
             if matiere.etudiants.filter(id=resultat.id).exists():
                 deja_inscrit=True
         except Etudiant.DoesNotExist:
@@ -391,6 +391,9 @@ def inscrire_etudiant_par_ensei(request,matiere_id,etudiant_id):
         matiere=matiere,
         defaults={'nb_presences':0,'nb_abscences':nb_seances}
     )
+    if etudiant.ecole != matiere.ecole:
+        messages.error(request, "Cet étudiant n'appartient pas à cette école.")
+        return redirect('chercher_etudiant', matiere_id)
     if created:
         messages.success(request,f"{etudiant.first_name} est maintenant inscrit à {matiere.nom}")
     else:
@@ -717,6 +720,7 @@ def connexion_etudiant(request):
     return render(request,'etudiant/connexion_etudiant.html')
 
 
+@login_required
 def dashboard_etudiant(request):
     mes_inscriptions=Inscription.objects.filter(etudiant=request.user.etudiant)
     etudiant=get_object_or_404(Etudiant,id=request.user.id)
@@ -832,3 +836,4 @@ def deconnexion_etudiant(request):
 
 # myglobalenv (c'est l'environneent virtuel)
 #mot de passe du super user Clautel123456
+#tamekem (username)
