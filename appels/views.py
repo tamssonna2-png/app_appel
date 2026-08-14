@@ -93,7 +93,7 @@ def connexion_enseignant(request):
             else:
                 messages.error(request,_("Accès refusé : vous n'êtes pas autorisés"))
         else:
-            messages.error(request,"Identifiant ou mot de passe incorrect.")
+            messages.error(request,_("Identifiant ou mot de passe incorrect."))
     return render(request,_('enseignant/connexion.html'))
 #http://127.0.0.1:8000/connexion-enseignant/
 
@@ -201,7 +201,7 @@ def creer_matiere(request):
     try:
         prof = Enseignant.objects.get(id=request.user.id)
     except Enseignant.DoesNotExist:
-        messages.error(request,"Seul les enseignant ont accèes à cette page")
+        messages.error(request,_("Seul les enseignant ont accèes à cette page"))
         return redirect('connexion_enseignant')
     if request.method == 'POST':
         form = MatiereForm(request.POST)
@@ -212,7 +212,7 @@ def creer_matiere(request):
             matiere.points_presence = float(request.POST.get('points_presence', 0.0))
             matiere.points_absence = float(request.POST.get('points_absence', 0.0))
             matiere.save()
-            messages.success(request,_(f"La matière {matiere.nom} a été créée"))
+            messages.success(request,_("La matière %(nom)s a été créée")%{'nom':matiere.nom})
             return redirect('dashboard')
     else:
         form = MatiereForm()
@@ -232,7 +232,7 @@ def modifier_matiere(request,pk):
         form = MatiereForm(request.POST,instance=matiere)
         if form.is_valid():
             form.save()
-            messages.success(request,_(f"La matiere {matiere.nom} a été mise à jour"))
+            messages.success(request, _("La matiere %(nom)s a été mise à jour") % {'nom': matiere.nom})
             return redirect('dashboard')
     else:
         form = MatiereForm(instance=matiere)
@@ -261,7 +261,7 @@ def reinitialiser_matiere(request, matiere_id):
             Presence.objects.filter(feuille__matiere=matiere).delete()
             matiere.feuilles_appel.all().delete()
             matiere.inscriptions.all().delete()
-        messages.success(request, _(f"La matière {matiere.nom} a été réinitialisée : historique et étudiants effacés."))
+        messages.success(request, _("La matière %(nom)s a été réinitialisée : historique et étudiants effacés.") % {'nom': matiere.nom})
         return redirect('consulter_matiere',matiere_id) 
     
     return redirect('consulter_matiere',matiere_id)
@@ -396,9 +396,9 @@ def inscrire_etudiant_par_ensei(request,matiere_id,etudiant_id):
         defaults={'nb_presences':0,'nb_abscences':nb_seances}
     )  
     if created:
-        messages.success(request,_(f"{etudiant.first_name} est maintenant inscrit à {matiere.nom}"))
+        messages.success(request, _("%(prenom)s est maintenant inscrit à %(nom)s") % {'prenom': etudiant.first_name, 'nom': matiere.nom})
     else:
-        messages.info(request,_(f"{etudiant.first_name} etait déja inscrit"))
+        messages.info(request, _("%(prenom)s etait déja inscrit") % {'prenom': etudiant.first_name})
     return redirect('chercher_etudiant',matiere_id)
 
 from django.db.models import Count, Q
@@ -506,7 +506,7 @@ def lancer_appel(request,feuille_id):
             etudiant=ins.etudiant,
             defaults={'est_present': False}
         )
-    messages.success(request, _(f"Appel lancé ! Le code est : {code}"))
+    messages.success(request, _("Appel lancé ! Le code est : %(code)s") % {'code': code})
     return redirect('faire_appel', feuille_id=feuille.id)
 
 @login_required
@@ -577,7 +577,7 @@ def supprimer_feuille(request,feuille_id):
             inscription.save()
     date_feuille = feuille.date
     feuille.delete()
-    messages.success(request, _(f"La séance du {date_feuille} a été supprimée et les compteurs ont été mis à jour."))
+    messages.success(request, _("La séance du %(date)s a été supprimée et les compteurs ont été mis à jour.") % {'date': date_feuille})
     return redirect('consulter_matiere',matiere_id=feuille.matiere.id)
 
 @login_required
@@ -589,7 +589,7 @@ def vider_historique_matiere(request, matiere_id):
         with transaction.atomic():
             feuilles.delete()
             Inscription.objects.filter(matiere=matiere).update(nb_presences=0, nb_abscences=0)
-        messages.success(request, _(f"L'historique a été vidé ({nb_seances} séances supprimées). Les statistiques des étudiants sont réinitialisées."))
+        messages.success(request, _("L'historique a été vidé (%(nb)s séances supprimées). Les statistiques des étudiants sont réinitialisées.") % {'nb': nb_seances})
         return redirect('consulter_matiere',matiere_id)
     return redirect('consulter_matiere',matiere_id)
 
@@ -749,9 +749,9 @@ def inscription_matiere(request,matiere_id):
         defaults={'nb_presences':0,'nb_abscences':nb_seances}
     )
     if created:
-        messages.success(request,_(f"Felicitations : tu es maintenant inscrire au cour de {matiere.nom}"))
+         messages.success(request, _("Felicitations : tu es maintenant inscrire au cour de %(nom)s") % {'nom': matiere.nom})
     else:
-        messages.info(request,_(f"Tu es déja inscrit au cour de {matiere.nom}"))
+        messages.info(request, _("Tu es déja inscrit au cour de %(nom)s") % {'nom': matiere.nom})
     return redirect('dashboard_etudiant')
 
 @login_required
@@ -807,7 +807,7 @@ def valider_presence(request):
             print(f"DEBUG PROF: {feuille.latitude_prof}, {feuille.longitude_prof}")
             print(f"DEBUG ETUDIANT: {lat_etudiant}, {lon_etudiant}")
             if distance > feuille.rayon_autorise:
-                messages.error(request, _(f"Tu es trop loin de l'enseignant ({int(distance)}m). Signaler à l'enseignant en cas d'erreur"))
+                messages.error(request, _("Tu es trop loin de l'enseignant (%(distance)sm). Signaler à l'enseignant en cas d'erreur") % {'distance': int(distance)})
                 return redirect('dashboard_etudiant')
         if feuille.code_validation == code_saisi and feuille.is_actif:
             presence = Presence.objects.filter(feuille=feuille,etudiant=request.user.etudiant).first()
@@ -838,3 +838,6 @@ def deconnexion_etudiant(request):
 # myglobalenv (c'est l'environneent virtuel)
 #mot de passe du super user Clautel123456
 #tamekem (username)
+
+
+"""faire en sorte que les utilisateur entre des emails actifs"""

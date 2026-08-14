@@ -81,7 +81,7 @@ class MatiereForm (forms.ModelForm):
             ecole_obj = Ecole.objects.get(nom=nom_ecole)
             return ecole_obj
         except Ecole.DoesNotExist:
-            raise forms.ValidationError("Cet établissement n'existe pas. Veuillez le sélectionner dans la liste.")
+            raise forms.ValidationError(_("Cet établissement n'existe pas. Veuillez le sélectionner dans la liste."))
         
 class EtudiantForm(forms.ModelForm):
     password = forms.CharField(

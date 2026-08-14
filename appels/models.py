@@ -97,7 +97,7 @@ class Inscription(models.Model):
     class Meta:
         unique_together = ('etudiant','matiere')
     def __str__(self):
-        return _(f"{self.etudiant} inscrit en {self.matiere}")
+         return _("%(etudiant)s inscrit en %(matiere)s") % {'etudiant': self.etudiant, 'matiere': self.matiere}
     @property
     def total_seances(self):
         return self.nb_abscences + self.nb_presences
