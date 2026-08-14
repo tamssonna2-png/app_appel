@@ -154,7 +154,7 @@ msgstr "Estudiantes"
 #: appels/models.py:100
 #, python-format
 msgid "%(etudiant)s inscrit en %(matiere)s"
-msgstr "%(estudiante)s matriculados en %(materias)s"
+msgstr "%(etudiant)s matriculado en %(matiere)s"
 
 #: appels/models.py:114
 msgid "Ex, cours sur le beton armée"
@@ -236,12 +236,12 @@ msgstr "Sólo los profesores tienen acceso a esta página."
 #: appels/views.py:215
 #, python-format
 msgid "La matière %(nom)s a été créée"
-msgstr "Se ha creado el material %(nombre)s."
+msgstr "La asignatura %(nom)s ha sido creada"
 
 #: appels/views.py:235
 #, python-format
 msgid "La matiere %(nom)s a été mise à jour"
-msgstr "El asunto %(name)s ha sido actualizado"
+msgstr "La asignatura %(nom)s ha sido actualizada"
 
 #: appels/views.py:248
 msgid "Matiere suppriméé definitivement."
@@ -252,8 +252,7 @@ msgstr "Material eliminado permanentemente."
 msgid ""
 "La matière %(nom)s a été réinitialisée : historique et étudiants effacés."
 msgstr ""
-"Se ha restablecido el %(nombre)s de la materia: se borraron el historial y "
-"los estudiantes."
+"La asignatura %(nom)s ha sido reiniciada: historial y estudiantes borrados."
 
 #: appels/views.py:391
 msgid "Cet étudiant n'appartient pas à cette école."
@@ -262,12 +261,12 @@ msgstr "Este estudiante no pertenece a esta escuela."
 #: appels/views.py:399
 #, python-format
 msgid "%(prenom)s est maintenant inscrit à %(nom)s"
-msgstr "%(nombre)s ahora está registrado con %(apellido)s"
+msgstr "%(prenom)s ahora está inscrito en %(nom)s"
 
 #: appels/views.py:401
 #, python-format
 msgid "%(prenom)s etait déja inscrit"
-msgstr "%(nombre)s ya estaba registrado"
+msgstr "%(prenom)s ya estaba inscrito"
 
 #: appels/views.py:463
 msgid "Le temps est écoulé, l'appel a été clôturé automatiquement."
@@ -280,7 +279,7 @@ msgstr "Esta llamada ya ha sido generada."
 #: appels/views.py:509
 #, python-format
 msgid "Appel lancé ! Le code est : %(code)s"
-msgstr "¡Convocatoria lanzada! El código es: %(código)s"
+msgstr "¡Llamada iniciada! El código es: %(code)s"
 
 #: appels/views.py:522
 msgid "L'appel est maintenant clôturé et les absences ont été comptabilisées."
@@ -317,12 +316,12 @@ msgstr "Acceso denegado: no eres parte de esta escuela."
 #: appels/views.py:752
 #, python-format
 msgid "Felicitations : tu es maintenant inscrire au cour de %(nom)s"
-msgstr "Felicitaciones: ya estás inscrito en el curso de %(name)s"
+msgstr "Felicidades: ahora estás inscrito en el curso de %(nom)s"
 
 #: appels/views.py:754
 #, python-format
 msgid "Tu es déja inscrit au cour de %(nom)s"
-msgstr "Ya estás registrado en el curso de %(name)s"
+msgstr "Ya estás inscrito en el curso de %(nom)s"
 
 #: appels/views.py:768
 msgid "Format du lien invalide ou non autorisé."
@@ -347,8 +346,8 @@ msgid ""
 "Tu es trop loin de l'enseignant (%(distance)sm). Signaler à l'enseignant en "
 "cas d'erreur"
 msgstr ""
-"Estás demasiado lejos del profesor (%(distancia)sm). Informar al profesor en"
-" caso de error."
+"Estás demasiado lejos del profesor (%(distance)sm). Informa al profesor en "
+"caso de error."
 
 #: appels/views.py:823
 msgid "Presence validéé avec succès !"

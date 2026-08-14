@@ -154,7 +154,7 @@ msgstr "Students"
 #: appels/models.py:100
 #, python-format
 msgid "%(etudiant)s inscrit en %(matiere)s"
-msgstr "%(student)s registered in %(subject)s"
+msgstr "%(etudiant)s registered in %(matiere)s"
 
 #: appels/models.py:114
 msgid "Ex, cours sur le beton armée"
@@ -236,12 +236,12 @@ msgstr "Only teachers have access to this page"
 #: appels/views.py:215
 #, python-format
 msgid "La matière %(nom)s a été créée"
-msgstr "Material %(name)s has been created"
+msgstr "The subject %(nom)s has been created"
 
 #: appels/views.py:235
 #, python-format
 msgid "La matiere %(nom)s a été mise à jour"
-msgstr "The subject %(name)s has been updated"
+msgstr "The subject %(nom)s has been updated"
 
 #: appels/views.py:248
 msgid "Matiere suppriméé definitivement."
@@ -251,7 +251,7 @@ msgstr "Material permanently deleted."
 #, python-format
 msgid ""
 "La matière %(nom)s a été réinitialisée : historique et étudiants effacés."
-msgstr "Subject %(name)s has been reset: history and students cleared."
+msgstr "The subject %(nom)s has been reset: history and students cleared."
 
 #: appels/views.py:391
 msgid "Cet étudiant n'appartient pas à cette école."
@@ -260,12 +260,12 @@ msgstr "This student does not belong to this school."
 #: appels/views.py:399
 #, python-format
 msgid "%(prenom)s est maintenant inscrit à %(nom)s"
-msgstr "%(first name)s is now registered with %(last name)s"
+msgstr "%(prenom)s is now registered in %(nom)s"
 
 #: appels/views.py:401
 #, python-format
 msgid "%(prenom)s etait déja inscrit"
-msgstr "%(first name)s was already registered"
+msgstr "%(prenom)s was already registered"
 
 #: appels/views.py:463
 msgid "Le temps est écoulé, l'appel a été clôturé automatiquement."
@@ -315,12 +315,12 @@ msgstr "Access denied: you are not part of this school."
 #: appels/views.py:752
 #, python-format
 msgid "Felicitations : tu es maintenant inscrire au cour de %(nom)s"
-msgstr "Congratulations: you are now enrolled in %(name)s’ course"
+msgstr "Congratulations: you are now registered for the %(nom)s course"
 
 #: appels/views.py:754
 #, python-format
 msgid "Tu es déja inscrit au cour de %(nom)s"
-msgstr "You are already registered in %(name)s course"
+msgstr "You are already registered for the %(nom)s course"
 
 #: appels/views.py:768
 msgid "Format du lien invalide ou non autorisé."
