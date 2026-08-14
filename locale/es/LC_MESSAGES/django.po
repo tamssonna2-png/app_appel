@@ -1,0 +1,1685 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-14 03:15+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+
+#: appels/forms.py:8 appels/forms.py:89
+msgid "Mot de passe"
+msgstr "Contraseña"
+
+#: appels/forms.py:12 appels/forms.py:93
+msgid "Confirmer le mot de passe"
+msgstr "Confirmar Contraseña"
+
+#: appels/forms.py:19
+msgid "Nom d'utilisateur (votre identifiant)"
+msgstr "Nombre de usuario (su inicio de sesión)"
+
+#: appels/forms.py:20 appels/forms.py:109
+msgid "Nom"
+msgstr "Nombre"
+
+#: appels/forms.py:21 appels/forms.py:110
+msgid "Prenom"
+msgstr "Nombre de pila"
+
+#: appels/forms.py:22
+msgid "Spécialité"
+msgstr "Especialidad"
+
+#: appels/forms.py:23 appels/forms.py:113 appels/models.py:26
+msgid "Sexe"
+msgstr "Sexo"
+
+#: appels/forms.py:39 appels/forms.py:139
+msgid "les deux mots de passent ne correspondent pas"
+msgstr "las dos contraseñas no coinciden"
+
+#: appels/forms.py:44 appels/forms.py:97 appels/forms.py:111
+msgid "Ecole"
+msgstr "Escuela"
+
+#: appels/forms.py:48
+msgid "Tapez pour rechercher un établissement..."
+msgstr "Toca para buscar un establecimiento..."
+
+#: appels/forms.py:55
+msgid "Nom de la matière"
+msgstr "nombre del material"
+
+#: appels/forms.py:56
+msgid "Code"
+msgstr "Código"
+
+#: appels/forms.py:57
+msgid "Credit"
+msgstr "Crédito"
+
+#: appels/forms.py:58
+msgid "Description"
+msgstr "Descripción"
+
+#: appels/forms.py:101
+msgid "Tapez pour rechercher votre établissement..."
+msgstr "Toca para buscar tu establecimiento..."
+
+#: appels/forms.py:112
+msgid "Matricule (en magiscule)"
+msgstr "Número de registro (en magíscula)"
+
+#: appels/forms.py:131
+msgid ""
+"Cet établissement n'existe pas. Veuillez le sélectionner dans la liste."
+msgstr "Este establecimiento no existe. Por favor selecciónelo de la lista."
+
+#: appels/forms.py:153
+msgid "Entrez votre email"
+msgstr "Introduce tu correo electrónico"
+
+#: appels/forms.py:154
+msgid "exemple@gmail.com"
+msgstr "ejemplo@gmail.com"
+
+#: appels/forms.py:160
+msgid "Code de vérification"
+msgstr "Código de verificación"
+
+#: appels/forms.py:164
+msgid "Ex: 123456"
+msgstr "Ej: 123456"
+
+#: appels/forms.py:174
+msgid "Nouveau mot de passe"
+msgstr "Nueva contraseña"
+
+#: appels/forms.py:175
+msgid "Entrez le nouveau mot de passe"
+msgstr "Ingrese la nueva contraseña"
+
+#: appels/forms.py:178 appels/forms.py:179
+msgid "Confirmez le mot de passe"
+msgstr "Confirmar Contraseña"
+
+#: appels/forms.py:188
+msgid "Les deux mots de passe ne correspondent pas."
+msgstr "Las dos contraseñas no coinciden."
+
+#: appels/models.py:17
+msgid "Masculin"
+msgstr "Masculino"
+
+#: appels/models.py:18
+msgid "Feminin"
+msgstr "Femenino"
+
+#: appels/models.py:33
+msgid "Utilisateur Systeme"
+msgstr "Usuario del sistema"
+
+#: appels/models.py:34
+msgid "Utilisateurs Systeme"
+msgstr "Usuarios del sistema"
+
+#: appels/models.py:47
+msgid "Enseignant"
+msgstr "Maestro"
+
+#: appels/models.py:48
+msgid "Enseignants"
+msgstr "Maestros"
+
+#: appels/models.py:84
+msgid "Etudiant"
+msgstr "Alumno"
+
+#: appels/models.py:85
+msgid "Etudiants"
+msgstr "Estudiantes"
+
+#: appels/models.py:100
+#, python-brace-format
+msgid "{self.etudiant} inscrit en {self.matiere}"
+msgstr "{self.etudiant} registrado en {self.matiere}"
+
+#: appels/models.py:114
+msgid "Ex, cours sur le beton armée"
+msgstr "Ex, curso de hormigón armado."
+
+#: appels/models.py:143
+msgid "Present"
+msgstr "Aquí"
+
+#: appels/models.py:143
+msgid "Absant"
+msgstr "Ausente"
+
+#: appels/views.py:30
+msgid "Accès réservé aux enseignants."
+msgstr "Acceso reservado a profesores."
+
+#: appels/views.py:40
+msgid "Accès réservé aux étudiants."
+msgstr "Acceso reservado para estudiantes."
+
+#: appels/views.py:66
+msgid "Inscription reussi !"
+msgstr "¡Registro exitoso!"
+
+#: appels/views.py:69
+msgid "Erreur lors de l'inscription"
+msgstr "Error durante el registro"
+
+#: appels/views.py:94 appels/views.py:710
+msgid "Accès refusé : vous n'êtes pas autorisés"
+msgstr "Acceso denegado: no estás autorizado"
+
+#: appels/views.py:97
+msgid "enseignant/connexion.html"
+msgstr "profesor/conexión.html"
+
+#: appels/views.py:119
+msgid "Un code de verification a été envoyé a votre email"
+msgstr "Se ha enviado un código de verificación a su correo electrónico."
+
+#: appels/views.py:122
+msgid "Une erreur est survenue lors de l'envoie. Réessayez"
+msgstr "Se produjo un error durante el envío. Intentar otra vez"
+
+#: appels/views.py:125
+msgid ""
+"Cet utilisateur n'existe pas ou n'est pas un enseignant verifier l'email"
+msgstr "Este usuario no existe o no es profesor consultar email"
+
+#: appels/views.py:141
+msgid "Session expirée ou invalide. Veullez recommencer"
+msgstr "La sesión expiró o no es válida. Por favor empieza de nuevo"
+
+#: appels/views.py:155
+msgid "code validé avec succes"
+msgstr "código validado exitosamente"
+
+#: appels/views.py:158
+msgid "Code incorrect.Veuillez réesayer"
+msgstr "Código incorrecto. Por favor inténtalo de nuevo"
+
+#: appels/views.py:177
+msgid "Mot de passe réinitialisé avec succès ! vous pouvez vous connectez"
+msgstr "¡Restablecimiento de contraseña exitoso! puedes iniciar sesión"
+
+#: appels/views.py:180
+msgid "Utilisateur introuvable"
+msgstr "Usuario no encontrado"
+
+#: appels/views.py:215
+#, python-brace-format
+msgid "La matière {matiere.nom} a été créée"
+msgstr "El material {material.name} ha sido creado"
+
+#: appels/views.py:235
+#, python-brace-format
+msgid "La matiere {matiere.nom} a été mise à jour"
+msgstr "El material {material.name} ha sido actualizado"
+
+#: appels/views.py:248
+msgid "Matiere suppriméé definitivement."
+msgstr "Material eliminado permanentemente."
+
+#: appels/views.py:264
+#, python-brace-format
+msgid ""
+"La matière {matiere.nom} a été réinitialisée : historique et étudiants "
+"effacés."
+msgstr ""
+"La materia {subject.name} se ha restablecido: historial y estudiantes "
+"eliminados."
+
+#: appels/views.py:391
+msgid "Cet étudiant n'appartient pas à cette école."
+msgstr "Este estudiante no pertenece a esta escuela."
+
+#: appels/views.py:399
+#, python-brace-format
+msgid "{etudiant.first_name} est maintenant inscrit à {matiere.nom}"
+msgstr "{etudiant.first_name} ahora está registrado en {matiere.name}"
+
+#: appels/views.py:401
+#, python-brace-format
+msgid "{etudiant.first_name} etait déja inscrit"
+msgstr "{etudiant.first_name} ya estaba registrado"
+
+#: appels/views.py:463
+msgid "Le temps est écoulé, l'appel a été clôturé automatiquement."
+msgstr "Se acabó el tiempo, la convocatoria se ha cerrado automáticamente."
+
+#: appels/views.py:481
+msgid "Cet appel a déjà été généré."
+msgstr "Esta llamada ya ha sido generada."
+
+#: appels/views.py:509
+#, python-brace-format
+msgid "Appel lancé ! Le code est : {code}"
+msgstr "¡Convocatoria lanzada! El código es: {código}"
+
+#: appels/views.py:522
+msgid "L'appel est maintenant clôturé et les absences ont été comptabilisées."
+msgstr "La convocatoria ya está cerrada y se han contabilizado las ausencias."
+
+#: appels/views.py:580
+#, python-brace-format
+msgid ""
+"La séance du {date_feuille} a été supprimée et les compteurs ont été mis à "
+"jour."
+msgstr ""
+"Se eliminó la sesión de {date_feuille} y se actualizaron los contadores."
+
+#: appels/views.py:592
+#, python-brace-format
+msgid ""
+"L'historique a été vidé ({nb_seances} séances supprimées). Les statistiques "
+"des étudiants sont réinitialisées."
+msgstr ""
+"El historial se ha vaciado ({nb_sessions} sesiones eliminadas). Se "
+"restablecen las estadísticas de los estudiantes."
+
+#: appels/views.py:686
+msgid "Compte étudiant créé!"
+msgstr "¡Cuenta de estudiante creada!"
+
+#: appels/views.py:741
+msgid "Accès refusé : tu n'as pas de profil étudiant."
+msgstr "Acceso denegado: no tienes perfil de estudiante."
+
+#: appels/views.py:744
+msgid "Accès refusé : vous ne faites pas partie de cette ecole."
+msgstr "Acceso denegado: no eres parte de esta escuela."
+
+#: appels/views.py:752
+#, python-brace-format
+msgid "Felicitations : tu es maintenant inscrire au cour de {matiere.nom}"
+msgstr "Felicitaciones: ya está registrado en {matiere.name}"
+
+#: appels/views.py:754
+#, python-brace-format
+msgid "Tu es déja inscrit au cour de {matiere.nom}"
+msgstr "Ya estás registrado en {subject.name}"
+
+#: appels/views.py:768
+msgid "Format du lien invalide ou non autorisé."
+msgstr "Formato de enlace no válido o no autorizado."
+
+#: appels/views.py:770
+msgid "Impossible d'analyser le lien fourni."
+msgstr "No se puede analizar el enlace proporcionado."
+
+#: appels/views.py:797
+msgid "Désolé l'appel est terminé veuillez consulter votre enseignant."
+msgstr ""
+"Lamentamos que la llamada haya finalizado por favor consulta a tu profesor."
+
+#: appels/views.py:801
+msgid "Localisation GPS requise pour valider."
+msgstr "Se requiere ubicación GPS para validar."
+
+#: appels/views.py:810
+msgid ""
+"Tu es trop loin de l'enseignant ({int(distance)}m). Signaler à l'enseignant "
+"en cas d'erreur"
+msgstr ""
+"Estás demasiado lejos del profesor ({int(distancia)}m). Informar al profesor"
+" en caso de error."
+
+#: appels/views.py:823
+msgid "Presence validéé avec succès !"
+msgstr "¡Asistencia validada exitosamente!"
+
+#: appels/views.py:825
+msgid "Tu es déjà marqué(e) present"
+msgstr "Ya estas marcado presente"
+
+#: appels/views.py:827
+msgid "code incorrect ou session expirée."
+msgstr "código incorrecto o sesión caducada."
+
+#: config/settings.py:72
+msgid "French"
+msgstr "Inglés"
+
+#: config/settings.py:73
+msgid "English"
+msgstr "Inglés"
+
+#: config/settings.py:74
+msgid "Spanish"
+msgstr "Español"
+
+#: myglobalenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
+msgid "Messages"
+msgstr "Mensajes"
+
+#: myglobalenv/lib/python3.12/site-packages/django/contrib/sitemaps/apps.py:8
+msgid "Site Maps"
+msgstr "Mapas del sitio"
+
+#: myglobalenv/lib/python3.12/site-packages/django/contrib/staticfiles/apps.py:9
+msgid "Static Files"
+msgstr "Archivos estáticos"
+
+#: myglobalenv/lib/python3.12/site-packages/django/contrib/syndication/apps.py:7
+msgid "Syndication"
+msgstr "Sindicación"
+
+#. Translators: String used to replace omitted page numbers in elided page
+#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
+#: myglobalenv/lib/python3.12/site-packages/django/core/paginator.py:33
+msgid "…"
+msgstr ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/paginator.py:35
+msgid "That page number is not an integer"
+msgstr "Ese número de página no es un número entero."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/paginator.py:36
+msgid "That page number is less than 1"
+msgstr "Ese número de página es menor que 1."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/paginator.py:37
+msgid "That page contains no results"
+msgstr "Esta página no contiene resultados."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:22
+msgid "Enter a valid value."
+msgstr "Introduzca un valor válido."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:70
+msgid "Enter a valid domain name."
+msgstr "Introduzca un nombre de dominio válido."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:153
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:773
+msgid "Enter a valid URL."
+msgstr "Introduzca una URL válida."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:200
+msgid "Enter a valid integer."
+msgstr "Introduzca un número entero válido."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:211
+msgid "Enter a valid email address."
+msgstr "Ingrese una dirección de correo electrónico válida."
+
+#. Translators: "letters" means latin letters: a-z and A-Z.
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:289
+msgid ""
+"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+msgstr ""
+"Ingrese un \"slug\" válido que consta de letras, números, guiones bajos o "
+"guiones."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:297
+msgid ""
+"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or"
+" hyphens."
+msgstr ""
+"Ingrese un \"slug\" válido que consta de letras, números, guiones bajos o "
+"guiones Unicode."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:309
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:318
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:332
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2220
+#, python-format
+msgid "Enter a valid %(protocol)s address."
+msgstr "Introduzca una dirección de %(protocolo) válida."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:311
+msgid "IPv4"
+msgstr "IPv4"
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:320
+#: myglobalenv/lib/python3.12/site-packages/django/utils/ipv6.py:43
+msgid "IPv6"
+msgstr "IPv6"
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:334
+msgid "IPv4 or IPv6"
+msgstr "IPv4 o IPv6"
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:375
+msgid "Enter only digits separated by commas."
+msgstr "Introduzca sólo dígitos separados por comas."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:381
+#, python-format
+msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+msgstr "Asegúrese de que este valor sea %(limit_value)s (es %(show_value)s)."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:416
+#, python-format
+msgid "Ensure this value is less than or equal to %(limit_value)s."
+msgstr "Asegúrese de que este valor sea menor o igual a %(limit_value)s."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:425
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr "Asegúrese de que este valor sea mayor o igual a %(limit_value)s."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:434
+#, python-format
+msgid "Ensure this value is a multiple of step size %(limit_value)s."
+msgstr ""
+"Asegúrese de que este valor sea un múltiplo del tamaño del paso "
+"%(limit_value)s."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:441
+#, python-format
+msgid ""
+"Ensure this value is a multiple of step size %(limit_value)s, starting from "
+"%(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
+msgstr ""
+"Asegúrese de que este valor sea un múltiplo del tamaño del paso "
+"%(limit_value)s, comenzando desde %(offset)s, p. %(offset)s, "
+"%(valid_value1)s, %(valid_value2)s, etc."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:473
+#, python-format
+msgid ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:491
+#, python-format
+msgid ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:514
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:364
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:403
+msgid "Enter a number."
+msgstr "Introduzca un número."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:516
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit in total."
+msgid_plural "Ensure that there are no more than %(max)s digits in total."
+msgstr[0] ""
+msgstr[1] ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:521
+#, python-format
+msgid "Ensure that there are no more than %(max)s decimal place."
+msgid_plural "Ensure that there are no more than %(max)s decimal places."
+msgstr[0] ""
+msgstr[1] ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:526
+#, python-format
+msgid ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] ""
+msgstr[1] ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:597
+#, python-format
+msgid ""
+"File extension “%(extension)s” is not allowed. Allowed extensions are: "
+"%(allowed_extensions)s."
+msgstr ""
+"La extensión de archivo “%(extensión)s” no está permitida. Las extensiones "
+"permitidas son: %(allowed_extensions)s."
+
+#: myglobalenv/lib/python3.12/site-packages/django/core/validators.py:659
+msgid "Null characters are not allowed."
+msgstr "No se permiten caracteres nulos."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/base.py:1633
+#: myglobalenv/lib/python3.12/site-packages/django/forms/models.py:932
+msgid "and"
+msgstr "y"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/base.py:1635
+#, python-format
+msgid "%(model_name)s with this %(field_labels)s already exists."
+msgstr "%(model_name)s con este %(field_labels)s ya existe."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/constraints.py:20
+#, python-format
+msgid "Constraint “%(name)s” is violated."
+msgstr "Se infringe la restricción “%(nombre)s”."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:134
+#, python-format
+msgid "Value %(value)r is not a valid choice."
+msgstr "El valor %(valor)r no es una opción válida."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:135
+msgid "This field cannot be null."
+msgstr "Este campo no puede ser nulo."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:136
+msgid "This field cannot be blank."
+msgstr "Este campo no puede estar en blanco."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:137
+#, python-format
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr "%(model_name)s con este %(field_label)s ya existe."
+
+#. Translators: The 'lookup_type' is one of 'date', 'year' or
+#. 'month'. Eg: "Title must be unique for pub_date year"
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:141
+#, python-format
+msgid ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr ""
+"%(field_label)s debe ser único para %(date_field_label)s %(lookup_type)s."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:180
+#, python-format
+msgid "Field of type: %(field_type)s"
+msgstr "Campo de tipo: %(field_type)s"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1161
+#, python-format
+msgid "“%(value)s” value must be either True or False."
+msgstr "El valor de “%(valor)s” debe ser Verdadero o Falso."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1162
+#, python-format
+msgid "“%(value)s” value must be either True, False, or None."
+msgstr "El valor de “%(valor)s” debe ser Verdadero, Falso o Ninguno."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1164
+msgid "Boolean (Either True or False)"
+msgstr "Booleano (verdadero o falso)"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1214
+#, python-format
+msgid "String (up to %(max_length)s)"
+msgstr "Cadena (hasta %(max_length)s)"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1216
+msgid "String (unlimited)"
+msgstr "Cadena (ilimitada)"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1325
+msgid "Comma-separated integers"
+msgstr "Enteros separados por comas"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1426
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
+msgstr ""
+"El valor “%(value)s” tiene un formato de fecha no válido. Debe estar en "
+"formato AAAA-MM-DD."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1430
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1565
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
+msgstr ""
+"El valor “%(valor)s” tiene el formato correcto (AAAA-MM-DD) pero es una "
+"fecha no válida."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1434
+msgid "Date (without time)"
+msgstr "Fecha (sin hora)"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1561
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD "
+"HH:MM[:ss[.uuuuuu]][TZ] format."
+msgstr ""
+"El valor “%(valor)s” tiene un formato no válido. Debe estar en formato AAAA-"
+"MM-DD HH:MM[:ss[.uuuuuu]][TZ]."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1569
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD "
+"HH:MM[:ss[.uuuuuu]][TZ]) but it is an invalid date/time."
+msgstr ""
+"El valor “%(valor)s” tiene el formato correcto (AAAA-MM-DD "
+"HH:MM[:ss[.uuuuuu]][TZ]) pero es una fecha/hora no válida."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1574
+msgid "Date (with time)"
+msgstr "Fecha (con hora)"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1701
+#, python-format
+msgid "“%(value)s” value must be a decimal number."
+msgstr "El valor “%(valor)s” debe ser un número decimal."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1703
+msgid "Decimal number"
+msgstr "numero decimal"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1864
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in [DD] "
+"[[HH:]MM:]ss[.uuuuuu] format."
+msgstr ""
+"El valor “%(valor)s” tiene un formato no válido. Debe estar en formato [DD] "
+"[[HH:]MM:]ss[.uuuuuu]."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1868
+msgid "Duration"
+msgstr "Duración"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1920
+msgid "Email address"
+msgstr "Dirección de correo electrónico"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1945
+msgid "File path"
+msgstr "Ruta del archivo"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2023
+#, python-format
+msgid "“%(value)s” value must be a float."
+msgstr "El valor “%(value)s” debe ser flotante."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2025
+msgid "Floating point number"
+msgstr "número de punto flotante"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2065
+#, python-format
+msgid "“%(value)s” value must be an integer."
+msgstr "El valor de “%(valor)s” debe ser un número entero."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2067
+msgid "Integer"
+msgstr "Entero"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2163
+msgid "Big (8 byte) integer"
+msgstr "Entero grande (8 bytes)"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2180
+msgid "Small integer"
+msgstr "Entero pequeño"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2188
+msgid "IPv4 address"
+msgstr "dirección IPv4"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2219
+msgid "IP address"
+msgstr "dirección IP"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2310
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2311
+#, python-format
+msgid "“%(value)s” value must be either None, True or False."
+msgstr "El valor de “%(valor)s” debe ser Ninguno, Verdadero o Falso."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2313
+msgid "Boolean (Either True, False or None)"
+msgstr "Booleano (verdadero, falso o ninguno)"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2364
+msgid "Positive big integer"
+msgstr "Entero grande positivo"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2379
+msgid "Positive integer"
+msgstr "Entero positivo"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2394
+msgid "Positive small integer"
+msgstr "Entero pequeño positivo"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2410
+#, python-format
+msgid "Slug (up to %(max_length)s)"
+msgstr "Slug (hasta %(max_length)s)"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2446
+msgid "Text"
+msgstr "Texto"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2526
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
+msgstr ""
+"El valor “%(valor)s” tiene un formato no válido. Debe estar en formato "
+"HH:MM[:ss[.uuuuuu]]."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2530
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
+msgstr ""
+"El valor “%(valor)s” tiene el formato correcto (HH:MM[:ss[.uuuuuu]]) pero es"
+" una hora no válida."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2534
+msgid "Time"
+msgstr "Tiempo"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2642
+msgid "URL"
+msgstr "URL"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2666
+msgid "Raw binary data"
+msgstr "Datos binarios sin procesar"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2731
+#, python-format
+msgid "“%(value)s” is not a valid UUID."
+msgstr "“%(value)s” no es un UUID válido."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2733
+msgid "Universally unique identifier"
+msgstr "Identificación universalmente única"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/files.py:244
+msgid "File"
+msgstr "Archivo"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/files.py:420
+msgid "Image"
+msgstr "Imagen"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/json.py:24
+msgid "A JSON object"
+msgstr "Un objeto JSON"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/json.py:26
+msgid "Value must be valid JSON."
+msgstr "El valor debe ser JSON válido."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/related.py:978
+#, python-format
+msgid "%(model)s instance with %(field)s %(value)r is not a valid choice."
+msgstr ""
+"La instancia de %(model)s con %(field)s %(value)r no es una opción válida."
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/related.py:981
+msgid "Foreign Key (type determined by related field)"
+msgstr "Clave externa (tipo determinado por el campo relacionado)"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/related.py:1275
+msgid "One-to-one relationship"
+msgstr "Relación uno a uno"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/related.py:1332
+#, python-format
+msgid "%(from)s-%(to)s relationship"
+msgstr "Relación %(de)s-%(a)s"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/related.py:1334
+#, python-format
+msgid "%(from)s-%(to)s relationships"
+msgstr "Relaciones %(de)s-%(a)s"
+
+#: myglobalenv/lib/python3.12/site-packages/django/db/models/fields/related.py:1382
+msgid "Many-to-many relationship"
+msgstr "Relaciones de muchos a muchos"
+
+#. Translators: If found as last label character, these punctuation
+#. characters will prevent the default label_suffix to be appended to
+#. the label
+#: myglobalenv/lib/python3.12/site-packages/django/forms/boundfield.py:188
+msgid ":?.!"
+msgstr ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:91
+msgid "This field is required."
+msgstr "Este campo es obligatorio."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:313
+msgid "Enter a whole number."
+msgstr "Introduzca un número entero."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:484
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:1241
+msgid "Enter a valid date."
+msgstr "Introduzca una fecha válida."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:507
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:1242
+msgid "Enter a valid time."
+msgstr "Introduzca una hora válida."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:534
+msgid "Enter a valid date/time."
+msgstr "Introduzca una fecha/hora válida."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:568
+msgid "Enter a valid duration."
+msgstr "Introduzca una duración válida."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:569
+#, python-brace-format
+msgid "The number of days must be between {min_days} and {max_days}."
+msgstr "El número de días debe estar entre {min_days} y {max_days}."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:638
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr ""
+"No se envió ningún archivo. Verifique el tipo de codificación en el "
+"formulario."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:639
+msgid "No file was submitted."
+msgstr "No se envió ningún archivo."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:640
+msgid "The submitted file is empty."
+msgstr "El archivo enviado está vacío."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:642
+#, python-format
+msgid ""
+"Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgid_plural ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:647
+msgid "Please either submit a file or check the clear checkbox, not both."
+msgstr "Envíe un archivo o marque la casilla de borrar ambos, no."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:715
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+"Sube una imagen válida. El archivo que subiste no era una imagen o estaba "
+"dañada."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:862
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:949
+#: myglobalenv/lib/python3.12/site-packages/django/forms/models.py:1621
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+"Seleccione una opción válida. %(value)s no es una de las opciones "
+"disponibles."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:951
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:1070
+#: myglobalenv/lib/python3.12/site-packages/django/forms/models.py:1619
+msgid "Enter a list of values."
+msgstr "Introduzca una lista de valores."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:1071
+msgid "Enter a complete value."
+msgstr "Introduzca un valor completo."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:1313
+msgid "Enter a valid UUID."
+msgstr "Ingrese un UUID válido."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/fields.py:1343
+msgid "Enter a valid JSON."
+msgstr "Introduzca un JSON válido."
+
+#. Translators: This is the default suffix added to form field labels
+#: myglobalenv/lib/python3.12/site-packages/django/forms/forms.py:97
+msgid ":"
+msgstr ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/forms.py:239
+#, python-format
+msgid "(Hidden field %(name)s) %(error)s"
+msgstr "(Campo oculto %(nombre)s) %(error)s"
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/formsets.py:61
+#, python-format
+msgid ""
+"ManagementForm data is missing or has been tampered with. Missing fields: "
+"%(field_names)s. You may need to file a bug report if the issue persists."
+msgstr ""
+"Faltan datos de ManagementForm o han sido alterados. Campos faltantes: "
+"%(field_names)s. Es posible que tengas que presentar un informe de error si "
+"el problema persiste."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/formsets.py:65
+#, python-format
+msgid "Please submit at most %(num)d form."
+msgid_plural "Please submit at most %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/formsets.py:70
+#, python-format
+msgid "Please submit at least %(num)d form."
+msgid_plural "Please submit at least %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/formsets.py:484
+#: myglobalenv/lib/python3.12/site-packages/django/forms/formsets.py:491
+msgid "Order"
+msgstr "Orden"
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/formsets.py:499
+msgid "Delete"
+msgstr "Borrar"
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/models.py:925
+#, python-format
+msgid "Please correct the duplicate data for %(field)s."
+msgstr "Corrija los datos duplicados para %(field)s."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/models.py:930
+#, python-format
+msgid "Please correct the duplicate data for %(field)s, which must be unique."
+msgstr "Corrija los datos duplicados de %(field)s, que deben ser únicos."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/models.py:937
+#, python-format
+msgid ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
+msgstr ""
+"Corrija los datos duplicados para %(field_name)s que deben ser únicos para "
+"%(lookup)s en %(date_field)s."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/models.py:946
+msgid "Please correct the duplicate values below."
+msgstr "Corrija los valores duplicados a continuación."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/models.py:1383
+msgid "The inline value did not match the parent instance."
+msgstr "El valor en línea no coincide con la instancia principal."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/models.py:1474
+msgid ""
+"Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+"Seleccione una opción válida. Esa elección no es una de las opciones "
+"disponibles."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/models.py:1623
+#, python-format
+msgid "“%(pk)s” is not a valid value."
+msgstr "“%(pk)s” no es un valor válido."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/utils.py:229
+#, python-format
+msgid ""
+"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
+msgstr ""
+"%(datetime)s no se pudo interpretar en la zona horaria %(current_timezone)s;"
+" puede ser ambiguo o puede no existir."
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/widgets.py:528
+msgid "Clear"
+msgstr "Claro"
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/widgets.py:529
+msgid "Currently"
+msgstr "Actualmente"
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/widgets.py:530
+msgid "Change"
+msgstr "Intercambio"
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/widgets.py:869
+msgid "Unknown"
+msgstr "Desconocido"
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/widgets.py:870
+msgid "Yes"
+msgstr "Sí"
+
+#: myglobalenv/lib/python3.12/site-packages/django/forms/widgets.py:871
+msgid "No"
+msgstr "No"
+
+#: myglobalenv/lib/python3.12/site-packages/django/tasks/base.py:34
+msgctxt "Task"
+msgid "Ready"
+msgstr "Listo"
+
+#: myglobalenv/lib/python3.12/site-packages/django/tasks/base.py:36
+msgctxt "Task"
+msgid "Running"
+msgstr "Correr"
+
+#: myglobalenv/lib/python3.12/site-packages/django/tasks/base.py:38
+msgctxt "Task"
+msgid "Failed"
+msgstr "Fallido"
+
+#: myglobalenv/lib/python3.12/site-packages/django/tasks/base.py:40
+msgctxt "Task"
+msgid "Successful"
+msgstr "exitoso"
+
+#. Translators: Please do not add spaces around commas.
+#: myglobalenv/lib/python3.12/site-packages/django/template/defaultfilters.py:878
+msgid "yes,no,maybe"
+msgstr "si, no, tal vez"
+
+#: myglobalenv/lib/python3.12/site-packages/django/template/defaultfilters.py:908
+#: myglobalenv/lib/python3.12/site-packages/django/template/defaultfilters.py:925
+#, python-format
+msgid "%(size)d byte"
+msgid_plural "%(size)d bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/template/defaultfilters.py:927
+#, python-format
+msgid "%s KB"
+msgstr "%s KB"
+
+#: myglobalenv/lib/python3.12/site-packages/django/template/defaultfilters.py:929
+#, python-format
+msgid "%s MB"
+msgstr "%s MB"
+
+#: myglobalenv/lib/python3.12/site-packages/django/template/defaultfilters.py:931
+#, python-format
+msgid "%s GB"
+msgstr "%s GB"
+
+#: myglobalenv/lib/python3.12/site-packages/django/template/defaultfilters.py:933
+#, python-format
+msgid "%s TB"
+msgstr "%s tuberculosis"
+
+#: myglobalenv/lib/python3.12/site-packages/django/template/defaultfilters.py:935
+#, python-format
+msgid "%s PB"
+msgstr "%s BP"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dateformat.py:74
+msgid "p.m."
+msgstr "p.m."
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dateformat.py:75
+msgid "a.m."
+msgstr "soy."
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dateformat.py:80
+msgid "PM"
+msgstr "P.M"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dateformat.py:81
+msgid "AM"
+msgstr "SOY."
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dateformat.py:153
+msgid "midnight"
+msgstr "medianoche"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dateformat.py:155
+msgid "noon"
+msgstr "noo"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:7
+msgid "Monday"
+msgstr "Lunes"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:8
+msgid "Tuesday"
+msgstr "Martes"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:9
+msgid "Wednesday"
+msgstr "Miércoles"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:10
+msgid "Thursday"
+msgstr "Jueves"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:11
+msgid "Friday"
+msgstr "Viernes"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:12
+msgid "Saturday"
+msgstr "Sábado"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:13
+msgid "Sunday"
+msgstr "Domingo"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:16
+msgid "Mon"
+msgstr "Mi"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:17
+msgid "Tue"
+msgstr "Matar"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:18
+msgid "Wed"
+msgstr "Miércoles"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:19
+msgid "Thu"
+msgstr "Jue"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:20
+msgid "Fri"
+msgstr "Vie"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:21
+msgid "Sat"
+msgstr "Se sentó"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:22
+msgid "Sun"
+msgstr "Sol"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:25
+msgid "January"
+msgstr "Enero"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:26
+msgid "February"
+msgstr "Febrero"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:27
+msgid "March"
+msgstr "Marzo"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:28
+msgid "April"
+msgstr "Abril"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:29
+msgid "May"
+msgstr "Puede"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:30
+msgid "June"
+msgstr "Junio"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:31
+msgid "July"
+msgstr "Julio"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:32
+msgid "August"
+msgstr "Agosto"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:33
+msgid "September"
+msgstr "Septiembre"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:34
+msgid "October"
+msgstr "Octubre"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:35
+msgid "November"
+msgstr "Noviembre"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:36
+msgid "December"
+msgstr "Diciembre"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:39
+msgid "jan"
+msgstr "ene"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:40
+msgid "feb"
+msgstr "feb"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:41
+msgid "mar"
+msgstr "mar"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:42
+msgid "apr"
+msgstr "después"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:43
+msgid "may"
+msgstr "puede"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:44
+msgid "jun"
+msgstr "Junio"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:45
+msgid "jul"
+msgstr "Julio"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:46
+msgid "aug"
+msgstr "ago"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:47
+msgid "sep"
+msgstr "sep"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:48
+msgid "oct"
+msgstr "oct"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:49
+msgid "nov"
+msgstr "nov"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:50
+msgid "dec"
+msgstr "dic"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:53
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr "Ene."
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:54
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr "Feb."
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:55
+msgctxt "abbrev. month"
+msgid "March"
+msgstr "Marzo"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:56
+msgctxt "abbrev. month"
+msgid "April"
+msgstr "Abril"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:57
+msgctxt "abbrev. month"
+msgid "May"
+msgstr "Puede"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:58
+msgctxt "abbrev. month"
+msgid "June"
+msgstr "Junio"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:59
+msgctxt "abbrev. month"
+msgid "July"
+msgstr "Julio"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:60
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr "Ago."
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:61
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr "Siete."
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:62
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr "Oct."
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:63
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr "Nov."
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:64
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr "Dic."
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:67
+msgctxt "alt. month"
+msgid "January"
+msgstr "Enero"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:68
+msgctxt "alt. month"
+msgid "February"
+msgstr "Febrero"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:69
+msgctxt "alt. month"
+msgid "March"
+msgstr "Marzo"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:70
+msgctxt "alt. month"
+msgid "April"
+msgstr "Abril"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:71
+msgctxt "alt. month"
+msgid "May"
+msgstr "Puede"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:72
+msgctxt "alt. month"
+msgid "June"
+msgstr "Junio"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:73
+msgctxt "alt. month"
+msgid "July"
+msgstr "Julio"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:74
+msgctxt "alt. month"
+msgid "August"
+msgstr "Agosto"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:75
+msgctxt "alt. month"
+msgid "September"
+msgstr "Septiembre"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:76
+msgctxt "alt. month"
+msgid "October"
+msgstr "Octubre"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:77
+msgctxt "alt. month"
+msgid "November"
+msgstr "Noviembre"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/dates.py:78
+msgctxt "alt. month"
+msgid "December"
+msgstr "Diciembre"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/ipv6.py:20
+msgid "This is not a valid IPv6 address."
+msgstr "Esta no es una dirección IPv6 válida."
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/text.py:76
+#, python-format
+msgctxt "String to return when truncating text"
+msgid "%(truncated_text)s…"
+msgstr "%(texto_truncado)s…"
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/text.py:282
+msgid "or"
+msgstr "oro"
+
+#. Translators: This string is used as a separator between list elements
+#: myglobalenv/lib/python3.12/site-packages/django/utils/text.py:301
+#: myglobalenv/lib/python3.12/site-packages/django/utils/timesince.py:135
+msgid ", "
+msgstr ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/timesince.py:8
+#, python-format
+msgid "%(num)d year"
+msgid_plural "%(num)d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/timesince.py:9
+#, python-format
+msgid "%(num)d month"
+msgid_plural "%(num)d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/timesince.py:10
+#, python-format
+msgid "%(num)d week"
+msgid_plural "%(num)d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/timesince.py:11
+#, python-format
+msgid "%(num)d day"
+msgid_plural "%(num)d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/timesince.py:12
+#, python-format
+msgid "%(num)d hour"
+msgid_plural "%(num)d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/utils/timesince.py:13
+#, python-format
+msgid "%(num)d minute"
+msgid_plural "%(num)d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/csrf.py:29
+msgid "Forbidden"
+msgstr "Prohibido"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/csrf.py:30
+msgid "CSRF verification failed. Request aborted."
+msgstr "La verificación CSRF falló. Solicitud abortada."
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/csrf.py:34
+msgid ""
+"You are seeing this message because this HTTPS site requires a “Referer "
+"header” to be sent by your web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+"Estás viendo este mensaje porque este sitio HTTPS requiere que tu navegador "
+"web envíe un \"encabezado de referencia\", pero no se envió ninguno. Este "
+"encabezado es necesario por razones de seguridad, para garantizar que "
+"terceros no se apropien de su navegador."
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/csrf.py:40
+msgid ""
+"If you have configured your browser to disable “Referer” headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for “same-"
+"origin” requests."
+msgstr ""
+"Si ha configurado su navegador para deshabilitar los encabezados "
+"\"Referer\", vuelva a habilitarlos, al menos para este sitio, o para "
+"conexiones HTTPS, o para solicitudes del \"mismo origen\"."
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/csrf.py:45
+msgid ""
+"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or"
+" including the “Referrer-Policy: no-referrer” header, please remove them. "
+"The CSRF protection requires the “Referer” header to do strict referer "
+"checking. If you’re concerned about privacy, use alternatives like <a "
+"rel=\"noreferrer\" …> for links to third-party sites."
+msgstr ""
+"Si está utilizando la etiqueta <meta name=\"referrer\" content=\"no-"
+"referrer\"> o incluye el encabezado “Referrer-Policy: no-referrer”, "
+"elimínelas. La protección CSRF requiere que el encabezado \"Referer\" "
+"realice una verificación estricta del referente. Si le preocupa la "
+"privacidad, utilice alternativas como <a rel=\"noreferrer\"…> para enlaces a"
+" sitios de terceros."
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/csrf.py:54
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+"Estás viendo este mensaje porque este sitio requiere una cookie CSRF al "
+"enviar formularios. Esta cookie es necesaria por razones de seguridad, para "
+"garantizar que terceros no se apropien de su navegador."
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/csrf.py:60
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for “same-origin” requests."
+msgstr ""
+"Si ha configurado su navegador para deshabilitar las cookies, vuelva a "
+"habilitarlas, al menos para este sitio, o para solicitudes del \"mismo "
+"origen\"."
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/csrf.py:66
+msgid "More information is available with DEBUG=True."
+msgstr "Hay más información disponible con DEBUG=True."
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/generic/dates.py:44
+msgid "No year specified"
+msgstr "No se especifica el año"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/generic/dates.py:64
+#: myglobalenv/lib/python3.12/site-packages/django/views/generic/dates.py:115
+#: myglobalenv/lib/python3.12/site-packages/django/views/generic/dates.py:214
+msgid "Date out of range"
+msgstr "Fecha fuera de rango"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/generic/dates.py:94
+msgid "No month specified"
+msgstr "No se especifica mes"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/generic/dates.py:147
+msgid "No day specified"
+msgstr "No se especifica ningún día"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/generic/dates.py:194
+msgid "No week specified"
+msgstr "Ninguna semana especificada"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/generic/dates.py:353
+#: myglobalenv/lib/python3.12/site-packages/django/views/generic/dates.py:384
+#, python-format
+msgid "No %(verbose_name_plural)s available"
+msgstr "No hay %(verbose_name_plural) disponibles"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/generic/dates.py:680
+#, python-format
+msgid ""
+"Future %(verbose_name_plural)s not available because "
+"%(class_name)s.allow_future is False."
+msgstr ""
+"El futuro %(verbose_name_plural)s no está disponible porque "
+"%(class_name)s.allow_future es falso."
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/generic/dates.py:720
+#, python-format
+msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
+msgstr "Cadena de fecha no válida “%(datestr)s” formato dado “%(format)s”"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/generic/detail.py:56
+#, python-format
+msgid "No %(verbose_name)s found matching the query"
+msgstr "No se encontraron %(verbose_name) que coincidan con la consulta"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/generic/list.py:70
+msgid "Page is not “last”, nor can it be converted to an int."
+msgstr "La página no es la \"última\" ni se puede convertir a un int."
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/generic/list.py:77
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr "Página no válida (%(page_number)s): %(message)s"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/generic/list.py:173
+#, python-format
+msgid "Empty list and “%(class_name)s.allow_empty” is False."
+msgstr "Lista vacía y \"%(class_name)s.allow_empty\" es falso."
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/static.py:49
+msgid "Directory indexes are not allowed here."
+msgstr "Aquí no se permiten índices de directorio."
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/static.py:51
+#, python-format
+msgid "“%(path)s” does not exist"
+msgstr "“%(ruta)s” no existe"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/static.py:68
+#: myglobalenv/lib/python3.12/site-packages/django/views/templates/directory_index.html:8
+#: myglobalenv/lib/python3.12/site-packages/django/views/templates/directory_index.html:11
+#, python-format
+msgid "Index of %(directory)s"
+msgstr "Índice de %(directorio)s"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:7
+#: myglobalenv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:204
+msgid "The install worked successfully! Congratulations!"
+msgstr "¡La instalación funcionó correctamente! ¡Felicidades!"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:206
+#, python-format
+msgid ""
+"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgstr ""
+"Ver <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">notas de la versión</a> de Django "
+"%(version)s"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:208
+#, python-format
+msgid ""
+"You are seeing this page because <a "
+"href=\"https://docs.djangoproject.com/en/%(version)s/ref/settings/#debug\" "
+"target=\"_blank\" rel=\"noopener\">DEBUG=True</a> is in your settings file "
+"and you have not configured any URLs."
+msgstr ""
+"Estás viendo esta página porque <a "
+"href=\"https://docs.djangoproject.com/en/%(version)s/ref/settings/#debug\" "
+"target=\"_blank\" rel=\"noopener\">DEBUG=True</a> está en tu archivo de "
+"configuración y no has configurado ninguna URL."
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:217
+msgid "Django Documentation"
+msgstr "Documentación de Django"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:218
+msgid "Topics, references, &amp; how-to’s"
+msgstr "Temas, referencias y temas. cómo hacerlo"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:226
+msgid "Tutorial: A Polling App"
+msgstr "Tutorial: una aplicación de encuestas"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:227
+msgid "Get started with Django"
+msgstr "Comience con Django"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:235
+msgid "Django Community"
+msgstr "Comunidad Django"
+
+#: myglobalenv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:236
+msgid "Connect, get help, or contribute"
+msgstr "Conéctese, obtenga ayuda o contribuya"

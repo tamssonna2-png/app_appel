@@ -1,25 +1,26 @@
 from django import forms
 from .models import Enseignant,Matiere,Etudiant,Ecole
+from django.utils.translation import gettext_lazy as _
 
 class EnseignantForm(forms.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput(),
-        label="Mot de passe"
+        label=_("Mot de passe")
         )
     password_confirm = forms.CharField(
         widget=forms.PasswordInput(),
-        label="Confirmer le mot de passe"
+        label=_("Confirmer le mot de passe")
     )
 
     class Meta:
         model = Enseignant
         fields = ['username','last_name','first_name','email','specialite','telephone','sexe']
         labels = {
-            'username':"Nom d'utilisateur (votre identifiant)",
-            'last_name':'Nom',
-            'first_name':'Prenom',
-            'specialite':'Spécialité',
-            'sexe':'Sexe'
+            'username':_("Nom d'utilisateur (votre identifiant)"),
+            'last_name':_('Nom'),
+            'first_name':_('Prenom'),
+            'specialite':_('Spécialité'),
+            'sexe':_('Sexe')
         } 
     
     def __init__(self, *args, **kwargs):
@@ -35,26 +36,26 @@ class EnseignantForm(forms.ModelForm):
         password_confirm =cleaned_data.get("password_confirm")
         if password and password_confirm:
             if password_confirm != password:
-                raise forms.ValidationError("les deux mots de passent ne correspondent pas")
+                raise forms.ValidationError(_("les deux mots de passent ne correspondent pas"))
         return cleaned_data
 
 class MatiereForm (forms.ModelForm):
     ecole = forms.CharField(
-        label="Ecole",
+        label=_("Ecole"),
         widget=forms.TextInput(attrs={
             'list': 'liste-ecoles', 
             'autocomplete': 'off',
-            'placeholder': "Tapez pour rechercher un établissement..."
+            'placeholder': _("Tapez pour rechercher un établissement...")
         })
     )
     class Meta:
         model = Matiere
         fields = ['nom','code','credit','description','ecole']#,'est_pondere']
         labels = {
-            'nom':"Nom de la matière",
-            'code':'Code',
-            'credit':'Credit',
-            'description':'Description',
+            'nom':_("Nom de la matière"),
+            'code':_('Code'),
+            'credit':_('Credit'),
+            'description':_('Description'),
             #'ecole':'Ecole'
             #'est_pondere':'Activer la notation par assiduité pour ce cours'
         } 
@@ -85,19 +86,19 @@ class MatiereForm (forms.ModelForm):
 class EtudiantForm(forms.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput(),
-        label="Mot de passe"
+        label=_("Mot de passe")
         )
     password_confirm = forms.CharField(
         widget=forms.PasswordInput(),
-        label="Confirmer le mot de passe"
+        label=_("Confirmer le mot de passe")
     )
 
     ecole = forms.CharField(
-        label="Ecole",
+        label=_("Ecole"),
         widget=forms.TextInput(attrs={
             'list': 'liste-ecoles', 
             'autocomplete': 'off',  # Bloque l'historique "uy13" du navigateur
-            'placeholder': "Tapez pour rechercher votre établissement..."
+            'placeholder': _("Tapez pour rechercher votre établissement...")
         })
     )
 
@@ -105,11 +106,11 @@ class EtudiantForm(forms.ModelForm):
         model = Etudiant
         fields = ['username','last_name','first_name','ecole','email','telephone','sexe']
         labels = {
-            'last_name':'Nom',
-            'first_name':'Prenom',
-            'ecole':'Ecole',
-            'username':'Matricule (en magiscule)',
-            'sexe':'Sexe'
+            'last_name':_('Nom'),
+            'first_name':_('Prenom'),
+            'ecole':_('Ecole'),
+            'username':_('Matricule (en magiscule)'),
+            'sexe':_('Sexe')
         } 
     
     def __init__(self, *args, **kwargs):
@@ -127,7 +128,7 @@ class EtudiantForm(forms.ModelForm):
         try:
             return Ecole.objects.get(nom=nom_ecole)
         except Ecole.DoesNotExist:
-            raise forms.ValidationError("Cet établissement n'existe pas. Veuillez le sélectionner dans la liste.")
+            raise forms.ValidationError(_("Cet établissement n'existe pas. Veuillez le sélectionner dans la liste."))
 
     def clean(self):
         cleaned_data = super().clean()
@@ -135,7 +136,7 @@ class EtudiantForm(forms.ModelForm):
         password_confirm =cleaned_data.get("password_confirm")
         if password and password_confirm:
             if password_confirm != password:
-                raise forms.ValidationError("les deux mots de passent ne correspondent pas")
+                raise forms.ValidationError(_("les deux mots de passent ne correspondent pas"))
         return cleaned_data
     def save(self,commit=True):
         etudiant =super().save(commit=False)
@@ -149,18 +150,18 @@ class EtudiantForm(forms.ModelForm):
 
 class MotDePasseOblieForm(forms.Form):
     email = forms.EmailField(
-        label='Entrez votre email',
-        widget=forms.EmailInput(attrs={'placeholder':'exemple@gmail.com',
+        label=_('Entrez votre email'),
+        widget=forms.EmailInput(attrs={'placeholder':_('exemple@gmail.com'),
         'class':'form-control'})
         )
 
 class VerifierCodeForm(forms.Form):
     code_saisi = forms.CharField(
-        label="Code de vérification", 
+        label=_("Code de vérification"), 
         max_length=6,
         min_length=6,  # Sécurité : le code fait forcément 6 caractères
         widget=forms.TextInput(attrs={
-            'placeholder': '🔏 Ex: 123456', 
+            'placeholder': _('Ex: 123456'), 
             'class': 'form-control text-center fw-bold fs-4',
             'autocomplete': 'off'
         })
@@ -170,12 +171,12 @@ from django.core.exceptions import ValidationError
 
 class NouveauMotDePasseForm(forms.Form):
     password = forms.CharField(
-        label="Nouveau mot de passe",
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Entrez le nouveau mot de passe'})
+        label=_("Nouveau mot de passe"),
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': _('Entrez le nouveau mot de passe')})
     )
     confirm_password = forms.CharField(
-        label="Confirmez le mot de passe",
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirmez le mot de passe'})
+        label=_("Confirmez le mot de passe"),
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': _('Confirmez le mot de passe')})
     )
 
     def clean(self):
@@ -184,5 +185,5 @@ class NouveauMotDePasseForm(forms.Form):
         confirm_password = cleaned_data.get("confirm_password")
 
         if password and confirm_password and password != confirm_password:
-            raise ValidationError("Les deux mots de passe ne correspondent pas.")
+            raise ValidationError(_("Les deux mots de passe ne correspondent pas."))
         return cleaned_data

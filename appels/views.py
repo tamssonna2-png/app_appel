@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _ #messages.success(request, _("Votre présence a bien été enregistrée.")) comment utiliser
 User = get_user_model()
 # Create your views here.
 
@@ -26,7 +27,7 @@ def enseignant_requis(view_func):
     def _wrapped_view(request, *args, **kwargs):
         # On vérifie si l'utilisateur a un profil enseignant
         if not request.user.is_authenticated or not hasattr(request.user, 'enseignant'):
-            messages.error(request, "Accès réservé aux enseignants.")
+            messages.error(request, _("Accès réservé aux enseignants."))
             return redirect('connexion_enseignant')
         return view_func(request, *args, **kwargs)
     return _wrapped_view
@@ -36,7 +37,7 @@ def etudiant_requis(view_func):
     def _wrapped_view(request, *args, **kwargs):
         # On vérifie si l'utilisateur a un profil étudiant
         if not request.user.is_authenticated or not hasattr(request.user, 'etudiant'):
-            messages.error(request, "Accès réservé aux étudiants.")
+            messages.error(request, _("Accès réservé aux étudiants."))
             return redirect('connexion_etudiant')
         return view_func(request, *args, **kwargs)
     return _wrapped_view
@@ -62,10 +63,10 @@ def inscription_enseignant(request):
             enseignant.set_password(password)
             enseignant.save()
             login(request, enseignant)
-            messages.success(request,"Inscription reussi !")
+            messages.success(request,_("Inscription reussi !"))
             return redirect('dashboard')
         else:
-            messages.error(request,"Erreur lors de l'inscription")
+            messages.error(request,_("Erreur lors de l'inscription"))
     else:
         form = EnseignantForm()
     return render(request,'enseignant/inscription_enseignant.html',{'form':form})
@@ -90,10 +91,10 @@ def connexion_enseignant(request):
                 login(request, user)
                 return redirect ('dashboard')
             else:
-                messages.error(request,"Accès refusé : vous n'êtes pas autorisés")
+                messages.error(request,_("Accès refusé : vous n'êtes pas autorisés"))
         else:
             messages.error(request,"Identifiant ou mot de passe incorrect.")
-    return render(request,'enseignant/connexion.html')
+    return render(request,_('enseignant/connexion.html'))
 #http://127.0.0.1:8000/connexion-enseignant/
 
 
@@ -115,13 +116,13 @@ def mot_de_passe_oublier(request):
                 print("voici le code d recupération : ",code_recuperation)
                 try:
                     send_mail(sujet,message,expediteur,[email_saisie])
-                    messages.success(request,"Un code de verification a été envoyé a votre email")
+                    messages.success(request,_("Un code de verification a été envoyé a votre email"))
                     return redirect('verifier_code_recuperation')
                 except Exception as e:
-                    messages.error(request,"Une erreur est survenue lors de l'envoie. Réessayez")
+                    messages.error(request,_("Une erreur est survenue lors de l'envoie. Réessayez"))
                     print("probleme",e)
             else:
-                messages.error(request,"Cet utilisateur n'existe pas ou n'est pas un enseignant verifier l'email")
+                messages.error(request,_("Cet utilisateur n'existe pas ou n'est pas un enseignant verifier l'email"))
         else:
             print("Erreurs du formulaire :",form.errors)
     else:
@@ -137,7 +138,7 @@ def verifier_code_recuperation(request):
     code_attendu = request.session.get('reset_code')
 
     if not email_saisie or not code_attendu:
-        messages.error(request,"Session expirée ou invalide. Veullez recommencer")
+        messages.error(request,_("Session expirée ou invalide. Veullez recommencer"))
         return redirect('mot_de_passe_oublier')
     
     code_deja_valide = request.session.get('code_verified',False)
@@ -151,10 +152,10 @@ def verifier_code_recuperation(request):
 
                 if code_saisie == code_attendu:
                     request.session['code_verified']=True
-                    messages.success(request,"code validé avec succes")
+                    messages.success(request,_("code validé avec succes"))
                     return redirect('verifier_code_recuperation')
                 else:
-                    messages.error(request,"Code incorrect.Veuillez réesayer")
+                    messages.error(request,_("Code incorrect.Veuillez réesayer"))
         else:
             form_code = VerifierCodeForm()
 
@@ -173,10 +174,10 @@ def verifier_code_recuperation(request):
                     user.set_password(nouveau_password)
                     user.save()
                     request.session.flush()
-                    messages.success(request,"Mot de passe réinitialisé avec succès ! vous pouvez vous connectez")
+                    messages.success(request,_("Mot de passe réinitialisé avec succès ! vous pouvez vous connectez"))
                     return redirect('connexion_enseignant')
                 except User.DoesNotExist:
-                    messages.error(request,"Utilisateur introuvable")
+                    messages.error(request,_("Utilisateur introuvable"))
                     return redirect('mot_de_passe_oublier')
         else:
             form_password = NouveauMotDePasseForm()
@@ -211,7 +212,7 @@ def creer_matiere(request):
             matiere.points_presence = float(request.POST.get('points_presence', 0.0))
             matiere.points_absence = float(request.POST.get('points_absence', 0.0))
             matiere.save()
-            messages.success(request,f"La matière {matiere.nom} a été créée")
+            messages.success(request,_(f"La matière {matiere.nom} a été créée"))
             return redirect('dashboard')
     else:
         form = MatiereForm()
@@ -231,7 +232,7 @@ def modifier_matiere(request,pk):
         form = MatiereForm(request.POST,instance=matiere)
         if form.is_valid():
             form.save()
-            messages.success(request,f"La matiere {matiere.nom} a été mise à jour")
+            messages.success(request,_(f"La matiere {matiere.nom} a été mise à jour"))
             return redirect('dashboard')
     else:
         form = MatiereForm(instance=matiere)
@@ -244,7 +245,7 @@ def supprimer_matiere(request,pk):
     matiere = get_object_or_404(Matiere, id=pk,enseignant__id =request.user.id)
     if request.method =='POST':
         matiere.delete()
-        messages.success(request,"Matiere suppriméé definitivement.")
+        messages.success(request,_("Matiere suppriméé definitivement."))
         return redirect(dashboard)
     return render(request,'enseignant/supprimer_matiere.html',{
         'matiere':matiere
@@ -260,7 +261,7 @@ def reinitialiser_matiere(request, matiere_id):
             Presence.objects.filter(feuille__matiere=matiere).delete()
             matiere.feuilles_appel.all().delete()
             matiere.inscriptions.all().delete()
-        messages.success(request, f"La matière {matiere.nom} a été réinitialisée : historique et étudiants effacés.")
+        messages.success(request, _(f"La matière {matiere.nom} a été réinitialisée : historique et étudiants effacés."))
         return redirect('consulter_matiere',matiere_id) 
     
     return redirect('consulter_matiere',matiere_id)
@@ -387,7 +388,7 @@ def inscrire_etudiant_par_ensei(request,matiere_id,etudiant_id):
     etudiant = get_object_or_404(Etudiant,id=etudiant_id)
     nb_seances = FeuilleAppel.objects.filter(matiere=matiere).count()
     if etudiant.ecole != matiere.ecole:
-        messages.error(request, "Cet étudiant n'appartient pas à cette école.")
+        messages.error(request, _("Cet étudiant n'appartient pas à cette école."))
         return redirect('chercher_etudiant', matiere_id)
     inscription, created =Inscription.objects.get_or_create(
         etudiant=etudiant,
@@ -395,9 +396,9 @@ def inscrire_etudiant_par_ensei(request,matiere_id,etudiant_id):
         defaults={'nb_presences':0,'nb_abscences':nb_seances}
     )  
     if created:
-        messages.success(request,f"{etudiant.first_name} est maintenant inscrit à {matiere.nom}")
+        messages.success(request,_(f"{etudiant.first_name} est maintenant inscrit à {matiere.nom}"))
     else:
-        messages.info(request,f"{etudiant.first_name} etait déja inscrit")
+        messages.info(request,_(f"{etudiant.first_name} etait déja inscrit"))
     return redirect('chercher_etudiant',matiere_id)
 
 from django.db.models import Count, Q
@@ -459,7 +460,7 @@ def faire_appel(request, feuille_id):
     if feuille.is_actif and feuille.date_fin_appel and timezone.now() > feuille.date_fin_appel:
         feuille.is_actif = False
         feuille.save()
-        messages.warning(request, "Le temps est écoulé, l'appel a été clôturé automatiquement.")
+        messages.warning(request, _("Le temps est écoulé, l'appel a été clôturé automatiquement."))
     return render(request, 'enseignant/faire_appel.html', {
         'matiere': matiere,
         'inscriptions': inscriptions,
@@ -477,7 +478,7 @@ from datetime import timedelta
 def lancer_appel(request,feuille_id):
     feuille = get_object_or_404(FeuilleAppel,id=feuille_id,matiere__enseignant=request.user)
     if feuille.code_validation and not request.user.is_superuser:
-        messages.error(request, "Cet appel a déjà été généré.")
+        messages.error(request, _("Cet appel a déjà été généré."))
         return redirect('faire_appel', feuille_id=feuille.id)
     duree_minutes = int(request.POST.get('duree', 5))
     rayon = int(request.POST.get('rayon', 100))
@@ -505,7 +506,7 @@ def lancer_appel(request,feuille_id):
             etudiant=ins.etudiant,
             defaults={'est_present': False}
         )
-    messages.success(request, f"Appel lancé ! Le code est : {code}")
+    messages.success(request, _(f"Appel lancé ! Le code est : {code}"))
     return redirect('faire_appel', feuille_id=feuille.id)
 
 @login_required
@@ -518,7 +519,7 @@ def cloturer_appel(request, feuille_id):
         ins = Inscription.objects.get(etudiant=p.etudiant, matiere=feuille.matiere)
         ins.nb_abscences += 1
         ins.save()
-    messages.success(request, "L'appel est maintenant clôturé et les absences ont été comptabilisées.")
+    messages.success(request, _("L'appel est maintenant clôturé et les absences ont été comptabilisées."))
     return redirect('faire_appel', feuille_id=feuille.id)
 
 @login_required
@@ -576,7 +577,7 @@ def supprimer_feuille(request,feuille_id):
             inscription.save()
     date_feuille = feuille.date
     feuille.delete()
-    messages.success(request, f"La séance du {date_feuille} a été supprimée et les compteurs ont été mis à jour.")
+    messages.success(request, _(f"La séance du {date_feuille} a été supprimée et les compteurs ont été mis à jour."))
     return redirect('consulter_matiere',matiere_id=feuille.matiere.id)
 
 @login_required
@@ -588,7 +589,7 @@ def vider_historique_matiere(request, matiere_id):
         with transaction.atomic():
             feuilles.delete()
             Inscription.objects.filter(matiere=matiere).update(nb_presences=0, nb_abscences=0)
-        messages.success(request, f"L'historique a été vidé ({nb_seances} séances supprimées). Les statistiques des étudiants sont réinitialisées.")
+        messages.success(request, _(f"L'historique a été vidé ({nb_seances} séances supprimées). Les statistiques des étudiants sont réinitialisées."))
         return redirect('consulter_matiere',matiere_id)
     return redirect('consulter_matiere',matiere_id)
 
@@ -682,7 +683,7 @@ def inscription_etudiant(request):
         if form.is_valid():
             etudiant = form.save()
             login(request, etudiant)
-            messages.success(request,'Compte étudiant créé!')
+            messages.success(request,_('Compte étudiant créé!'))
             return redirect('dashboard_etudiant')
     else:
         form = EtudiantForm()
@@ -706,7 +707,7 @@ def connexion_etudiant(request):
                 login(request, user)
                 return redirect ('dashboard_etudiant')
             else:
-                messages.error(request,"Accès refusé : vous n'êtes pas autorisés")
+                messages.error(request,_("Accès refusé : vous n'êtes pas autorisés"))
         except Personne.DoesNotExist:
             user=None
         #if user is not None:
@@ -737,10 +738,10 @@ def inscription_matiere(request,matiere_id):
     try:
         mon_profil = request.user.etudiant # Adapte selon ton modèle
     except AttributeError:
-        messages.error(request, "Accès refusé : tu n'as pas de profil étudiant.")
+        messages.error(request, _("Accès refusé : tu n'as pas de profil étudiant."))
         return redirect('accueil')
     if matiere.ecole!=request.user.etudiant.ecole:
-        messages.error(request, "Accès refusé : vous ne faites pas partie de cette ecole.")
+        messages.error(request, _("Accès refusé : vous ne faites pas partie de cette ecole."))
         return redirect('dashboard_etudiant')
     inscription,created = Inscription.objects.get_or_create(
         etudiant=mon_profil,
@@ -748,9 +749,9 @@ def inscription_matiere(request,matiere_id):
         defaults={'nb_presences':0,'nb_abscences':nb_seances}
     )
     if created:
-        messages.success(request,f"Felicitations : tu es maintenant inscrire au cour de {matiere.nom}")
+        messages.success(request,_(f"Felicitations : tu es maintenant inscrire au cour de {matiere.nom}"))
     else:
-        messages.info(request,f"Tu es déja inscrit au cour de {matiere.nom}")
+        messages.info(request,_(f"Tu es déja inscrit au cour de {matiere.nom}"))
     return redirect('dashboard_etudiant')
 
 @login_required
@@ -764,9 +765,9 @@ def traiter_lien_inscription(request):
                 matiere_id = int(match.group(1))
                 return redirect('inscription_matiere', matiere_id=matiere_id)
             else:
-                messages.error(request, "Format du lien invalide ou non autorisé.")               
+                messages.error(request, _("Format du lien invalide ou non autorisé."))               
         except Exception:
-            messages.error(request, "Impossible d'analyser le lien fourni.")
+            messages.error(request,_("Impossible d'analyser le lien fourni."))
             
     return redirect('dashboard_etudiant')
 
@@ -793,11 +794,11 @@ def valider_presence(request):
         lon_etudiant = request.POST.get('lon_etudiant')
         feuille = get_object_or_404(FeuilleAppel,id=feuille_id)
         if timezone.now() > feuille.date_fin_appel:
-            messages.error(request, "Désolé l'appel est terminé veuillez consulter votre enseignant.")
+            messages.error(request, _("Désolé l'appel est terminé veuillez consulter votre enseignant."))
             return redirect('dashboard_etudiant')
         if (feuille.latitude_prof and feuille.longitude_prof) and feuille.rayon_autorise!=0:
             if not lat_etudiant or not lon_etudiant:
-                messages.error(request, "Localisation GPS requise pour valider.")
+                messages.error(request, _("Localisation GPS requise pour valider."))
                 return redirect('dashboard_etudiant')
             distance = calculer_distance(
                 feuille.latitude_prof, feuille.longitude_prof,
@@ -806,7 +807,7 @@ def valider_presence(request):
             print(f"DEBUG PROF: {feuille.latitude_prof}, {feuille.longitude_prof}")
             print(f"DEBUG ETUDIANT: {lat_etudiant}, {lon_etudiant}")
             if distance > feuille.rayon_autorise:
-                messages.error(request, f"Tu es trop loin de l'enseignant ({int(distance)}m). Signaler à l'enseignant en cas d'erreur")
+                messages.error(request, _(f"Tu es trop loin de l'enseignant ({int(distance)}m). Signaler à l'enseignant en cas d'erreur"))
                 return redirect('dashboard_etudiant')
         if feuille.code_validation == code_saisi and feuille.is_actif:
             presence = Presence.objects.filter(feuille=feuille,etudiant=request.user.etudiant).first()
@@ -819,11 +820,11 @@ def valider_presence(request):
                 inscription = Inscription.objects.get(etudiant=request.user.etudiant,matiere=feuille.matiere)
                 inscription.nb_presences +=1
                 inscription.save()
-                messages.error(request,"Presence validéé avec succès !")
+                messages.error(request,_("Presence validéé avec succès !"))
             else:
-                messages.info(request,"Tu es déjà marqué(e) present")
+                messages.info(request,_("Tu es déjà marqué(e) present"))
         else:
-            messages.error(request,"code incorrect ou session expirée.")
+            messages.error(request,_("code incorrect ou session expirée."))
     return redirect('dashboard_etudiant')
 
 

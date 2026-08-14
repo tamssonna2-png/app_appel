@@ -58,10 +58,33 @@ INSTALLED_APPS = [
     'appels'
 ]
 
+
+from django.utils.translation import gettext_lazy as _
+
+USE_I18N = True
+USE_L10N = True
+
+# Langue par défaut
+LANGUAGE_CODE = 'fr'
+
+# Liste des langues supportées par ton SaaS
+LANGUAGES = [
+    ('fr', _('French')),
+    ('en', _('English')),
+    ('es', _('Spanish')),
+]
+
+# Dossier où seront stockés les fichiers de traduction
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -92,16 +115,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
-
-"""DATABASES = {
-    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
 }"""
+
+DATABASES = {
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+}
 
 
 # Password validation
@@ -159,3 +182,5 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER 
+
+

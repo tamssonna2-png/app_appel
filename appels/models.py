@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
@@ -14,8 +14,8 @@ class Ecole(models.Model):
     
 class Personne (AbstractUser):
     SEXE_CHOICES = [
-        ('M','Masculin'),
-        ('F','Feminin'),
+        ('M',_('Masculin')),
+        ('F',_('Feminin')),
     ]
     email = models.EmailField(unique=True,blank=False)
     telephone = models.CharField(max_length=20,blank=True)
@@ -23,15 +23,15 @@ class Personne (AbstractUser):
     sexe = models.CharField(
         max_length=1,
         choices=SEXE_CHOICES,
-        verbose_name="Sexe",
+        verbose_name=_("Sexe"),
         null=True,
         blank=True
     )
     class Meta:
         #db_table = ''
         #managed = True
-        verbose_name = 'Utilisateur Systeme'
-        verbose_name_plural = 'Utilisateurs Systeme'
+        verbose_name = _('Utilisateur Systeme')
+        verbose_name_plural = _('Utilisateurs Systeme')
 
     def __str__(self):
         nom = self.last_name if self.last_name else self.username
@@ -44,8 +44,8 @@ class Enseignant(Personne):
     class Meta:
         #db_table = ''
         #managed = True
-        verbose_name = 'Enseignant'
-        verbose_name_plural = 'Enseignants'
+        verbose_name = _('Enseignant')
+        verbose_name_plural = _('Enseignants')
 
     def __str__(self):
         nom_complet = super().__str__()
@@ -81,8 +81,8 @@ class Etudiant(Personne):
     class Meta:
         #db_table = ''
         #managed = True
-        verbose_name = 'Etudiant'
-        verbose_name_plural = 'Etudiants'
+        verbose_name = _('Etudiant')
+        verbose_name_plural = _('Etudiants')
 
     def __str__(self):
         nom_complet = super().__str__()
@@ -97,7 +97,7 @@ class Inscription(models.Model):
     class Meta:
         unique_together = ('etudiant','matiere')
     def __str__(self):
-        return f"{self.etudiant} inscrit en {self.matiere}"
+        return _(f"{self.etudiant} inscrit en {self.matiere}")
     @property
     def total_seances(self):
         return self.nb_abscences + self.nb_presences
@@ -111,7 +111,7 @@ class Inscription(models.Model):
 class FeuilleAppel(models.Model):
     matiere = models.ForeignKey(Matiere,on_delete=models.CASCADE,related_name="feuilles_appel")
     date = models.DateTimeField(auto_now_add=True)
-    description = models.CharField(max_length=255,blank=True,help_text="Ex, cours sur le beton armée")
+    description = models.CharField(max_length=255,blank=True,help_text=_("Ex, cours sur le beton armée"))
     code_validation = models.CharField(max_length=6,blank=True,null=True)
     is_actif = models.BooleanField(default=False)
     appel_lance = models.BooleanField(default=False)
@@ -140,6 +140,6 @@ class Presence(models.Model):
         unique_together = ('feuille','etudiant')
 
     def __str__(self):
-        statut = "Present" if self.est_present else "Absant"
+        statut = _("Present") if self.est_present else _("Absant")
         return f"{self.etudiant.last_name} - {statut}"
     
