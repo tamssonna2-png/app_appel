@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-14 04:34+0100\n"
+"POT-Creation-Date: 2026-08-14 05:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,6 +74,11 @@ msgstr "Credit"
 msgid "Description"
 msgstr "Description"
 
+#: appels/forms.py:84 appels/forms.py:131
+msgid ""
+"Cet établissement n'existe pas. Veuillez le sélectionner dans la liste."
+msgstr "This establishment does not exist. Please select it from the list."
+
 #: appels/forms.py:101
 msgid "Tapez pour rechercher votre établissement..."
 msgstr "Tap to search for your establishment..."
@@ -81,11 +86,6 @@ msgstr "Tap to search for your establishment..."
 #: appels/forms.py:112
 msgid "Matricule (en magiscule)"
 msgstr "Registration number (in magiscule)"
-
-#: appels/forms.py:131
-msgid ""
-"Cet établissement n'existe pas. Veuillez le sélectionner dans la liste."
-msgstr "This establishment does not exist. Please select it from the list."
 
 #: appels/forms.py:153
 msgid "Entrez votre email"
@@ -152,9 +152,9 @@ msgid "Etudiants"
 msgstr "Students"
 
 #: appels/models.py:100
-#, python-brace-format
-msgid "{self.etudiant} inscrit en {self.matiere}"
-msgstr "{self.etudiant} registered in {self.matiere}"
+#, python-format
+msgid "%(etudiant)s inscrit en %(matiere)s"
+msgstr "%(student)s registered in %(subject)s"
 
 #: appels/models.py:114
 msgid "Ex, cours sur le beton armée"
@@ -187,6 +187,10 @@ msgstr "Error during registration"
 #: appels/views.py:94 appels/views.py:710
 msgid "Accès refusé : vous n'êtes pas autorisés"
 msgstr "Access denied: you are not authorized"
+
+#: appels/views.py:96
+msgid "Identifiant ou mot de passe incorrect."
+msgstr "Incorrect username or password."
 
 #: appels/views.py:97
 msgid "enseignant/connexion.html"
@@ -225,41 +229,43 @@ msgstr "Password reset successfully! you can log in"
 msgid "Utilisateur introuvable"
 msgstr "User not found"
 
+#: appels/views.py:204
+msgid "Seul les enseignant ont accèes à cette page"
+msgstr "Only teachers have access to this page"
+
 #: appels/views.py:215
-#, python-brace-format
-msgid "La matière {matiere.nom} a été créée"
-msgstr "The material {material.name} has been created"
+#, python-format
+msgid "La matière %(nom)s a été créée"
+msgstr "Material %(name)s has been created"
 
 #: appels/views.py:235
-#, python-brace-format
-msgid "La matiere {matiere.nom} a été mise à jour"
-msgstr "The material {material.name} has been updated"
+#, python-format
+msgid "La matiere %(nom)s a été mise à jour"
+msgstr "The subject %(name)s has been updated"
 
 #: appels/views.py:248
 msgid "Matiere suppriméé definitivement."
 msgstr "Material permanently deleted."
 
 #: appels/views.py:264
-#, python-brace-format
+#, python-format
 msgid ""
-"La matière {matiere.nom} a été réinitialisée : historique et étudiants "
-"effacés."
-msgstr ""
-"The subject {subject.name} has been reset: history and students deleted."
+"La matière %(nom)s a été réinitialisée : historique et étudiants effacés."
+msgstr "Subject %(name)s has been reset: history and students cleared."
 
 #: appels/views.py:391
 msgid "Cet étudiant n'appartient pas à cette école."
 msgstr "This student does not belong to this school."
 
 #: appels/views.py:399
-#, python-brace-format
-msgid "{etudiant.first_name} est maintenant inscrit à {matiere.nom}"
-msgstr "{etudiant.first_name} is now registered at {matiere.name}"
+#, python-format
+msgid "%(prenom)s est maintenant inscrit à %(nom)s"
+msgstr "%(first name)s is now registered with %(last name)s"
 
 #: appels/views.py:401
-#, python-brace-format
-msgid "{etudiant.first_name} etait déja inscrit"
-msgstr "{etudiant.first_name} was already registered"
+#, python-format
+msgid "%(prenom)s etait déja inscrit"
+msgstr "%(first name)s was already registered"
 
 #: appels/views.py:463
 msgid "Le temps est écoulé, l'appel a été clôturé automatiquement."
@@ -270,31 +276,29 @@ msgid "Cet appel a déjà été généré."
 msgstr "This call has already been generated."
 
 #: appels/views.py:509
-#, python-brace-format
-msgid "Appel lancé ! Le code est : {code}"
-msgstr "Call launched! The code is: {code}"
+#, python-format
+msgid "Appel lancé ! Le code est : %(code)s"
+msgstr "Call launched! The code is: %(code)s"
 
 #: appels/views.py:522
 msgid "L'appel est maintenant clôturé et les absences ont été comptabilisées."
 msgstr "The call is now closed and absences have been counted."
 
 #: appels/views.py:580
-#, python-brace-format
+#, python-format
 msgid ""
-"La séance du {date_feuille} a été supprimée et les compteurs ont été mis à "
-"jour."
+"La séance du %(date)s a été supprimée et les compteurs ont été mis à jour."
 msgstr ""
-"The session of {date_feuille} has been deleted and the counters have been "
-"updated."
+"The session of %(date)s has been deleted and the counters have been updated."
 
 #: appels/views.py:592
-#, python-brace-format
+#, python-format
 msgid ""
-"L'historique a été vidé ({nb_seances} séances supprimées). Les statistiques "
-"des étudiants sont réinitialisées."
+"L'historique a été vidé (%(nb)s séances supprimées). Les statistiques des "
+"étudiants sont réinitialisées."
 msgstr ""
-"The history has been emptied ({nb_sessions} sessions deleted). Student "
-"statistics are reset."
+"The history has been emptied (%(nb)s sessions deleted). Student statistics "
+"are reset."
 
 #: appels/views.py:686
 msgid "Compte étudiant créé!"
@@ -309,14 +313,14 @@ msgid "Accès refusé : vous ne faites pas partie de cette ecole."
 msgstr "Access denied: you are not part of this school."
 
 #: appels/views.py:752
-#, python-brace-format
-msgid "Felicitations : tu es maintenant inscrire au cour de {matiere.nom}"
-msgstr "Congratulations: you are now registered for {matiere.name}"
+#, python-format
+msgid "Felicitations : tu es maintenant inscrire au cour de %(nom)s"
+msgstr "Congratulations: you are now enrolled in %(name)s’ course"
 
 #: appels/views.py:754
-#, python-brace-format
-msgid "Tu es déja inscrit au cour de {matiere.nom}"
-msgstr "You are already registered for {subject.name}"
+#, python-format
+msgid "Tu es déja inscrit au cour de %(nom)s"
+msgstr "You are already registered in %(name)s course"
 
 #: appels/views.py:768
 msgid "Format du lien invalide ou non autorisé."
@@ -335,12 +339,13 @@ msgid "Localisation GPS requise pour valider."
 msgstr "GPS location required to validate."
 
 #: appels/views.py:810
+#, python-format
 msgid ""
-"Tu es trop loin de l'enseignant ({int(distance)}m). Signaler à l'enseignant "
-"en cas d'erreur"
+"Tu es trop loin de l'enseignant (%(distance)sm). Signaler à l'enseignant en "
+"cas d'erreur"
 msgstr ""
-"You are too far from the teacher ({int(distance)}m). Report to the teacher "
-"in case of error"
+"You are too far from the teacher (%(distance)sm). Report to the teacher in "
+"case of error"
 
 #: appels/views.py:823
 msgid "Presence validéé avec succès !"
