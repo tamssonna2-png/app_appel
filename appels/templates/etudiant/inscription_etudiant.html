@@ -1,5 +1,6 @@
+{% load i18n %}
 {% block content %}
-<h2>Inscription Etudiant</h2>
+<h2>{% translate "Inscription Etudiant"%}</h2>
 <form method="post" autocomplete="off" onsubmit="return confirm('Cette opération est irréversible, assurez-vous que vos informations soient conformes')">
     {% csrf_token %} 
     

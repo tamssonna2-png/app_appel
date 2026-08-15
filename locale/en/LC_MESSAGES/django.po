@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-14 05:30+0100\n"
+"POT-Creation-Date: 2026-08-15 00:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,8 +75,7 @@ msgid "Description"
 msgstr "Description"
 
 #: appels/forms.py:84 appels/forms.py:131
-msgid ""
-"Cet établissement n'existe pas. Veuillez le sélectionner dans la liste."
+msgid "Cet établissement n'existe pas. Veuillez le sélectionner dans la liste."
 msgstr "This establishment does not exist. Please select it from the list."
 
 #: appels/forms.py:101
@@ -168,6 +167,59 @@ msgstr "Here"
 msgid "Absant"
 msgstr "Absent"
 
+#: appels/templates/accueil.html:10
+#, fuzzy
+#| msgid "Enseignant"
+msgid "Accès Enseignant"
+msgstr "Teacher"
+
+#: appels/templates/accueil.html:14
+#, fuzzy
+#| msgid "Etudiant"
+msgid "Espace Étudiant"
+msgstr "Student"
+
+#: appels/templates/accueil.html:19
+msgid "Simple • Rapide • Automatique"
+msgstr ""
+
+#: appels/templates/base.html:9
+msgid "Gestion d'Appel"
+msgstr ""
+
+#: appels/templates/base.html:19
+msgid "Tableau de bord"
+msgstr ""
+
+#: appels/templates/base.html:22 appels/templates/base.html:28
+msgid "Déconnexion"
+msgstr ""
+
+#: appels/templates/base.html:23 appels/templates/base_etudiant.html:67
+msgid "Êtes-vous sûr de vouloir vous déconnecter ?"
+msgstr ""
+
+#: appels/templates/base.html:31
+msgid "Connexion"
+msgstr ""
+
+#: appels/templates/base_etudiant.html:24
+msgid "Présence Étudiant"
+msgstr ""
+
+#: appels/templates/base_etudiant.html:64
+msgid "MON ESPACE ÉTUDIANT"
+msgstr ""
+
+#: appels/templates/base_etudiant.html:66
+#: appels/templates/base_etudiant.html:72
+msgid "Se déconnecter"
+msgstr ""
+
+#: appels/templates/etudiant/dashboard_etudiant.html:4
+msgid "Mon Tableau de Bord"
+msgstr ""
+
 #: appels/views.py:30
 msgid "Accès réservé aux enseignants."
 msgstr "Access reserved for teachers."
@@ -191,10 +243,6 @@ msgstr "Access denied: you are not authorized"
 #: appels/views.py:96
 msgid "Identifiant ou mot de passe incorrect."
 msgstr "Incorrect username or password."
-
-#: appels/views.py:97
-msgid "enseignant/connexion.html"
-msgstr "teacher/connection.html"
 
 #: appels/views.py:119
 msgid "Un code de verification a été envoyé a votre email"
@@ -370,3 +418,6 @@ msgstr "English"
 #: config/settings.py:74
 msgid "Spanish"
 msgstr "Spanish"
+
+#~ msgid "enseignant/connexion.html"
+#~ msgstr "teacher/connection.html"

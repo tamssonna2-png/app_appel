@@ -94,7 +94,7 @@ def connexion_enseignant(request):
                 messages.error(request,_("Accès refusé : vous n'êtes pas autorisés"))
         else:
             messages.error(request,_("Identifiant ou mot de passe incorrect."))
-    return render(request,_('enseignant/connexion.html'))
+    return render(request,'enseignant/connexion.html')
 #http://127.0.0.1:8000/connexion-enseignant/
 
 
@@ -841,3 +841,4 @@ def deconnexion_etudiant(request):
 
 
 """faire en sorte que les utilisateur entre des emails actifs"""
+#contribue au projet open soure

@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="fr">
@@ -20,7 +21,7 @@
 </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ENSTP - Présence Étudiant</title>
+    <title>{% translate "Présence Étudiant" %}</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
@@ -60,9 +61,16 @@
     <nav class="navbar navbar-expand navbar-student sticky-top">
         <div class="container text-center">
             <a class="navbar-brand mx-auto text-white fw-bold" href="{% url 'dashboard_etudiant' %}">
-                🎓 MON ESPACE ÉTUDIANT
+                {% translate "MON ESPACE ÉTUDIANT"%}
             </a>
-            <a href="{% url 'deconnexion_etudiant' %}" class="btn btn-sm btn-outline-light" onclick ="return confirm('Êtes-vous sûr de vouloir vous déconnecter ?');">Se déconecter</a>
+            <!--<a href="{% url 'deconnexion_etudiant' %}" class="btn btn-sm btn-outline-light" onclick ="return confirm('Êtes-vous sûr de vouloir vous déconnecter ?');">{% translate "Se déconnecter"%}</a>-->
+            {% translate "Êtes-vous sûr de vouloir vous déconnecter ?" as confirm_logout %}
+
+    <a href="{% url 'deconnexion_etudiant' %}" 
+   class="btn btn-sm btn-outline-light" 
+   onclick="return confirm('{{ confirm_logout|escapejs }}');">
+    {% translate "Se déconnecter" %}
+    </a>
         </div>
     </nav>
 
