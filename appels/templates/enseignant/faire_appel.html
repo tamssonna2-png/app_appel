@@ -104,14 +104,18 @@ CONSEIL : Si vous lancez l'appel depuis un PC, r√©glez la distance sur 'Illimit√
                     <td>{{ ins.etudiant.username}}</td>
                     <td>{{ ins.etudiant.last_name }} {{ ins.etudiant.first_name }}</td>
                     <td>
-                        <a href="{% url 'marquer_presence' feuille.id ins.etudiant.id 'present' %}" class="btn-p">P</a>
+                        <a href="{% url 'marquer_presence' feuille.id ins.etudiant.id 'present' %}" class="btn-p"
+                        onclick = "return confirm('Etes vous sur de vouloire valider cette action ?');">P</a>
                         {{ ins.nb_presences}} 
-                        <a href="{% url 'marquer_presence' feuille.id ins.etudiant.id 'annulerP' %}" class="btn-p">Annuler</a>
+                        <a href="{% url 'marquer_presence' feuille.id ins.etudiant.id 'annulerP' %}" class="btn-p"
+                        onclick = "return confirm('Etes vous sur de vouloire valider cette action ?');">Annuler</a>
                     </td>
                     <td>
-                        <a href="{% url 'marquer_presence' feuille.id ins.etudiant.id 'abscent' %}" class="btn-p">A</a>
+                        <a href="{% url 'marquer_presence' feuille.id ins.etudiant.id 'abscent' %}" class="btn-p"
+                        onclick = "return confirm('Etes vous sur de vouloire valider cette action ?');">A</a>
                         {{ ins.nb_abscences}}        
-                        <a href="{% url 'marquer_presence' feuille.id ins.etudiant.id 'annulerA' %}" class="btn-p">Annuler</a>
+                        <a href="{% url 'marquer_presence' feuille.id ins.etudiant.id 'annulerA' %}" class="btn-p"
+                        onclick = "return confirm('Etes vous sur de vouloire valider cette action ?');">Annuler</a>
                     </td>
                     <td>
                         {{ ins.nb_presences }} P / {{ ins.nb_abscences }} A 
