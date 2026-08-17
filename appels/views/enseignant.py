@@ -645,3 +645,6 @@ def exporter_presence_pdf(request, feuille_id):
 def deconnexion_enseignant(request):
     logout(request)
     return redirect('connexion_enseignant')
+
+
+#metre un onclick sur le bouton "annuler" et "p" dans la page faire appel
