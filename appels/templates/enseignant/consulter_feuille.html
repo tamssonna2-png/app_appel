@@ -1,118 +1,122 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/enseignant/consulter_feuille.css' %}">
+{% endblock %}
+
 {% block content %}
-<h2>Détails de l'appel : {{ matiere.nom }}</h2>
-<p>Ecole : {{ matiere.ecole }}</p>
-<p>Séance du : <strong>{{ feuille.date|date:"d/m/Y H:i"}}</strong></p>
-
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
-    <div style="display: flex; gap: 5px;">
-        <button onclick="filtrerEtudiants('tous')" style="padding: 8px 12px; cursor: pointer; border-radius: 4px; border: 1px solid #ccc; background: #eee;">
-            👥 Tous
-        </button>
-        <button onclick="filtrerEtudiants('present')" style="padding: 8px 12px; cursor: pointer; border-radius: 4px; border: 1px solid #28a745; color: white; background: #28a745;">
-            ✅ Présents
-        </button>
-        <button onclick="filtrerEtudiants('absent')" style="padding: 8px 12px; cursor: pointer; border-radius: 4px; border: 1px solid #dc3545; color: white; background: #dc3545;">
-            ❌ Absents
-        </button>
+<div class="mobile-sheet-container">
+    <!-- En-tête -->
+    <div class="header-card">
+        <div class="header-top">
+            <a href="{% url 'consulter_matiere' matiere.id %}" class="back-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                {% translate "Retour" %}
+            </a>
+            <span class="brand-badge">ATTENDO • {% translate "ENSEIGNANT" %}</span>
+        </div>
+        <h1 class="page-title">{{ matiere.nom }}</h1>
+        <p class="school-info">{{ matiere.ecole }}</p>
+        <div class="session-info">
+            <span class="session-label">{% translate "Séance du :" %}</span>
+            <strong class="session-date">{{ feuille.date|date:"d/m/Y H:i" }}</strong>
+        </div>
     </div>
 
-    <input type="text" id="rechercheNom" onkeyup="rechercherParNom()" placeholder="Rechercher un nom ou matricule..." 
-           style="padding: 8px; border-radius: 4px; border: 1px solid #ccc; width: 250px;">
-</div>
-{% if feuille.is_actif %}
-<form action="{% url 'cloturer_appel' feuille.id %}" method="POST" style="margin-bottom: 15px;">
-    {% csrf_token %}
-    <button type="submit" style="background-color: orange; color: black; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">
-        🔒 Clôturer l'appel
-    </button>
-</form>
-{%endif%}
-
-<table border="1" style="width: 100%; border-collapse: collapse;" id="tableau-presences">
-    <thead>
-        <tr style="background: #f4f4f4;">
-            <th>Matricule</th>
-            <th>Nom & Prénom</th>
-            <th>Statut</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for p in pointages %}
-        <tr class="ligne-etudiant {% if p.est_present %}is-present{% else %}is-absent{% endif %}">
-            <td>{{ p.etudiant.username }}</td>
-            <td class="nom-etudiant">{{ p.etudiant.last_name }} {{ p.etudiant.first_name }}</td>
-            <td>
-                {% if p.est_present %}
-                    <b style="color: green;">PRÉSENT</b>
-                {% else %}
-                    <b style="color: red;">ABSENT</b>
-                {% endif %}
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="3" style="text-align: center; padding: 20px;">Aucun pointage enregistré.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-<br>
-<div style="margin-top: 15px; padding: 15px; border: 1px solid #ddd; background: #fff; border-radius: 8px;">
-    <h4 style="margin-top: 0; color: #333;">📑 Exporter en PDF :</h4>
-    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <a href="{% url 'exporter_pdf' feuille.id %}?filtre=tous" 
-           style="text-decoration: none; background: #e74c3c; color: white; padding: 8px 15px; border-radius: 5px; font-weight: bold;">
-           📕 Tout le monde
-        </a>
-        <a href="{% url 'exporter_pdf' feuille.id %}?filtre=present" 
-           style="text-decoration: none; background: #27ae60; color: white; padding: 8px 15px; border-radius: 5px; font-weight: bold;">
-           📗 Présents
-        </a>
-        <a href="{% url 'exporter_pdf' feuille.id %}?filtre=absent" 
-           style="text-decoration: none; background: #c0392b; color: white; padding: 8px 15px; border-radius: 5px; font-weight: bold;">
-           📙 Absents
+    <!-- Actions Clôture / Suppression -->
+    <div class="actions-bar">
+        {% if feuille.is_actif %}
+            <form action="{% url 'cloturer_appel' feuille.id %}" method="POST" class="form-action">
+                {% csrf_token %}
+                <button type="submit" class="btn-close-session">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    {% translate "Clôturer l'appel" %}
+                </button>
+            </form>
+        {% endif %}
+        
+        <a href="{% url 'supprimer_feuille' feuille.id %}" 
+           onclick="return confirm('{% translate "Attention ! Supprimer cette séance annulera tous les pointages. Confirmer ?" %}');"
+           class="btn-delete-session">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            {% translate "Supprimer la séance" %}
         </a>
     </div>
+
+    <!-- Filtres & Recherche -->
+    <div class="filter-search-card">
+        <div class="filter-buttons">
+            <button onclick="filtrerEtudiants('tous')" class="btn-filter filter-all active" id="btn-filter-all">
+                {% translate "Tous" %}
+            </button>
+            <button onclick="filtrerEtudiants('present')" class="btn-filter filter-present" id="btn-filter-present">
+                {% translate "Présents" %}
+            </button>
+            <button onclick="filtrerEtudiants('absent')" class="btn-filter filter-absent" id="btn-filter-absent">
+                {% translate "Absents" %}
+            </button>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="rechercheNom" onkeyup="rechercherParNom()" placeholder="{% translate 'Rechercher nom ou matricule...' %}" class="search-input">
+        </div>
+    </div>
+
+    <!-- Tableau de pointage -->
+    <div class="table-card">
+        <table class="attendance-table" id="tableau-presences">
+            <thead>
+                <tr>
+                    <th>{% translate "Matricule" %}</th>
+                    <th>{% translate "Nom & Prénom" %}</th>
+                    <th class="text-end">{% translate "Statut" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in pointages %}
+                <tr class="ligne-etudiant {% if p.est_present %}is-present{% else %}is-absent{% endif %}">
+                    <td class="col-matricule">{{ p.etudiant.username }}</td>
+                    <td class="col-name">{{ p.etudiant.last_name }} {{ p.etudiant.first_name }}</td>
+                    <td class="col-status text-end">
+                        {% if p.est_present %}
+                            <span class="status-pill status-present">{% translate "PRÉSENT" %}</span>
+                        {% else %}
+                            <span class="status-pill status-absent">{% translate "ABSENT" %}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="empty-cell">{% translate "Aucun pointage enregistré." %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Section Exportation PDF -->
+    <div class="export-card">
+        <h4 class="export-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            {% translate "Exporter en PDF" %}
+        </h4>
+        <div class="export-buttons">
+            <a href="{% url 'exporter_pdf' feuille.id %}?filtre=tous" class="btn-export export-all">
+                {% translate "Tous les étudiants" %}
+            </a>
+            <a href="{% url 'exporter_pdf' feuille.id %}?filtre=present" class="btn-export export-present">
+                {% translate "Présents uniquement" %}
+            </a>
+            <a href="{% url 'exporter_pdf' feuille.id %}?filtre=absent" class="btn-export export-absent">
+                {% translate "Absents uniquement" %}
+            </a>
+        </div>
+    </div>
 </div>
-<div style="display: flex; gap: 20px;">
-    <a href="{% url 'consulter_matiere' matiere.id%}" style="color: blue; font-weight: bold;">⬅️ Retour</a>
-    <a href="{% url 'supprimer_feuille' feuille.id  %}" 
-       onclick="return confirm('Attention ! Supprimer cette séance annulera tous les pointages. Confirmer ?')"
-       style="color: red;">
-       🗑️ Supprimer cette séance
-    </a>
-</div>
+{% endblock %}
 
-<script>
-// Fonction pour les boutons Présent / Absent / Tous
-function filtrerEtudiants(filtre) {
-    const lignes = document.querySelectorAll('.ligne-etudiant');
-    lignes.forEach(ligne => {
-        if (filtre === 'tous') {
-            ligne.style.display = '';
-        } else if (filtre === 'present') {
-            ligne.style.display = ligne.classList.contains('is-present') ? '' : 'none';
-        } else if (filtre === 'absent') {
-            ligne.style.display = ligne.classList.contains('is-absent') ? '' : 'none';
-        }
-    });
-}
-
-// Fonction pour la recherche dynamique
-function rechercherParNom() {
-    let input = document.getElementById('rechercheNom').value.toUpperCase();
-    let lignes = document.querySelectorAll('.ligne-etudiant');
-    
-    lignes.forEach(ligne => {
-
-        let texte = ligne.innerText.toUpperCase();
-        if (texte.indexOf(input) > -1) {
-            ligne.style.display = "";
-        } else {
-            ligne.style.display = "none";
-        }
-    });
-}
-</script>
+{% block extra_js %}
+<script src="{% static 'js/enseignant/consulter_feuille.js' %}"></script>
 {% endblock %}

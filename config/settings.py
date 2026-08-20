@@ -164,7 +164,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+   BASE_DIR  / 'static', 
 ]
 
 AUTH_USER_MODEL = 'appels.Personne'
@@ -182,5 +182,8 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER 
+
+
+# pour activer ngrok: ngrok http 8000
 
 

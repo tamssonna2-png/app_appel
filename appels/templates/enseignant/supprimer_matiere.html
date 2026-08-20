@@ -1,12 +1,61 @@
 {% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% translate "Supprimer" %} {{ matiere.nom }} - ATTENDO{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/enseignant/supprimer_matiere.css' %}">
+{% endblock %}
 
 {% block content %}
-    <h1>Supprimer la matière</h1>
-    <p>Êtes-vous sûr de vouloir supprimer "{{ matiere.nom }}" ?</p>
+<div class="mobile-delete-container">
 
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Oui, supprimer</button>
-        <a href="{% url 'dashboard' %}">Annuler</a>
-    </form>
+    <!-- En-tête -->
+    <div class="header-card">
+        <div class="header-top">
+            <a href="{% url 'dashboard' %}" class="back-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                {% translate "Tableau de bord" %}
+            </a>
+            <span class="brand-badge">ATTENDO</span>
+        </div>
+        <h1 class="page-title text-danger">{% translate "Supprimer la matière" %}</h1>
+        <p class="app-subtitle">{{ matiere.nom }}</p>
+    </div>
+
+    <!-- Carte de Confirmation -->
+    <div class="delete-card">
+        <div class="warning-icon-wrapper">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#dc3545" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        </div>
+
+        <h2 class="confirmation-text">
+            {% translate "Êtes-vous sûr de vouloir supprimer la matière" %} <strong class="subject-name">"{{ matiere.nom }}"</strong> ?
+        </h2>
+
+        <p class="impact-notice">
+            ⚠️ {% translate "Cette action entraînera la suppression de l'historique associé à ce cours." %}
+        </p>
+
+        <form method="post" id="form-supprimer-matiere" class="delete-form">
+            {% csrf_token %}
+
+            <div class="form-actions">
+                <button type="submit" class="btn-delete" id="btn-confirm-delete">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    {% translate "Oui, supprimer" %}
+                </button>
+                <a href="{% url 'dashboard' %}" class="btn-cancel">
+                    {% translate "Annuler" %}
+                </a>
+            </div>
+        </form>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/enseignant/supprimer_matiere.js' %}"></script>
 {% endblock %}

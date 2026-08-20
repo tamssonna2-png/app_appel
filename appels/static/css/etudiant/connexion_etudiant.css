@@ -1,1 +1,116 @@
 /* Style pour connexion_etudiant.html */
+.login-card {
+    max-width: 400px;
+    width: 90%; /* S'adapte aux écrans étroits */
+    margin: 20px auto; /* Marge réduite sur smartphone */
+    padding: 20px 16px;
+    border: 1px solid #dee2e6;
+    border-radius: 12px; /* Bords légèrement plus arrondis pour le design mobile */
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+}
+
+.login-title {
+    text-align: center;
+    color: #0d6efd;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.login-subtitle {
+    text-align: center;
+    color: #6c757d;
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+
+/* Messages d'erreur */
+.error-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 0.85em;
+}
+
+/* Formulaire et champs de saisie */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #212529;
+    font-size: 0.9em;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 14px; /* Zone d'appui agrandie pour les doigts */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px; /* Important : 16px évite le zoom automatique sur iOS */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    /*-webkit-appearance: none; /* Supprime l'apparence par défaut sur Safari mobile */
+}
+
+.form-input:focus {
+    border-color: #ffc107;
+    outline: none;
+    box-shadow: 0 0 6px rgba(255, 193, 7, 0.6);
+}
+
+/* Bouton principal en Jaune ATTENDO */
+.btn-login {
+    width: 100%;
+    background-color: #ffc107;
+    color: #212529;
+    padding: 14px; /* Zone tactile confortable */
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-top: 5px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn-login:active {
+    background-color: #e0a800;
+    transform: scale(0.98); /* Retour haptique visuel lors du clic mobile */
+}
+
+/* Pied de carte / Liens */
+.login-footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.login-footer a {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 6px 0; /* Agrandit la cible tactile du lien */
+    display: inline-block;
+}
+
+/* Media Query pour très petits écrans (< 360px) */
+@media (max-width: 360px) {
+    .login-card {
+        width: 95%;
+        padding: 16px 12px;
+    }
+
+    .login-title {
+        font-size: 1.3rem;
+    }
+}

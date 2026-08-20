@@ -1,45 +1,68 @@
 {% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/enseignant/chercher_etudiant.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class="mobile-container">
+<div class="mobile-search-container">
+    <!-- En-tête Badge Enseignant (Rouge & Jaune) -->
     <div class="header-card">
-        <a href="{% url 'consulter_matiere' matiere.id %}" class="back-link">← Retour</a>
-        <h1>{{ matiere.nom }}</h1>
-        <span class="badge">{{ matiere.code }} - {{ matiere.ecole.abreviation }}</span>
+        <div class="header-top">
+            <a href="{% url 'consulter_matiere' matiere.id %}" class="back-link">
+                ← {% translate "Retour" %}
+            </a>
+            <span class="brand-badge">ATTENDO • {% translate "ENSEIGNANT" %}</span>
+        </div>
+        <h1 class="page-title">{{ matiere.nom }}</h1>
+        <span class="subject-badge">{{ matiere.code }} - {{ matiere.ecole.abreviation }}</span>
     </div>
 
-    <form method="GET" class="search-box">
-        <input type="text" name="matricule" placeholder="Entrez le matricule..." value="{{ query|default:'' }}" required>
-        <button type="submit">🔍</button>
+    <!-- Zone de recherche -->
+    <form method="GET" class="search-box" autocomplete="off">
+        <input type="text" name="matricule" 
+               placeholder="{% translate 'Entrez le matricule...' %}" 
+               value="{{ query|default:'' }}" required class="search-input">
+        <button type="submit" class="btn-search" aria-label="{% translate 'Rechercher' %}">🔍</button>
     </form>
 
+    <!-- Zone de résultat -->
     <div class="result-area">
         {% if erreur %}
-            <div class="alert alert-error">{{ erreur }}</div>
+            <div class="alert alert-error">
+                <span>⚠️</span> {{ erreur }}
+            </div>
         {% endif %}
 
         {% if resultat %}
             <div class="student-card">
                 <div class="student-info">
-                    <h3>{{ resultat.last_name }} {{ resultat.first_name }}</h3>
-                    <p>Matricule: <strong>{{ resultat.username }}</strong></p>
+                    <h3 class="student-name">{{ resultat.last_name }} {{ resultat.first_name }}</h3>
+                    <p class="student-matricule">{% translate "Matricule :" %} <strong>{{ resultat.username }}</strong></p>
                 </div>
 
                 {% if deja_inscrit %}
                     <div class="status-badge success">
-                        ✅ Déjà inscrit à ce cours
+                        {% translate "Déjà inscrit à ce cours" %}
                     </div>
                 {% else %}
-                    <form action="{% url 'inscrire_etudiant_par_ensei' matiere.id resultat.id %}" method="POST">
+                    <form action="{% url 'inscrire_etudiant_par_ensei' matiere.id resultat.id %}" method="POST" id="form-enroll-student">
                         {% csrf_token %}
                         <button type="submit" class="btn-enroll">
-                            ➕ Inscrire l'étudiant
+                            ➕ {% translate "Inscrire l'étudiant" %}
                         </button>
                     </form>
                 {% endif %}
             </div>
         {% elif query and not erreur %}
-            <p class="empty-msg">Entrez un matricule valide pour commencer.</p>
+            <p class="empty-msg">{% translate "Entrez un matricule valide pour commencer." %}</p>
         {% endif %}
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/enseignant/chercher_etudiant.js' %}"></script>
 {% endblock %}

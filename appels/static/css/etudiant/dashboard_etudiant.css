@@ -1,1 +1,109 @@
 /* Style pour dashboard_etudiant.html */
+/* Messages d'alerte */
+.alert-message {
+    padding: 10px;
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    margin-bottom: 10px;
+}
+
+/* Zone d'inscription par lien */
+.registration-box {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #dee2e6;
+}
+
+.registration-form {
+    display: flex;
+    gap: 10px;
+}
+
+.registration-input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.btn-subscribe {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Tableau des matières */
+.dashboard-table {
+    border: 1px solid #000;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.table-header {
+    background-color: #f2f2f2;
+}
+
+.table-cell {
+    padding: 8px;
+    border: 1px solid #000;
+}
+
+.text-red {
+    color: red;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.empty-row {
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #000;
+}
+
+/* Bloc d'appel actif */
+.active-call-box {
+    border: 2px solid #28a745;
+    padding: 5px;
+    background-color: #f0fff4;
+    border-radius: 5px;
+}
+
+.active-call-title {
+    color: #28a745;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.timer-wrapper {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.code-input {
+    width: 70px;
+    padding: 5px;
+}
+
+.btn-validate {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.no-call-text {
+    color: #6c757d;
+}

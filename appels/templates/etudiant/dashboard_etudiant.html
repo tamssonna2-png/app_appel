@@ -1,62 +1,66 @@
 {% extends 'base_etudiant.html' %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}{% translate "Mon Tableau de Bord" %}{% endblock %}
+
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/etudiant/dashboard_etudiant.css' %}">
+
 <h2>Mon Tableau de Bord (Étudiant): {{etudiant.matricule}}   {{etudiant.last_name}}   {{etudiant.first_name}} </h2>
 <p>Ecole : {{etudiant.ecole}}</p>
 
 {% if messages %}
     {% for message in messages %}
-        <div style="padding:10px; background-color:#d4edda; color:#155724; border:1px solid #c3e6cb; margin-bottom:10px;">
+        <div class="alert-message">
             {{ message }}
         </div>
     {% endfor %}
 {% endif %}
 
-<div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #dee2e6;">
+<div class="registration-box">
     <h3>S'inscrire à une nouvelle matière</h3>
     <p>Collez le lien d'inscription reçu de votre professeur :</p>
     
-    <form action="{% url 'traiter_lien_inscription' %}" method="POST" style="display: flex; gap: 10px;">
+    <form action="{% url 'traiter_lien_inscription' %}" method="POST" class="registration-form">
         {% csrf_token %}
         <input type="text" name="lien_complet" placeholder="Ex: http://127.0.0.1:8000/student/inscrire-matiere/1/" 
-               style="flex: 1; padding: 10px; border-radius: 4px; border: 1px solid #ccc;" required>
-        <button type="submit" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">
+               class="registration-input" required>
+        <button type="submit" class="btn-subscribe">
             S'inscrire
         </button>
     </form>
 </div>
 
 <h3>Mes Matières</h3>
-<table border="1" style="width:100%; border-collapse: collapse; text-align: left;">
+<table class="dashboard-table">
     <thead>
-        <tr style="background-color: #f2f2f2;">
-            <th style="padding: 8px;">Matière</th>
-            <th style="padding: 8px;">Présences</th>
-            <th style="padding: 8px;">Absences</th>
-            <th style="padding: 8px;">Taux d'assiduité</th>
-            <th style="padding: 8px;">Appel (Entrez le code)</th>
+        <tr class="table-header">
+            <th class="table-cell">Matière</th>
+            <th class="table-cell">Présences</th>
+            <th class="table-cell">Absences</th>
+            <th class="table-cell">Taux d'assiduité</th>
+            <th class="table-cell">Appel (Entrez le code)</th>
         </tr>
     </thead>
     <tbody>
     {% for ins in inscriptions %}
     <tr>
-        <td style="padding: 8px;">{{ ins.matiere.nom }}</td>
-        <td style="padding: 8px;">{{ ins.nb_presences }}</td>
-        <td style="padding: 8px; color: red;">{{ ins.nb_abscences }}</td>
-        <td style="padding: 8px;">
+        <td class="table-cell">{{ ins.matiere.nom }}</td>
+        <td class="table-cell">{{ ins.nb_presences }}</td>
+        <td class="table-cell text-red">{{ ins.nb_abscences }}</td>
+        <td class="table-cell">
             <strong>{{ ins.taux_presence }} %</strong>
         </td>
         
-        <td colspan="2" style="padding: 8px; text-align: center;">
+        <td colspan="2" class="table-cell text-center">
             {% with appel=ins.matiere.a_un_appel_actif %}
                 {% if appel %}
-                    <div style="border: 2px solid #28a745; padding: 5px; background-color: #f0fff4; border-radius: 5px;">
-                        <span style="color: #28a745; font-weight: bold; display: block; margin-bottom: 5px;">
+                    <div class="active-call-box">
+                        <span class="active-call-title">
                              APPEL EN COURS !
                         </span>
-                        <div style="color: red; font-weight: bold; margin-bottom: 5px;">
+                        <div class="timer-wrapper">
                             Temps : <span class="timer" data-seconds="{{ appel.secondes_restantes }}">--:--</span>
                         </div>
                         <form id="form-valider-{{ appel.id }}" action="{% url 'valider_presence' %}" method="POST">
@@ -64,74 +68,27 @@
                             <input type="hidden" name="feuille_id" value="{{ appel.id }}">
                             <input type="hidden" name="lat_etudiant" id="lat-{{ appel.id }}">
                             <input type="hidden" name="lon_etudiant" id="lon-{{ appel.id }}">
-                            <input type="text" name="code_saisi" placeholder="Code" required maxlength="6" style="width: 70px; padding: 5px;">
-                            <button type="button" onclick="validerAvecGPS({{ appel.id }})" style="background-color: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">
+                            <input type="text" name="code_saisi" placeholder="Code" required maxlength="6" class="code-input">
+                            <button type="button" class="btn-validate" data-appel-id="{{ appel.id }}">
                                 Valider
                             </button>
                         </form>
                     </div>
                 {% else %}
-                    <span style="color: #6c757d;">Aucun appel en cours</span>
+                    <span class="no-call-text">Aucun appel en cours</span>
                 {% endif %}
             {% endwith %}
         </td>
     </tr>
     {% empty %}
     <tr>
-        <td colspan="6" style="text-align: center; padding: 20px;">Tu n'es inscrit à aucune matière pour le moment.</td>
+        <td colspan="6" class="empty-row">Tu n'es inscrit à aucune matière pour le moment.</td>
     </tr>
     {% endfor %}
-</tbody>
-
+    </tbody>
 </table>
-<script>
-    function updateTimers() {
-        // On récupère tous les timers de la page
-        const timers = document.querySelectorAll('.timer');
-
-        timers.forEach(timer => {
-            let secondes = parseInt(timer.getAttribute('data-seconds'));
-
-            if (secondes > 0) {
-                secondes--;
-                timer.setAttribute('data-seconds', secondes); // On met à jour la valeur stockée
-
-                let mins = Math.floor(secondes / 60);
-                let secs = secondes % 60;
-                timer.innerText = mins + ":" + (secs < 10 ? "0" : "") + secs;
-            } else {
-                timer.innerText = "EXPIRÉ";
-                // Optionnel : recharger la page pour faire disparaître le formulaire
-                // window.location.reload(); 
-            }
-        });
-    }
-
-    // Lance la mise à jour toutes les secondes pour tous les timers trouvés
-    setInterval(updateTimers, 1000);
-</script>
-<script>
-function validerAvecGPS(appelId) {
-    const btn = event.currentTarget;
-    btn.innerText = "⏳...";
-    btn.disabled = true;
-
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            document.getElementById('lat-' + appelId).value = position.coords.latitude;
-            document.getElementById('lon-' + appelId).value = position.coords.longitude;
-            document.getElementById('form-valider-' + appelId).submit();
-        }, function(error) {
-            alert("Erreur GPS : " + error.message + ". Validation impossible sans localisation.");
-            btn.innerText = "Valider";
-            btn.disabled = false;
-        }, { enableHighAccuracy: true, timeout: 6000 });
-    } else {
-        alert("Géolocalisation non supportée.");
-    }
-}
-</script>
 {% endblock %}
 
-
-
+{% block extra_js %}
+<script src="{% static 'js/etudiant/dashboard_etudiant.js' %}"></script>
+{% endblock %}

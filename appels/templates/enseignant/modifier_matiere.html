@@ -1,12 +1,78 @@
 {% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% translate "Modifier" %} {{ matiere.nom }} - ATTENDO{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/enseignant/modifier_matiere.css' %}">
+{% endblock %}
 
 {% block content %}
-    <h2>Modifier la matière : {{ matiere.nom }}</h2>
-    
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Enregistrer les modifications</button>
-        <a href="{% url 'dashboard' %}">Annuler</a>
-    </form>
+<div class="mobile-form-container">
+
+    <!-- En-tête -->
+    <div class="header-card">
+        <div class="header-top">
+            <a href="{% url 'dashboard' %}" class="back-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                {% translate "Tableau de bord" %}
+            </a>
+            <span class="brand-badge">ATTENDO</span>
+        </div>
+        <h1 class="page-title">{% translate "Modifier la matière" %}</h1>
+        <p class="app-subtitle">{{ matiere.nom }}</p>
+    </div>
+
+    <!-- Carte Formulaire -->
+    <div class="form-card">
+        <form method="post" id="form-modifier-matiere" class="pwa-form">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="form-alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}" class="form-label">
+                        {{ field.label }}
+                        {% if field.field.required %}<span class="required-star">*</span>{% endif %}
+                    </label>
+                    
+                    <div class="input-wrapper">
+                        {{ field }}
+                    </div>
+
+                    {% if field.help_text %}
+                        <small class="field-help">{{ field.help_text }}</small>
+                    {% endif %}
+
+                    {% for error in field.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit" id="btn-save">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                    {% translate "Enregistrer" %}
+                </button>
+                <a href="{% url 'dashboard' %}" class="btn-cancel">
+                    {% translate "Annuler" %}
+                </a>
+            </div>
+        </form>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/enseignant/modifier_matiere.js' %}"></script>
 {% endblock %}

@@ -647,4 +647,6 @@ def deconnexion_enseignant(request):
     return redirect('connexion_enseignant')
 
 
-#metre un onclick sur le bouton "annuler" et "p" dans la page faire appel
+#faire en sorte que les eleves puisse directement demander l'acces a la matire, et c"est au prof d'accepeter
+#regler le probleme d'inscription des eleves qui ne peuvent pas choisir l'etablissement
+#faire en sorte que la geolocalisation donne et demander au prof s'il conitune sans localisation ou non et non l'imposer un choix

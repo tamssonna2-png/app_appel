@@ -1,0 +1,119 @@
+/* Style pour base_etudiant.html */
+/* ==========================================================================
+   ATTENDO Mobile - Theme Étudiant (Bleu Institutionnel & Jaune)
+   ========================================================================== */
+
+:root {
+    /* Theme Couleurs */
+    --color-primary-blue: #1976D2;       /* Bleu principal */
+    --color-primary-blue-dark: #0D47A1;  
+    --color-accent-yellow: #F5B400;     /* Jaune ATTENDO */
+    --color-yellow-light: #FFF8E1;
+
+    /* Neutres */
+    --color-bg: #F4F7F6;
+    --color-surface: #FFFFFF;
+    --color-text-main: #0B1C30;
+    --color-text-muted: #546E7A;
+    --color-border-subtle: #FFE082;
+
+    /* Typographie */
+    --font-heading: 'Space Grotesk', -apple-system, sans-serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+
+    /* Spécifications UI */
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+    --header-height: 60px;
+}
+
+/* Reset mobile */
+*, *::before, *::after {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* Header & Navbar Fixe */
+.navbar-student {
+    height: var(--header-height);
+    background-color: var(--color-primary-blue);
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.25);
+    z-index: 1000;
+}
+
+.brand-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.brand-badge-yellow {
+    background-color: var(--color-accent-yellow);
+    color: var(--color-text-main);
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: var(--radius-md);
+    letter-spacing: 0.05em;
+}
+
+.brand-title-text {
+    color: #FFFFFF;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+}
+
+/* Bouton Déconnexion Jaune */
+.btn-logout-yellow {
+    background-color: var(--color-accent-yellow);
+    color: var(--color-text-main);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition: transform 0.1s ease, background-color 0.2s ease;
+    border: none;
+}
+
+.btn-logout-yellow:active {
+    transform: scale(0.95);
+    background-color: #E0A300;
+}
+
+/* Layout applicatif mobile */
+.app-container {
+    padding-top: 20px;
+    padding-bottom: 80px;
+    max-width: 500px; /* Centré et restreint aux dimensions mobile */
+    margin: 0 auto;
+}
+
+/* Style des cartes */
+.card {
+    border: 2px solid var(--color-border-subtle);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-surface);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+}
+
+/* Alertes système */
+.custom-alert {
+    border-radius: var(--radius-md);
+    border: none;
+}

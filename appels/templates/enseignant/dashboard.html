@@ -1,45 +1,80 @@
-{% extends 'base.html' %} {% block title %}Mon Tableau de Bord{% endblock %}
-{%block content%}
-    <h1>Bienvenue, Professeur {{ user.last_name }} !</h1>
-    <p>Ceci est votre espace de gestion des appels.</p>
-    <div style="margin-bottom: 20px;">
-        <a href="{% url 'creer_matiere' %}" style="padding: 10px; background: blue; color: white; text-decoration: none; border-radius: 5px;">
-            + Ajouter une nouvelle matière
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% translate "Mon Tableau de Bord" %}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/enseignant/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="mobile-dashboard-container">
+    <div class="header-card">
+        <div class="header-top">
+            <span class="brand-badge">ATTENDO • {% translate "ENSEIGNANT" %}</span>
+        </div>
+        <h1 class="page-title">{% translate "Bienvenue," %} Prof. {{ user.last_name }}</h1>
+        <p class="app-subtitle">{% translate "Votre espace de gestion des appels" %}</p>
+    </div>
+
+    <div class="action-bar">
+        <a href="{% url 'creer_matiere' %}" class="btn-add-subject">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            {% translate "Ajouter une matière" %}
         </a>
     </div>
-    <h3>Mes Matières Enseignées</h3>
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr style="background: #eee;">
-                <th>Nom</th>
-                <th>Code</th>
-                <th>Crédits</th>
-                <th>Description</th>
-                <th>Ecole</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for m in matieres %}
-            <tr>
-                <td>{{ m.nom }}</td>
-                <td>{{ m.code }}</td>
-                <td>{{ m.credit }}</td>
-                <td>{{ m.description }}</td>
-                <td>{{ m.ecole.abreviation }}</td>
-                <td>
-                    <a href="{%url 'modifier_matiere' m.id%}">Modifier</a> | 
-                    <a href="{%url 'supprimer_matiere' m.id%}" 
-                    onclick="return confirm('Attention ! Voulez-vous vraiment supprimer la matière \'{{ m.nom }}\' ? Cette action est irréversible.')"
-                    style="color: red;">Supprimer</a>
-                    <a href="{%url 'consulter_matiere' m.id%}" style="color: green;">Consulter</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="5" style="text-align: center;">Vous n'avez pas encore créé de matières.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{%endblock%}
+
+    <div class="table-card">
+        <h3 class="card-title">{% translate "Mes Matières Enseignées" %}</h3>
+
+        <div class="table-responsive">
+            <table class="subjects-table">
+                <thead>
+                    <tr>
+                        <th>{% translate "Matière" %}</th>
+                        <th>{% translate "École" %}</th>
+                        <th class="text-center">{% translate "Crédits" %}</th>
+                        <th class="text-end">{% translate "Actions" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in matieres %}
+                    <tr class="subject-row">
+                        <td class="col-subject">
+                            <span class="subject-name">{{ m.nom }}</span>
+                            <span class="subject-code">{{ m.code }}</span>
+                        </td>
+                        <td class="col-school">
+                            <span class="school-badge">{{ m.ecole.abreviation }}</span>
+                        </td>
+                        <td class="text-center col-credits">{{ m.credit }}</td>
+                        <td class="text-end col-actions">
+                            <a href="{% url 'consulter_matiere' m.id %}" class="btn-icon consult" title="{% translate 'Consulter' %}">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            </a>
+                            <a href="{% url 'modifier_matiere' m.id %}" class="btn-icon edit" title="{% translate 'Modifier' %}">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                            </a>
+                            <a href="{% url 'supprimer_matiere' m.id %}" 
+                               onclick="return confirm('{% translate "Attention ! Voulez-vous vraiment supprimer la matière" %} « {{ m.nom }} » ? {% translate "Cette action est irréversible." %}');"
+                               class="btn-icon delete" title="{% translate 'Supprimer' %}">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="empty-cell">{% translate "Vous n'avez pas encore créé de matières." %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/enseignant/dashboard.js' %}"></script>
+{% endblock %}

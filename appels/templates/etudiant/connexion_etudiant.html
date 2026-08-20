@@ -1,29 +1,52 @@
-{% block content %}
-<div style="max-width: 400px; margin: 50px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
-    <h2 style="text-align: center;">Espace Étudiant</h2>
-    <p style="text-align: center; color: #666;">Connectez-vous avec votre matricule</p>
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% translate "Connexion Étudiant" %}</title>
 
-    <!--{% if messages %}
+    <!-- Polices & Bootstrap 5 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CSS Spécifique Connexion -->
+    <link rel="stylesheet" href="{% static 'css/etudiant/connexion_etudiant.css' %}">
+</head>
+<body>
+
+<div class="login-card">
+    <h2 class="login-title">{% translate "Espace Étudiant" %}</h2>
+    <p class="login-subtitle">{% translate "Connectez-vous avec votre matricule" %}</p>
+
+    {% if messages %}
         {% for message in messages %}
-            <p style="color: #e74c3c; background: #fadbd8; padding: 10px; border-radius: 5px;">{{ message }}</p>
+            <p class="error-message">{{ message }}</p>
         {% endfor %}
-    {% endif %}-->
+    {% endif %}
 
-    <form method="post">
+    <form method="post" class="login-form">
         {% csrf_token %}
-        <div style="margin-bottom: 15px;">
-            <label style="display: block; margin-bottom: 5px;">Matricule ou Email :</label>
-            <input type="text" name="username" placeholder="Ex: 22U1234" required 
-                   style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+        <div class="form-group">
+            <label for="username" class="form-label">{% translate "Matricule ou Email :" %}</label>
+            <input type="text" id="username" name="username" placeholder="{% translate 'Ex: 22U1234' %}" required class="form-input">
         </div>
 
-        <button type="submit" style="width: 100%; background-color: #28a745; color: white; padding: 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
-            Accéder à mon espace
+        <button type="submit" class="btn-login">
+            {% translate "Accéder à mon espace" %}
         </button>
     </form>
 
-    <div style="margin-top: 20px; text-align: center; font-size: 0.9em;">
-        <p>Pas encore inscrit ? <a href="{% url 'inscription_etudiant' %}">Créer un compte</a></p>
+    <div class="login-footer">
+        <p>{% translate "Pas encore inscrit ?" %} <a href="{% url 'inscription_etudiant' %}">{% translate "Créer un compte" %}</a></p>
     </div>
 </div>
-{%endblock%}
+
+<!-- JS Spécifique Connexion -->
+<script src="{% static 'js/etudiant/connexion_etudiant.js' %}"></script>
+
+</body>
+</html>

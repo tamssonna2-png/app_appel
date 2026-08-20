@@ -1,24 +1,85 @@
-<h2>Connexion Enseignant</h2>
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{% translate "Connexion Enseignant" %}</title>
 
-{% if messages %}
-    {% for message in messages %}
-        <p>{{ message }}</p>
-    {% endfor %}
-{% endif %}
+    <!-- Polices Google & Bootstrap 5 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<form method="post">
-    {% csrf_token %}
-    <div>
-        <label>Identifiant (username ou email) :</label>
-        <input type="text" name="username" required>
+    <!-- Fichier CSS Enseignant -->
+    <link rel="stylesheet" href="{% static 'css/enseignant/connexion.css' %}">
+</head>
+<body class="mobile-app-bg">
+
+<div class="mobile-container">
+    <!-- En-tête avec Thème Enseignant (Rouge & Jaune) -->
+    <div class="brand-header">
+        <span class="brand-badge">ATTENDO • {% translate "ENSEIGNANT" %}</span>
+        <h1 class="app-title">{% translate "Espace Enseignant" %}</h1>
+        <p class="app-subtitle">{% translate "Connectez-vous pour gérer vos cours et vos appels" %}</p>
     </div>
-    <div>
-        <label>Mot de passe :</label>
-        <input type="password" name="password" required>
+
+    <!-- Carte du formulaire -->
+    <div class="login-card">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="error-message">
+                    <span>⚠️</span> {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" id="form-connexion-enseignant" class="login-form" autocomplete="off">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="username" class="form-label">{% translate "Identifiant (username ou email) :" %}</label>
+                <div class="input-wrapper">
+                    <input type="text" id="username" name="username" 
+                           placeholder="{% translate 'Nom d\'utilisateur ou email' %}" 
+                           required class="form-input" autofocus>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">{% translate "Mot de passe :" %}</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" name="password" 
+                           placeholder="••••••••" 
+                           required class="form-input">
+                </div>
+            </div>
+
+            <div class="forgot-password-container">
+                <a href="{% url 'mot_de_passe_oublier' %}" class="forgot-password-link">
+                    {% translate "Mot de passe oublié ?" %}
+                </a>
+            </div>
+
+            <button type="submit" class="btn-login">
+                {% translate "Se connecter" %}
+            </button>
+        </form>
     </div>
-    <button type="submit">Se connecter</button>
-    <div>
-        <a href="{% url 'inscription_enseignant' %}">creer un compte</a>
-        <a href="{% url 'mot_de_passe_oublier'%}">Mot de passe oublié ?</a>
+
+    <!-- Pied de page -->
+    <div class="mobile-footer">
+        <p>{% translate "Vous n'avez pas encore de compte ?" %}</p>
+        <a href="{% url 'inscription_enseignant' %}" class="btn-register-link">
+            {% translate "Créer un compte enseignant" %}
+        </a>
     </div>
-</form>
+</div>
+
+<!-- Fichier JS Enseignant -->
+<script src="{% static 'js/enseignant/connexion.js' %}"></script>
+
+</body>
+</html>

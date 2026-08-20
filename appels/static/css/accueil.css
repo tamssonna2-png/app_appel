@@ -1,0 +1,289 @@
+/* Style pour acceuil.html */
+/* ==========================================================================
+   DESIGN SYSTEM : Institutional Precision (ATTENDO - Theme Jaune)
+   ========================================================================== */
+
+:root {
+    /* Theme Principal : Jaune ATTENDO */
+    --color-yellow-main: #F5B400;
+    --color-yellow-light: #FFF8E1;
+    --color-yellow-glow: rgba(245, 180, 0, 0.25);
+
+    /* Couleurs de fond et cartes */
+    --color-background: #FDFBF7; /* Fond légèrement chaud */
+    --color-surface: #FFFFFF;
+    
+    /* Boutons Spécifiques */
+    --color-btn-teacher: #D32F2F;        /* Rouge Enseignant */
+    --color-btn-teacher-hover: #B71C1C;
+    --color-btn-student: #1976D2;        /* Bleu Étudiant */
+    --color-btn-student-hover: #0D47A1;
+
+    /* Textes et Bordures */
+    --color-primary: #001026; /* Navy foncé pour le contraste */
+    --color-text-main: #0B1C30;
+    --color-text-muted: #546E7A;
+    --color-border-subtle: #FFE082; /* Bordure dorée douce */
+
+    /* Typographie */
+    --font-heading: 'Space Grotesk', -apple-system, blinkmacsystemfont, sans-serif;
+    --font-body: 'Inter', -apple-system, blinkmacsystemfont, sans-serif;
+
+    /* Rayons de bordure */
+    --radius-md: 0.75rem; /* 12px */
+    --radius-lg: 1.25rem; /* 20px */
+    --radius-full: 9999px;
+}
+
+/* Réinitialisation de base */
+body {
+    background-color: var(--color-background);
+    /* Dégradé doux jaune en fond d'écran */
+    background-image: radial-gradient(circle at 50% 20%, var(--color-yellow-glow) 0%, transparent 60%);
+    font-family: var(--font-body);
+    color: var(--color-text-main);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* Layout Principal Centré */
+.landing-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Éléments décoratifs en arrière-plan */
+.landing-container::before {
+    content: '';
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    background: var(--color-yellow-main);
+    filter: blur(120px);
+    opacity: 0.25;
+    border-radius: 50%;
+    top: -50px;
+    left: -50px;
+    z-index: 0;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1000px;
+    min-height: 1000px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-surface);
+    padding: 80px 28px;
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--color-border-subtle);
+    /* Ombre élégante portée par le jaune */
+    box-shadow: 0 12px 32px rgba(245, 180, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+/* Logo & Indicateur "Live" Animé (Agrandis) */
+.brand-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    background-color: var(--color-yellow-light);
+    padding: 10px 24px;
+    border: 2px solid var(--color-yellow-main);
+    border-radius: var(--radius-full);
+}
+
+/* Nom ATTENDO bien plus grand */
+.brand-name {
+    font-family: var(--font-heading);
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--color-primary);
+    line-height: 1;
+}
+
+.brand-dot {
+    color: var(--color-yellow-main);
+}
+
+.live-dot {
+    width: 12px;
+    height: 12px;
+    background-color: var(--color-yellow-main);
+    border-radius: 50%;
+    position: relative;
+}
+
+/* Animation de pulsation */
+.live-dot::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-yellow-main);
+    border-radius: 50%;
+    animation: live-pulse 2s infinite ease-out;
+}
+
+@keyframes live-pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.9;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+/* Typographie Headings (Agrandis) */
+.hero-title {
+    font-family: var(--font-heading);
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-primary);
+    margin: 0 0 16px 0;
+    letter-spacing: -0.01em;
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    margin: 0 0 24px 0;
+    max-width: 520px;
+}
+
+/* Ligne décorative dorée sous le sous-titre */
+.hero-subtitle::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: var(--color-yellow-main);
+    border-radius: var(--radius-full);
+    margin: 20px auto 0 auto;
+}
+
+/* Actions Grid (Agrandie) */
+.action-grid {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 24px 0 40px 0;
+}
+
+/* Style Général des Boutons (Agrandis) */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 56px; /* Boutons plus hauts */
+    padding: 0 28px;
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Bouton Enseignant (Rouge) */
+.btn-primary {
+    background-color: var(--color-btn-teacher);
+    color: #FFFFFF;
+    border: 2px solid var(--color-btn-teacher);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-btn-teacher-hover);
+    border-color: var(--color-btn-teacher-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(211, 47, 47, 0.3);
+}
+
+/* Bouton Étudiant (Bleu) */
+.btn-secondary {
+    background-color: var(--color-btn-student);
+    color: #FFFFFF;
+    border: 2px solid var(--color-btn-student);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-btn-student-hover);
+    border-color: var(--color-btn-student-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(25 118, 210, 0.3);
+}
+
+.btn-icon {
+    flex-shrink: 0;
+}
+
+/* Tagline du bas avec touches de Jaune */
+.institutional-tagline {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    background: var(--color-yellow-light);
+    padding: 8px 18px;
+    border-radius: var(--radius-full);
+}
+
+.tagline-divider {
+    color: var(--color-yellow-main);
+}
+
+/* Responsivité (Écrans > 640px) */
+@media (min-width: 640px) {
+    .hero-content {
+        padding: 52px 48px;
+    }
+
+    .brand-name {
+        font-size: 48px; /* ATTENDO encore plus grand sur PC */
+    }
+
+    .hero-title {
+        font-size: 44px;
+    }
+
+    .hero-subtitle {
+        font-size: 20px;
+    }
+
+    .action-grid {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .btn {
+        flex: 1;
+        max-width: 260px;
+    }
+}
