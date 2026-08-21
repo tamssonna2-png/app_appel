@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (secondes > 0) {
                 secondes--;
+                
                 timer.setAttribute('data-seconds', secondes); // On met à jour la valeur stockée
 
                 let mins = Math.floor(secondes / 60);

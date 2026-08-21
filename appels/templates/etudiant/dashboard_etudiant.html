@@ -2,91 +2,121 @@
 {% load i18n %}
 {% load static %}
 
-{% block title %}{% translate "Mon Tableau de Bord" %}{% endblock %}
+{% block title %}{% translate "Mon Tableau de Bord" %} - ATTENDO{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/etudiant/dashboard_etudiant.css' %}">
+{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/etudiant/dashboard_etudiant.css' %}">
+<div class="mobile-dashboard-container">
 
-<h2>Mon Tableau de Bord (Étudiant): {{etudiant.matricule}}   {{etudiant.last_name}}   {{etudiant.first_name}} </h2>
-<p>Ecole : {{etudiant.ecole}}</p>
-
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert-message">
-            {{ message }}
+    <!-- Carte Profil Étudiant -->
+    <div class="profile-card">
+        <div class="profile-header">
+            <span class="brand-badge">ATTENDO • {% translate "ÉTUDIANT" %}</span>
+            <span class="matricule-tag">{{ etudiant.matricule }}</span>
         </div>
-    {% endfor %}
-{% endif %}
+        <h1 class="student-name">{{ etudiant.last_name }} {{ etudiant.first_name }}</h1>
+        <p class="school-info">{{ etudiant.ecole }}</p>
+    </div>
 
-<div class="registration-box">
-    <h3>S'inscrire à une nouvelle matière</h3>
-    <p>Collez le lien d'inscription reçu de votre professeur :</p>
-    
-    <form action="{% url 'traiter_lien_inscription' %}" method="POST" class="registration-form">
-        {% csrf_token %}
-        <input type="text" name="lien_complet" placeholder="Ex: http://127.0.0.1:8000/student/inscrire-matiere/1/" 
-               class="registration-input" required>
-        <button type="submit" class="btn-subscribe">
-            S'inscrire
-        </button>
-    </form>
-</div>
+    <!-- Messages Flash -->
+    {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="alert-message alert-{{ message.tags|default:'info' }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
-<h3>Mes Matières</h3>
-<table class="dashboard-table">
-    <thead>
-        <tr class="table-header">
-            <th class="table-cell">Matière</th>
-            <th class="table-cell">Présences</th>
-            <th class="table-cell">Absences</th>
-            <th class="table-cell">Taux d'assiduité</th>
-            <th class="table-cell">Appel (Entrez le code)</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for ins in inscriptions %}
-    <tr>
-        <td class="table-cell">{{ ins.matiere.nom }}</td>
-        <td class="table-cell">{{ ins.nb_presences }}</td>
-        <td class="table-cell text-red">{{ ins.nb_abscences }}</td>
-        <td class="table-cell">
-            <strong>{{ ins.taux_presence }} %</strong>
-        </td>
+    <!-- Section Inscription par Lien -->
+    <div class="action-card">
+        <h3 class="card-title">{% translate "S'inscrire à une nouvelle matière" %}</h3>
+        <p class="card-subtitle">{% translate "Collez le lien d'inscription transmis par votre professeur :" %}</p>
         
-        <td colspan="2" class="table-cell text-center">
-            {% with appel=ins.matiere.a_un_appel_actif %}
-                {% if appel %}
-                    <div class="active-call-box">
-                        <span class="active-call-title">
-                             APPEL EN COURS !
-                        </span>
-                        <div class="timer-wrapper">
-                            Temps : <span class="timer" data-seconds="{{ appel.secondes_restantes }}">--:--</span>
+        <form action="{% url 'traiter_lien_inscription' %}" method="POST" class="registration-form">
+            {% csrf_token %}
+            <div class="input-group">
+                <input type="url" name="lien_complet" placeholder="{% translate "Ex: http://127.0.0.1:8000/student/inscrire-matiere/1/" %}" class="input-url" required>
+                <button type="submit" class="btn-subscribe">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                    {% translate "S'inscrire" %}
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Liste des Matières / Appels -->
+    <div class="section-title">{% translate "Mes Matières" %}</div>
+
+    <div class="courses-list">
+        {% for ins in inscriptions %}
+        <div class="course-card">
+            <div class="course-header">
+                <h4 class="course-title">{{ ins.matiere.nom }}</h4>
+                <span class="rate-badge {% if ins.taux_presence >= 75 %}rate-good{% elif ins.taux_presence >= 50 %}rate-medium{% else %}rate-bad{% endif %}">
+                    {{ ins.taux_presence }}%
+                </span>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-item">
+                    <span class="stat-label">{% translate "Présences" %}</span>
+                    <span class="stat-value text-success">{{ ins.nb_presences }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">{% translate "Absences" %}</span>
+                    <span class="stat-value text-danger">{{ ins.nb_abscences }}</span>
+                </div>
+            </div>
+
+            <!-- Module d'Appel Actif -->
+            <div class="call-section">
+                {% with appel=ins.matiere.a_un_appel_actif %}
+                    {% if appel %}
+                        <div class="active-call-box">
+                            <div class="active-call-header">
+                                <span class="pulse-dot"></span>
+                                <span class="active-call-title">{% translate "APPEL EN COURS !" %}</span>
+                            </div>
+                            
+                            <div class="timer-wrapper">
+                                {% translate "Temps restant :" %} <span class="timer" data-seconds="{{ appel.secondes_restantes }}">--:--</span>
+                            </div>
+
+                            <form id="form-valider-{{ appel.id }}" action="{% url 'valider_presence' %}" method="POST" class="call-validation-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="feuille_id" value="{{ appel.id }}">
+                                <input type="hidden" name="lat_etudiant" id="lat-{{ appel.id }}">
+                                <input type="hidden" name="lon_etudiant" id="lon-{{ appel.id }}">
+                                
+                                <div class="validation-row">
+                                    <input type="text" name="code_saisi" placeholder="{% translate "Code (6 chiffres)" %}" required maxlength="6" class="code-input" pattern="[0-9]*" inputmode="numeric">
+                                    <button type="button" class="btn-validate" data-appel-id="{{ appel.id }}">
+                                        {% translate "Valider" %}
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-                        <form id="form-valider-{{ appel.id }}" action="{% url 'valider_presence' %}" method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="feuille_id" value="{{ appel.id }}">
-                            <input type="hidden" name="lat_etudiant" id="lat-{{ appel.id }}">
-                            <input type="hidden" name="lon_etudiant" id="lon-{{ appel.id }}">
-                            <input type="text" name="code_saisi" placeholder="Code" required maxlength="6" class="code-input">
-                            <button type="button" class="btn-validate" data-appel-id="{{ appel.id }}">
-                                Valider
-                            </button>
-                        </form>
-                    </div>
-                {% else %}
-                    <span class="no-call-text">Aucun appel en cours</span>
-                {% endif %}
-            {% endwith %}
-        </td>
-    </tr>
-    {% empty %}
-    <tr>
-        <td colspan="6" class="empty-row">Tu n'es inscrit à aucune matière pour le moment.</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+                    {% else %}
+                        <div class="no-call-box">
+                            <span class="no-call-icon">🔒</span> {% translate "Aucun appel en cours" %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="empty-card">
+            <p>{% translate "Tu n'es inscrit à aucune matière pour le moment." %}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
 {% endblock %}
 
 {% block extra_js %}
