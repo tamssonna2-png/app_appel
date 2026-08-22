@@ -1,6 +1,7 @@
 from django import forms
 from .models import Enseignant,Matiere,Etudiant,Ecole
 from django.utils.translation import gettext_lazy as _
+from django.db.models import Q
 
 class EnseignantForm(forms.ModelForm):
     password = forms.CharField(
@@ -70,18 +71,41 @@ class MatiereForm (forms.ModelForm):
         self.fields['ecole'].widget.attrs.update({'id': 'select-ecole'})"""
 
 
-    def clean_ecole(self):
-        """
-        Sécurité : L'utilisateur saisit du texte, on doit retrouver l'objet Ecole
-        correspondant dans la base de données ou renvoyer une erreur.
-        """
+    """def clean_ecole(self):
+        
         nom_ecole = self.cleaned_data.get('ecole')
         try:
             # On cherche l'école par son nom exact
             ecole_obj = Ecole.objects.get(nom=nom_ecole)
             return ecole_obj
         except Ecole.DoesNotExist:
-            raise forms.ValidationError(_("Cet établissement n'existe pas. Veuillez le sélectionner dans la liste."))
+            raise forms.ValidationError(_("Cet établissement n'existe pas. Veuillez le sélectionner dans la liste."))"""
+    
+
+    def clean_ecole(self):
+        valeur_saisie = self.cleaned_data.get('ecole', '').strip()
+        
+        if not valeur_saisie:
+            raise forms.ValidationError(_("Veuillez indiquer un établissement."))
+
+        # 1. Recherche par correspondance exacte sur le nom ou l'abréviation
+        ecole_obj = Ecole.objects.filter(
+            Q(nom__iexact=valeur_saisie) | 
+            Q(abreviation__iexact=valeur_saisie)
+        ).first()
+
+        # 2. Si non trouvé, tentative en isolant le premier mot (ex: "UY1" dans "UY1  Université de Yaoundé I")
+        if not ecole_obj and " " in valeur_saisie:
+            premiere_partie = valeur_saisie.split()[0]
+            ecole_obj = Ecole.objects.filter(
+                Q(abreviation__iexact=premiere_partie) |
+                Q(nom__iexact=premiere_partie)
+            ).first()
+
+        if ecole_obj:
+            return ecole_obj
+
+        raise forms.ValidationError(_("Cet établissement n'existe pas. Veuillez le sélectionner dans la liste."))
         
 class EtudiantForm(forms.ModelForm):
     password = forms.CharField(
@@ -123,12 +147,37 @@ class EtudiantForm(forms.ModelForm):
 
 
     
-    def clean_ecole(self):
+    """def clean_ecole(self):
         nom_ecole = self.cleaned_data.get('ecole')
         try:
             return Ecole.objects.get(nom=nom_ecole)
         except Ecole.DoesNotExist:
-            raise forms.ValidationError(_("Cet établissement n'existe pas. Veuillez le sélectionner dans la liste."))
+            raise forms.ValidationError(_("Cet établissement n'existe pas. Veuillez le sélectionner dans la liste."))"""
+    
+    def clean_ecole(self):
+        valeur_saisie = self.cleaned_data.get('ecole', '').strip()
+        
+        if not valeur_saisie:
+            raise forms.ValidationError(_("Veuillez indiquer un établissement."))
+
+        # 1. Recherche par correspondance exacte sur le nom ou l'abréviation
+        ecole_obj = Ecole.objects.filter(
+            Q(nom__iexact=valeur_saisie) | 
+            Q(abreviation__iexact=valeur_saisie)
+        ).first()
+
+        # 2. Si non trouvé, tentative en isolant le premier mot (ex: "UY1" dans "UY1  Université de Yaoundé I")
+        if not ecole_obj and " " in valeur_saisie:
+            premiere_partie = valeur_saisie.split()[0]
+            ecole_obj = Ecole.objects.filter(
+                Q(abreviation__iexact=premiere_partie) |
+                Q(nom__iexact=premiere_partie)
+            ).first()
+
+        if ecole_obj:
+            return ecole_obj
+
+        raise forms.ValidationError(_("Cet établissement n'existe pas. Veuillez le sélectionner dans la liste."))
 
     def clean(self):
         cleaned_data = super().clean()

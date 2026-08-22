@@ -13,7 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     const secs = secondes % 60;
                     timerDisplay.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
                 } else {
-                    timerDisplay.innerText = "EXSPIRÉ (veuillez actualiser)";
+                    timerDisplay.innerText = "EXSPIRÉ (veuillez actualiser la page)";
+                    //location.reload();
+                    location.reload();
+                    //window.location.href = window.location.href;*/
                     clearInterval(timerInterval);
                 }
             };
