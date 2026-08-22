@@ -1,36 +1,112 @@
 {% load i18n %}
-{% block content %}
-<h2>{% translate "Inscription Etudiant"%}</h2>
-<form method="post" autocomplete="off" onsubmit="return confirm('Cette opération est irréversible, assurez-vous que vos informations soient conformes')">
-    {% csrf_token %} 
-    
-    <!-- Rendu propre et manuel des champs -->
-    <p>{{ form.username.label_tag }}<br>{{ form.username }}{{ form.username.errors }}</p>
-    <p>{{ form.last_name.label_tag }}<br>{{ form.last_name }}{{ form.last_name.errors }}</p>
-    <p>{{ form.first_name.label_tag }}<br>{{ form.first_name }}{{ form.first_name.errors }}</p>
-    
-    <!-- Le champ école avec sa datalist de recherche -->
-    <p>
-        {{ form.ecole.label_tag }}<br>
-        {{ form.ecole }}
-        {{ form.ecole.errors }}
-        <datalist id="liste-ecoles">
-            {% for e in ecoles_all %}
-                <option value="{{e.abreviation }}  {{ e.nom }}"></option>
-            {% endfor %}
-        </datalist>
-    </p>
-    
-    <p>{{ form.email.label_tag }}<br>{{ form.email }}{{ form.email.errors }}</p>
-    <p>{{ form.telephone.label_tag }}<br>{{ form.telephone }}{{ form.telephone.errors }}</p>
-    <p>{{ form.sexe.label_tag }}<br>{{ form.sexe }}{{ form.sexe.errors }}</p>
-    <p>{{ form.password.label_tag }}<br>{{ form.password }}{{ form.password.errors }}</p>
-    <p>{{ form.password_confirm.label_tag }}<br>{{ form.password_confirm }}{{ form.password_confirm.errors }}</p>
-    
-    <button type="submit">Enregistrer</button>
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{% translate "Inscription Étudiant" %}</title>
 
-<div>
-    <a href="{% url 'connexion_etudiant' %}">Déjà un compte</a>
+    <!-- Polices Google & Bootstrap 5 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CSS Spécifique Inscription -->
+    <link rel="stylesheet" href="{% static 'css/etudiant/inscription_etudiant.css' %}">
+</head>
+<body class="mobile-app-bg">
+
+<div class="mobile-registration-container">
+    <!-- En-tête style App Mobile -->
+    <div class="registration-header">
+        <span class="brand-badge">ATTENDO</span>
+        <h1 class="page-title">{% translate "Créer un compte" %}</h1>
+        <p class="page-subtitle">{% translate "Remplissez le formulaire pour rejoindre votre espace étudiant" %}</p>
+    </div>
+
+    <!-- Carte du formulaire -->
+    <div class="registration-card">
+        {% translate "Cette opération est irréversible, assurez-vous que vos informations soient conformes" as msg_confirm %}
+        <form id="form-inscription" method="post" autocomplete="off" data-confirm-message="{{ msg_confirm }}">
+            {% csrf_token %} 
+            
+            <div class="field-group">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+
+            <div class="field-group">
+                {{ form.last_name.label_tag }}
+                {{ form.last_name }}
+                {{ form.last_name.errors }}
+            </div>
+
+            <div class="field-group">
+                {{ form.first_name.label_tag }}
+                {{ form.first_name }}
+                {{ form.first_name.errors }}
+            </div>
+
+            <div class="field-group">
+                {{ form.ecole.label_tag }}
+                {{ form.ecole }}
+                {{ form.ecole.errors }}
+                <datalist id="liste-ecoles">
+                    {% for e in ecoles_all %}
+                        <option value="{{ e.abreviation }}  {{ e.nom }}"></option>
+                    {% endfor %}
+                </datalist>
+            </div>
+
+            <div class="field-group">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+
+            <div class="field-group">
+                {{ form.telephone.label_tag }}
+                {{ form.telephone }}
+                {{ form.telephone.errors }}
+            </div>
+
+            <div class="field-group">
+                {{ form.sexe.label_tag }}
+                {{ form.sexe }}
+                {{ form.sexe.errors }}
+            </div>
+
+            <div class="field-group">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+                {{ form.password.errors }}
+            </div>
+
+            <div class="field-group">
+                {{ form.password_confirm.label_tag }}
+                {{ form.password_confirm }}
+                {{ form.password_confirm.errors }}
+            </div>
+
+            <button type="submit" class="btn-submit">
+                {% translate "Enregistrer mon compte" %}
+            </button>
+        </form>
+    </div>
+
+    <!-- Pied de page -->
+    <div class="login-link-container">
+        <p>{% translate "Vous possédez déjà un compte ?" %}</p>
+        <a href="{% url 'connexion_etudiant' %}" class="btn-login-link">
+            {% translate "Se connecter" %}
+        </a>
+    </div>
 </div>
-{% endblock %}
+
+<script src="{% static 'js/etudiant/inscription_etudiant.js' %}"></script>
+
+</body>
+</html>

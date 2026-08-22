@@ -1,109 +1,156 @@
 {% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/enseignant/consulter_matiere.css' %}">
+{% endblock %}
 
 {% block content %}
-    <h1>Liste des étudiants : {{ matiere.nom }}</h1>
-    <p>Code de l'unité : {{ matiere.code }}</p>
-    <p>Ecole : {{ matiere.ecole }}</p>
+<div class="mobile-subject-container">
+    <!-- En-tête Matière -->
+    <div class="header-card">
+        <div class="header-top">
+            <a href="{% url 'dashboard' %}" class="back-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                {% translate "Retour" %}
+            </a>
+            <span class="brand-badge">ATTENDO • {% translate "ENSEIGNANT" %}</span>
+        </div>
+        <h1 class="page-title">{{ matiere.nom }}</h1>
+        <div class="subject-meta">
+            <span class="meta-item">{% translate "Code :" %} <strong>{{ matiere.code }}</strong></span>
+            <span class="meta-item">{% translate "École :" %} <strong>{{ matiere.ecole }}</strong></span>
+        </div>
+    </div>
 
-    <a href="{%url 'creer_feuille' matiere.id%}"
-    onclick="return confirm('Voulez-vous vraiment commencer l\'appel pour cette matière ? Cela créera une nouvelle session pour aujourd\'hui.')" 
-   class="btn-primary">Commence l'appel</a>
-    <a href="{%url 'chercher_etudiant' matiere.id%}">Inscrire un nouvel étudiant</a>
-    <hr>
+    <!-- Actions Rapides -->
+    <div class="action-grid">
+        <a href="{% url 'creer_feuille' matiere.id %}" 
+           onclick="return confirm('{% translate "Voulez-vous vraiment commencer l\'appel pour cette matière ? Cela créera une nouvelle session pour aujourd\'hui." %}');" 
+           class="btn-action btn-start-call">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+            {% translate "Commencer l'appel" %}
+        </a>
+        
+        <a href="{% url 'chercher_etudiant' matiere.id %}" class="btn-action btn-enroll-student">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+            {% translate "Inscrire un étudiant" %}
+        </a>
+    </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Matricule</th>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Email</th>
-                <th>Nombre de presences</th>
-                <th>Nombre d'abscences</th>
-                <th>Total de seances</th>
-                <th>Nombre de points</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for ins in inscriptions %}
-            <tr>
-                <td>{{ ins.etudiant.matricule }}</td>
-                <td>{{ ins.etudiant.last_name }}</td>
-                <td>{{ ins.etudiant.first_name }}</td>
-                <td>{{ ins.etudiant.email }}</td>
-                <td>{{ ins.nb_presences }}</td>
-                <td>{{ ins.nb_abscences }}</td>
-                <td>{{ nb_seances }}</td>
-                <td>{{ ins.note_actuelle }}</td><!--pourquoi ici c'est false alors que dans l'autre page ca valeur est bien affichée-->>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4">Aucun étudiant n'est encore inscrit à cette matière.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <br>
-<div style="margin-bottom: 20px;">
-    <a href="{% url 'exporter_bilan_pdf' matiere.id %}" 
-       style="background-color: #e74c3c; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-flex; align-items: center; gap: 8px;">
-        PDF 📥 Télécharger le bilan global
-    </a>
-</div>
+    <!-- Partager le lien d'inscription -->
+    <div class="share-card">
+        <h3 class="card-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+            {% translate "Partager l'inscription" %}
+        </h3>
+        <p class="card-desc">{% translate "Envoyez ce lien aux étudiants pour qu'ils s'inscrivent :" %}</p>
+        <div class="link-box">
+            <code id="lien-inscription">http://{{ request.get_host }}{% url 'inscription_matiere' matiere.id %}</code>
+            <button onclick="copyLink()" class="btn-copy">{% translate "Copier" %}</button>
+        </div>
+    </div>
 
-<div class="card">
-    <h3>Partager l'inscription</h3>
-    <p>Envoyez ce lien aux étudiants pour qu'ils s'inscrivent :</p>
-    <code id="lien-inscription">
-        http://{{ request.get_host }}{% url 'inscription_matiere' matiere.id %}
-    </code>
-    <button onclick="copyLink()">Copier le lien</button>
-</div>
-<form action="{% url 'reinitialiser_matiere' matiere.id %}" method="POST" style="display:inline;">
-    {% csrf_token %}
-    <button type="submit" 
-            onclick="return confirm('⚠️ ACTION IRRÉVERSIBLE ⚠️\n\nVoulez-vous vraiment réinitialiser la matière « {{ m.nom }} » ?\n\nCela va :\n- Supprimer TOUT l\'historique des appels\n- Désinscrire TOUS les étudiants')"
-            style="background-color: #ffc107; color: #000; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-        🔄 Réinitialiser
-    </button>
-</form>
+    <!-- Liste des étudiants inscrits -->
+    <div class="table-card">
+        <div class="table-header-title">
+            <h3>{% translate "Étudiants inscrits" %}</h3>
+            <a href="{% url 'exporter_bilan_pdf' matiere.id %}" class="btn-export-pdf">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                PDF
+            </a>
+        </div>
 
-<form action="{% url 'vider_historique_matiere' matiere.id %}" method="POST" style="display:inline;">
-    {% csrf_token %}
-    <button type="submit" 
-            onclick="return confirm('Voulez-vous vraiment vider l\'historique de « {{ m.nom }} » ?\n\n- Les étudiants resteront inscrits.\n- Toutes les anciennes feuilles d\'appel seront supprimées.\n- Les compteurs de présences reviendront à zéro.')"
-            style="background-color: #17a2b8; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-        🗑️ Vider l'historique
-    </button>
-</form>
- <div>
-        <h3>Historique des séances</h3>
-        <ul>
+        <div class="table-responsive">
+            <table class="students-table">
+                <thead>
+                    <tr>
+                        <th>{% translate "Matricule" %}</th>
+                        <th>{% translate "Nom & Prénom" %}</th>
+                        <th class="text-center">{% translate "P" %}</th>
+                        <th class="text-center">{% translate "A" %}</th>
+                        <th class="text-center">{% translate "Total" %}</th>
+                        <th class="text-center">{% translate "Points" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ins in inscriptions %}
+                    <tr>
+                        <td class="col-mat">{{ ins.etudiant.matricule|default:ins.etudiant.username }}</td>
+                        <td class="col-name">{{ ins.etudiant.last_name }} {{ ins.etudiant.first_name }}</td>
+                        <td class="text-center status-p">{{ ins.nb_presences }}</td>
+                        <td class="text-center status-a">{{ ins.nb_abscences }}</td>
+                        <td class="text-center">{{ nb_seances }}</td>
+                        <td class="text-center col-points">
+                            {% if ins.note_actuelle is not False and ins.note_actuelle is not None %}
+                                {{ ins.note_actuelle }}
+                            {% else %}
+                                0
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="empty-cell">{% translate "Aucun étudiant n'est encore inscrit à cette matière." %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Historique des séances -->
+    <div class="history-card">
+        <h3 class="card-title">{% translate "Historique des séances" %}</h3>
+        <ul class="history-list">
             {% for h in historique %}
-            <li>
-                <strong>Séance n°{{ forloop.revcounter }}</strong> - {{ h.date|date:"d/m/Y H:i" }}
-                {% if h.id == feuille.id %} (Session actuelle) {% endif %}
-                {% if h.is_actif%}
-                    <a href="{% url 'consulter_feuille' h.id%}"
-                    style="color: green;">Consulter</a>
-                    <td> appel en cour</td>
-                {% else %}
-                    <a href="{% url 'consulter_feuille' h.id%}">Consulter</a>
-                {% endif %}
-                
+            <li class="history-item">
+                <div class="history-info">
+                    <strong>{% translate "Séance n°" %}{{ forloop.revcounter }}</strong>
+                    <span class="history-date">{{ h.date|date:"d/m/Y H:i" }}</span>
+                </div>
+                <div class="history-status">
+                    {% if h.is_actif %}
+                        <span class="live-pill">{% translate "En cours" %}</span>
+                        <a href="{% url 'consulter_feuille' h.id %}" class="btn-consult active-session">{% translate "Consulter" %}</a>
+                    {% else %}
+                        <a href="{% url 'consulter_feuille' h.id %}" class="btn-consult">{% translate "Consulter" %}</a>
+                    {% endif %}
+                </div>
             </li>
             {% empty %}
-            <li>Aucune séance enregistrée.</li>
+            <li class="empty-cell">{% translate "Aucune séance enregistrée." %}</li>
             {% endfor %}
         </ul>
     </div>
 
-    
-<script>
-function copyLink() {
-    var copyText = document.getElementById("lien-inscription").innerText;
-    navigator.clipboard.writeText(copyText);
-    alert("Lien copié ! Partagez-le avec vos étudiants.");
-}
-</script>
+    <!-- Zone Danger / Maintenance -->
+    <div class="danger-zone-card">
+        <h4 class="danger-title">{% translate "Zone de gestion" %}</h4>
+        <div class="danger-actions">
+            <form action="{% url 'vider_historique_matiere' matiere.id %}" method="POST" class="form-inline">
+                {% csrf_token %}
+                <button type="submit" 
+                        onclick="return confirm('{% translate "Voulez-vous vraiment vider l\'historique de « " %}{{ matiere.nom }}{% translate " » ?\n\n- Les étudiants resteront inscrits.\n- Toutes les anciennes feuilles d\'appel seront supprimées.\n- Les compteurs de présences reviendront à zéro." %}');"
+                        class="btn-danger-outline">
+                    {% translate "Vider l'historique" %}
+                </button>
+            </form>
+
+            <form action="{% url 'reinitialiser_matiere' matiere.id %}" method="POST" class="form-inline">
+                {% csrf_token %}
+                <button type="submit" 
+                        onclick="return confirm('{% translate "⚠️ ACTION IRRÉVERSIBLE ⚠️\n\nVoulez-vous vraiment réinitialiser la matière « " %}{{ matiere.nom }}{% translate " » ?\n\nCela va :\n- Supprimer TOUT l\'historique des appels\n- Désinscrire TOUS les étudiants" %}');"
+                        class="btn-danger-full">
+                    {% translate "Réinitialiser" %}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/enseignant/consulter_matiere.js' %}"></script>
 {% endblock %}

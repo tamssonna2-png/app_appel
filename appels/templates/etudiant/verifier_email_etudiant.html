@@ -1,0 +1,62 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% translate "Vérification Email Étudiant • ATTENDO" %}</title>
+    <link rel="stylesheet" href="{% static 'css/etudiant/verifier_email_etudiant.css' %}">
+</head>
+<body>
+
+<div class="verify-container">
+    <div class="verify-card">
+        <div class="brand-header">
+            <span class="brand-badge">ATTENDO • {% translate "ÉTUDIANT" %}</span>
+        </div>
+
+        <h1 class="verify-title">{% translate "Vérification de l'email" %}</h1>
+        <p class="verify-desc">
+            {% translate "Saisissez le code à 6 chiffres envoyé à votre adresse e-mail pour activer votre compte étudiant." %}
+        </p>
+
+        {% if messages %}
+            <div class="messages-container">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST" class="verify-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="{{ form_code.code_saisi.id_for_label }}">
+                    {{ form_code.code_saisi.label }}
+                </label>
+                {{ form_code.code_saisi }}
+                {% if form_code.code_saisi.errors %}
+                    <div class="error-text">{{ form_code.code_saisi.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn-submit">
+                {% translate "Valider mon compte" %}
+            </button>
+        </form>
+
+        <div class="verify-footer">
+            <a href="{% url 'inscription_etudiant' %}" class="link-back">
+                ← {% translate "Retour à l'inscription" %}
+            </a>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/etudiant/verifier_email_etudiant.js' %}"></script>
+</body>
+</html>

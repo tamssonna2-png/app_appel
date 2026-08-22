@@ -1,22 +1,63 @@
 {% load i18n %}
+{% load static %}
+
+{% block extra_head %}
+<!-- Polices typographiques du Design System (Space Grotesk & Inter) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+<!-- Feuille de style dédiée -->
+<link rel="stylesheet" href="{% static 'css/accueil.css' %}">
+{% endblock %}
 
 {% block content %}
-<div style="text-align: center; margin-top: 100px; font-family: sans-serif;">
-    <h1 style="font-size: 3em; color: #2c3e50;">Bienvenue sur PrésenceApp</h1>
-    <p style="font-size: 1.2em; color: #7f8c8d;">La plateforme de gestion d'assiduité pour l'UY1 et l'ENSTP.</p>
-    
-    <div style="margin-top: 50px;">
-        <a href="{% url 'connexion_enseignant' %}" style="display: inline-block; background: #007bff; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-right: 20px;">
-        {% translate "Accès Enseignant" %}
-    </a>
+<main class="landing-container">
+    <div class="hero-content">
+        <!-- Brand / Badge avec indicateur Live animé -->
+        <div class="brand-badge">
+            <span class="brand-name">ATTENDO<span class="brand-dot">.</span></span>
+            <span class="live-dot" title="Système d'assiduité en direct"></span>
+        </div>
 
-    <a href="{% url 'connexion_etudiant' %}" style="display: inline-block; border: 2px solid #28a745; color: #28a745; padding: 13px 28px; text-decoration: none; border-radius: 5px; font-weight: bold;">
-        {% translate "Espace Étudiant" %}
-    </a>
-    </div>
+        <!-- Titre & Description -->
+        <h1 class="hero-title">
+            {% translate "Bienvenue sur ATTENDO" %}
+        </h1>
+        <p class="hero-subtitle">
+            {% translate "La plateforme de gestion d'assiduité." %}
+        </p>
 
-    <div style="margin-top: 80px; color: #95a5a6;">
-        <p>{% translate "Simple • Rapide • Automatique" %}</p>
+        <!-- Actions Principales (Grille Responsive) -->
+        <div class="action-grid">
+            <a href="{% url 'connexion_enseignant' %}" class="btn btn-primary">
+                <svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                    <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                </svg>
+                <span>{% translate "Accès Enseignant" %}</span>
+            </a>
+
+            <a href="{% url 'connexion_etudiant' %}" class="btn btn-secondary">
+                <svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span>{% translate "Espace Étudiant" %}</span>
+            </a>
+        </div>
+
+        <!-- Tagline / Inscription institutionnelle -->
+        <div class="institutional-tagline">
+            <span class="tagline-item">{% translate "Simple" %}</span>
+            <span class="tagline-divider">•</span>
+            <span class="tagline-item">{% translate "Rapide" %}</span>
+            <span class="tagline-divider">•</span>
+            <span class="tagline-item">{% translate "Automatique" %}</span>
+        </div>
     </div>
-</div>
+</main>
+
+<!-- Fichier JS dédié -->
+<script src="{% static 'js/accueil.js' %}"></script>
 {% endblock %}

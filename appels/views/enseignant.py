@@ -39,16 +39,119 @@ def inscription_enseignant(request):
             enseignant = form.save(commit=False)
             password = form.cleaned_data.get('password')
             enseignant.set_password(password)
+            enseignant.is_active = False
             enseignant.save()
-            login(request, enseignant)
+            code_verification = str (random.randint(100000,999999))  
+            request.session['signup_email']=enseignant.email #est ce qu'on a besoin de ca
+            request.session['signup_code']=code_verification# et de ca ?
+            delais =600
+            request.session.set_expiry(delais)
+            sujet= "Validation de votre compte enseignant sur ATTENDO"
+            message = f"Bonjour {enseignant.first_name},\n\nVotre code de vérification est : {code_verification}\n\nCe code est valide pendant 10 minutes."
+            expediteur = settings.DEFAULT_FROM_EMAIL
+            print("voici le code d recupération : ",code_verification)
+            try:
+                send_mail(sujet,message,expediteur,[enseignant.email])
+                messages.success(request,_("Un code de verification a été envoyé a votre email"))
+                return redirect('verifier_email')
+            except Exception as e:
+                enseignant.delete()
+                messages.error(request,_("Une erreur est survenue lors de l'envoie. Réessayez"))
+                print("probleme",e)
+
+            """login(request, enseignant)
             messages.success(request,_("Inscription reussi !"))
-            return redirect('dashboard')
+            return redirect('dashboard')"""
         else:
             messages.error(request,_("Erreur lors de l'inscription"))
     else:
         form = EnseignantForm()
     return render(request,'enseignant/inscription_enseignant.html',{'form':form})
 #http://127.0.0.1:8000/inscription-enseignant/
+
+
+"""User = get_user_model()
+
+def verifier_email(request):
+    email_saisie = request.session.get('signup_email')
+    code_attendu = request.session.get('signup_code')
+
+    if not email_saisie or not code_attendu:
+        messages.error(request,_("Session expirée ou invalide. Veullez recommencer"))
+        return redirect('inscription_enseignant')
+    
+    code_deja_valide = request.session.get('code_verified',False)
+    #code_deja_valide = False
+    if not code_deja_valide:
+        
+        if request.method == 'POST':
+            form_code = VerifierCodeForm(request.POST)
+            if form_code.is_valid():
+                code_saisie = form_code.cleaned_data['code_saisi']
+
+                if code_saisie == code_attendu:
+                    request.session['code_verified']=True
+                    messages.success(request,_("code validé avec succes"))
+                    return redirect('connexion_enseignant')
+                else:
+                    messages.error(request,_("Code incorrect.Veuillez réesayer"))
+        else:
+            form_code = VerifierCodeForm()
+
+        return render(request,'enseignant/verifier_email.html',{
+        'form_code':form_code,
+        'etape':'saisie_code'
+        })
+    else:
+        return redirect('connexion_enseignant')"""
+
+
+User = get_user_model()
+
+def verifier_email(request):
+    email_saisie = request.session.get('signup_email')
+    code_attendu = request.session.get('signup_code')
+
+    # Sécurité : Si pas de session, retour à l'inscription
+    if not email_saisie or not code_attendu:
+        messages.error(request, _("Session expirée ou invalide. Veuillez recommencer."))
+        return redirect('inscription_enseignant')
+    
+    if request.method == 'POST':
+        form_code = VerifierCodeForm(request.POST)
+        if form_code.is_valid():
+            code_saisi = form_code.cleaned_data['code_saisi']
+
+            if code_saisi == code_attendu:
+                try:
+                    # 1. Récupération et activation de l'utilisateur
+                    enseignant = User.objects.get(email=email_saisie)
+                    enseignant.is_active = True
+                    enseignant.save()
+
+                    # 2. Nettoyage des variables de session
+                    del request.session['signup_email']
+                    del request.session['signup_code']
+
+                    # 3. Connexion automatique (ou redirection vers connexion)
+                    login(request, enseignant) # Optionnel : connecte l'utilisateur directement
+                    
+                    messages.success(request, _("Votre compte a été activé avec succès ! Bienvenue."))
+                    return redirect('dashboard')
+
+                except User.DoesNotExist:
+                    messages.error(request, _("Utilisateur introuvable. Veuillez vous réinscrire."))
+                    return redirect('inscription_enseignant')
+            else:
+                messages.error(request, _("Code incorrect. Veuillez réessayer."))
+    else:
+        form_code = VerifierCodeForm()
+
+    return render(request, 'enseignant/verifier_email.html', {
+        'form_code': form_code,
+        'etape': 'saisie_code'
+    })
+
 
 def connexion_enseignant(request):
     if request.method == "POST":
@@ -165,7 +268,7 @@ def verifier_code_recuperation(request):
     })
     
 
-@login_required
+@login_required(login_url='connexion_enseignant')
 def dashboard(request):
     prof = Enseignant.objects.get(id=request.user.id)
     mes_matieres = prof.matieres.all()
@@ -439,6 +542,7 @@ def faire_appel(request, feuille_id):
         feuille.is_actif = False
         feuille.save()
         messages.warning(request, _("Le temps est écoulé, l'appel a été clôturé automatiquement."))
+        cloturer_appel(request,feuille.id)
     return render(request, 'enseignant/faire_appel.html', {
         'matiere': matiere,
         'inscriptions': inscriptions,
@@ -647,4 +751,9 @@ def deconnexion_enseignant(request):
     return redirect('connexion_enseignant')
 
 
-#metre un onclick sur le bouton "annuler" et "p" dans la page faire appel
+#faire en sorte que les eleves puisse directement demander l'acces a la matiere, et c"est au prof d'accepeter
+#obliger les personnes a entrer un mot de passe robuste (plus de 7 caracteres avec des chiffres)
+#metre l'accent sur la securité (comme masquer le lien de l'inscription d'une matiere)
+#proposer la supression du compte (optionel)
+#mon email d'envoie doit avoir son propre non de domaine
+#permetre aux etudiant de changer de mot de passe

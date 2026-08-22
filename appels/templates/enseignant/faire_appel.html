@@ -1,242 +1,211 @@
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% translate "Session d'appel" %} - {{ matiere.nom }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/enseignant/faire_appel.css' %}">
+{% endblock %}
+
 {% block content %}
-<div style="background-color: #e9ecef; padding: 20px; text-align: center; border: 2px dashed #007bff;">
-    <h2>CODE D'APPEL : <span style="color: #007bff; font-size: 40px;">{{ feuille.code_validation }}</span></h2>
-    <p>Statut : <strong>{% if feuille.is_actif %}OUVERT{% else %}FERMÉ{% endif %}</strong></p>
-    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #dee2e6; margin-bottom: 20px;">
-    <form id="form-lancer-appel" action="{% url 'lancer_appel' feuille.id %}" method="POST" style="display: flex; align-items: center; gap: 15px; justify-content: center;">
-        {% csrf_token %}
-        <input type="hidden" name="lat_prof" id="lat_prof">
-        <input type="hidden" name="lon_prof" id="lon_prof">
-        <label for="duree" style="font-weight: bold;">Durée de l'appel :</label>
-        
-        <select name="duree" id="duree" style="padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
-            <option value="2">2 minutes (Express)</option>
-            <option value="5" selected>5 minutes (Standard)</option>
-            <option value="10">10 minutes (Long)</option>
-            <option value="15">15 minutes</option>
-            <option value="0">Illimité (Clôture manuelle)</option>
-        </select>
-        <div>
-        <label for="rayon" style="font-weight: bold;">📏 Rayon de sécurité :</label>
-        <span title="NOTE TECHNIQUE :
-Les ordinateurs n'ont pas de puce GPS. Ils se localisent via l'adresse IP, ce qui peut créer une erreur de plusieurs kilomètres. 
-
-CONSEIL : Si vous lancez l'appel depuis un PC, réglez la distance sur 'Illimitée' ou lancez l'appel depuis votre téléphone pour plus de précision."
-          style="cursor: help; background-color: #ffc107; color: #000; padding: 2px 8px; border-radius: 50%; font-weight: bold; font-size: 0.9em;">
-        ?
-    </span>
-    <select name="rayon" id="rayon" style="padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
-        <option value="30">30 mètres (Strict)</option>
-        <option value="50">50 mètres (Standard)</option>
-        <option value="100">100 mètres (Large)</option>
-        <option value="200">200 mètres</option>
-        <option value="0"  selected> Illimité (Aucun contrôle GPS)</option>
-    </select>
-</div>
-        <!--<button type="button" onclick="capturerPositionProf()" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-            🚀 Lancer l'appel maintenant
-        </button>-->
-        {% if not feuille.code_validation %}
-    {# CAS 1 : La feuille est neuve, on affiche le gros bouton vert #}
-    <button type="button" onclick="capturerPositionProf()" style="background-color: #28a745; ...">
-        🚀 Lancer l'appel 
-    </button>
-    {% elif feuille.is_actif %}
-    {# CAS 2 : L'appel est en cours #}
-    <div style="color: #28a745; font-weight: bold;">
-        📡 Appel en cours de diffusion...
-    </div>
-    {% else %}
-    {# CAS 3 : L'appel est terminé (is_actif=False et code existe) #}
-    <div style="color: #6c757d;">
-        🔒 Cet appel est archivé et terminé.
-    </div>
-{% endif %}
-    </form>
-    {% if feuille.is_actif %}
-        <div id="chrono-container" style="font-size: 20px; font-weight: bold; color: red;">
-        Temps restant : <span id="timer">{{ feuille.secondes_restantes }}</span>s
+<div class="mobile-call-container">
+    
+    <!-- En-tête Badge & Infos Matière -->
+    <div class="header-card">
+        <div class="header-top">
+            {% if feuille.appel_lance %}
+                <a href="{% url 'consulter_matiere' matiere.id %}" class="back-link" onclick="return confirm('{% translate "Voulez-vous vraiment quitter cette section ?" %}');">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    {% translate "Retour" %}
+                </a>
+            {% else %}
+                <a href="{% url 'supprimer_feuille' feuille.id %}" class="back-link" onclick="return confirm('{% translate "Voulez-vous vraiment quitter cette section ?" %}');">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    {% translate "Retour" %}
+                </a>
+            {% endif %}
+            <span class="brand-badge">ATTENDO • {% translate "ENSEIGNANT" %}</span>
         </div>
-        {%if feuille.rayon_autorise != 0%}
-            <div>portée de l'appelle {{feuille.rayon_autorise}} m</div>
-        {%else%}
-            <div>portée Illimitée</div>
-        {% endif %}
-    {%endif%}
-</div>
-    {%if feuille.is_actif%}
-    <form action="{% url 'cloturer_appel' feuille.id %}" method="POST">
-        {% csrf_token %}
-        <button type="submit" 
-        onclick="return confirm('Voulez-vous clôturer l\'appel de {{ matiere.nom }} ? Cette action est irréversible.')"
-        style="background-color: red; color: white; padding: 10px;">Clôturer l'appel</button>
-    </form>
-    {%endif%}
-</div>
-<form method="POST">
-    {% csrf_token %}
-    <h2>Appel : {{ matiere.nom }}</h2>
-    <h2>Etablissement: {{ matiere.ecole }}</h2>
-    <p>Date de la session : <strong>{{ feuille.date|date:"d/m/Y H:i" }}</strong></p>
+        <h1 class="page-title">{{ matiere.nom }}</h1>
+        <p class="app-subtitle">{{ matiere.ecole.nom }} • {{ feuille.date|date:"d/m/Y H:i" }}</p>
+    </div>
 
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr style="background: #eee;">
-                <th>Matricule</th>
-                <th>Étudiant</th>
-                <th>Présent (P)</th>
-                <th>Absent (A)</th>
-                <th>Nombre de cour/nombre de seance</th>
-                <th>Note actuel</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for ins in inscriptions %}
-                {% with total_pointage=ins.nb_presences|add:ins.nb_abscences %}
-                <tr
-                    {% if ins.etudiant.etudiant.id in liste_tricheurs_ids %}
-                    {# PRIORITÉ : ROUGE SI TRICHE DÉTECTÉE #}
-                    style="background-color: #f8d7da; color: #721c24; border-left: 5px solid #dc3545;"
-                    {% elif total_pointage != nb_seances %}
-                    {# ORANGE SI SÉANCES INCOMPLÈTES #}
-                    style="background-color: #ffeeba; color: #856404;"
-                    {% endif %}>
-                    <td>{{ ins.etudiant.username}}</td>
-                    <td>{{ ins.etudiant.last_name }} {{ ins.etudiant.first_name }}</td>
-                    <td>
-                        <a href="{% url 'marquer_presence' feuille.id ins.etudiant.id 'present' %}" class="btn-p">P</a>
-                        {{ ins.nb_presences}} 
-                        <a href="{% url 'marquer_presence' feuille.id ins.etudiant.id 'annulerP' %}" class="btn-p">Annuler</a>
-                    </td>
-                    <td>
-                        <a href="{% url 'marquer_presence' feuille.id ins.etudiant.id 'abscent' %}" class="btn-p">A</a>
-                        {{ ins.nb_abscences}}        
-                        <a href="{% url 'marquer_presence' feuille.id ins.etudiant.id 'annulerA' %}" class="btn-p">Annuler</a>
-                    </td>
-                    <td>
-                        {{ ins.nb_presences }} P / {{ ins.nb_abscences }} A 
-                        (Total : {{ total_pointage }} / {{ nb_seances }})
-                        {% if ins.etudiant.etudiant.id in liste_tricheurs_ids %}
-                        <br>
-                            <small>
-                                <strong title="Cet étudiant a utilisé le même appareil (téléphone/PC) qu'un autre camarade pour valider sa présence.Cliquez pour plus d'informations" 
-                                onclick="alert('ALERTE SÉCURITÉ :\nCet étudiant a utilisé le même téléphone ou ordinateur qu’un autre camarade pour cet appel.\n\nVérifiez sa présence physique !\n\n Leurs presences ont été comptabilisées vous pouver les annuler maintenant ')"    
-                                style="color: #dc3545; cursor: help; font-size: 0.8em;">
-                                    ⚠️ Appareil partagé !
-                                </strong>
-                            </small>
-                        {% endif %}
-                    </td>
-                    <td>{{ ins.note_actuelle}}</td>
-                </tr>
-                {% endwith %}
-            {% endfor %}
-        </tbody>
-    </table>
-    {% if feuille.appel_lance%}
-    <a href="{%url 'consulter_matiere' matiere.id%}" 
-        onclick="return confirm('Voulez-vous vraiment quiter cette section ?')" 
-        style="color: green;">Retour</a>
-    {%else%}
-        <a href="{%url 'supprimer_feuille' feuille.id%}"
-        onclick="return confirm('Voulez-vous vraiment quiter cette section ?')">
-        Retour</a>
-    {%endif%}
-    {%if liste_tricheurs_ids %}
-    <p>Liste des etudiants ayant repondu avec des appareils en commun </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Étudiant</th>
-            <th>Matricule</th>
-            <th>Appareil</th>
-            <th>Statut</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for p in presences %}
-            <tr {% if p.device_id in liste_tricheurs %} 
-                    style="background-color: #ffebee; border-left: 5px solid #d32f2f;" 
-                {% endif %}>
-                
-                <td>{{ p.etudiant.last_name }} {{ p.etudiant.first_name }}</td>
-                <td>{{ p.etudiant.matricule }}</td>
-                
-                <td>
-                    {% if p.device_id in liste_tricheurs %}
-                        <span class="badge" style="background-color: #d32f2f; color: white;">
-                            ⚠️ Doublon détecté
-                        </span>
-                    {% endif %}
-                </td>
+    <!-- Carte Code d'Appel & Contrôles -->
+    <div class="call-control-card">
+        <div class="code-box">
+            <span class="code-label">{% translate "CODE D'APPEL" %}</span>
+            <div class="code-value">{{ feuille.code_validation }}</div>
+            <span class="status-badge {% if feuille.is_actif %}status-active{% else %}status-closed{% endif %}">
+                {% if feuille.is_actif %}{% translate "OUVERT" %}{% else %}{% translate "FERMÉ" %}{% endif %}
+            </span>
+        </div>
 
-                <td>
-                    {% if p.est_present %}
-                        <b style="color: green;">PRÉSENT</b>
+        <form id="form-lancer-appel" action="{% url 'lancer_appel' feuille.id %}" method="POST" class="launch-form">
+            {% csrf_token %}
+            <input type="hidden" name="lat_prof" id="lat_prof">
+            <input type="hidden" name="lon_prof" id="lon_prof">
+
+            {% if not feuille.code_validation %}
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label for="duree">{% translate "Durée" %}</label>
+                        <select name="duree" id="duree" class="select-input">
+                            <option value="2">2 {% translate "min (Express)" %}</option>
+                            <option value="5" selected>5 {% translate "min (Standard)" %}</option>
+                            <option value="10">10 {% translate "min (Long)" %}</option>
+                            <option value="15">15 {% translate "min" %}</option>
+                            <option value="0">{% translate "Illimité" %}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group flex-1">
+                        <label for="rayon">
+                            {% translate "Rayon" %}
+                            <span class="info-help" title="{% translate 'Les ordinateurs se localisent via IP (erreur possible). Réglez sur Illimité sur PC ou utilisez un smartphone pour la géolocalisation.' %}">?</span>
+                        </label>
+                        <select name="rayon" id="rayon" class="select-input">
+                            <option value="30">30m ({% translate "Strict" %})</option>
+                            <option value="50">50m ({% translate "Standard" %})</option>
+                            <option value="100">100m ({% translate "Large" %})</option>
+                            <option value="200">200m</option>
+                            <option value="0" selected>{% translate "Illimité (Pas de GPS)" %}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-launch" id="btn-start-call">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    {% translate "Lancer l'appel" %}
+                </button>
+                
+            {% elif feuille.is_actif %}
+                <div class="active-broadcast">
+                    <span class="pulse-icon">📡</span> {% translate "Appel en cours de diffusion..." %}
+                </div>
+            {% else %}
+                <div class="closed-notice">
+                    {% translate "Cet appel est archivé et terminé. veuillez actualiser cette page" %}
+                </div>
+            {% endif %}
+        </form>
+
+        {% if feuille.is_actif %}
+            <div class="timer-box">
+                {% translate "Temps restant :" %} <span id="timer" data-seconds="{{ feuille.secondes_restantes }}">--:--</span>
+                <div class="range-info">
+                    {% if feuille.rayon_autorise != 0 %}
+                        {% translate "Portée GPS :" %} {{ feuille.rayon_autorise }}m
                     {% else %}
-                        <span style="color: gray;">ABSENT</span>
+                        {% translate "Portée Illimitée" %}
                     {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{%endif%}
-    <br>
-</form>
+                </div>
+            </div>
 
-<script>
-    let secondes = parseInt(document.getElementById('timer').innerText);
-    let timerDisplay = document.getElementById('timer');
-    function updateTimer() {
-        if (secondes > 0) {
-            secondes--;
-            
-            // Formatage simple en minutes:secondes
-            let mins = Math.floor(secondes / 60);
-            let secs = secondes % 60;
-            timerDisplay.innerText = mins + ":" + (secs < 10 ? "0" : "") + secs;
-        } else {
-            timerDisplay.innerText = "TEMPS EXPIRÉ (actualiser la page)";
-            // Optionnel : recharger la page automatiquement quand c'est fini
-            //indow.location.reload(); 
-        }
-    }
+            <form action="{% url 'cloturer_appel' feuille.id %}" method="POST" class="close-form">
+                {% csrf_token %}
+                <button type="submit" class="btn-close-call" onclick="return confirm('{% translate "Voulez-vous clôturer l\'appel ? Cette action est irréversible." %}');">
+                    {% translate "Clôturer l'appel" %}
+                </button>
+            </form>
+        {% endif %}
+    </div>
 
-    // Lance le compteur toutes les secondes
-    setInterval(updateTimer, 1000);
-</script>
+    <!-- Tableau de Présence -->
+    <div class="table-card">
+        <h3 class="card-title">{% translate "Liste des étudiants" %}</h3>
+        <div class="table-responsive">
+            <table class="attendance-table">
+                <thead>
+                    <tr>
+                        <th>{% translate "Étudiant" %}</th>
+                        <th class="text-center">{% translate "Présence (P)" %}</th>
+                        <th class="text-center">{% translate "Absence (A)" %}</th>
+                        <th class="text-center">{% translate "Note" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ins in inscriptions %}
+                        {% with total_pointage=ins.nb_presences|add:ins.nb_abscences %}
+                        <tr class="student-row {% if ins.etudiant.etudiant.id in liste_tricheurs_ids %}row-cheat{% elif total_pointage != nb_seances %}row-warning{% endif %}">
+                            <td class="col-student">
+                                <span class="student-name">{{ ins.etudiant.last_name }} {{ ins.etudiant.first_name }}</span>
+                                <span class="student-matricule">{{ ins.etudiant.username }}</span>
+                                <span class="session-counter">{{ ins.nb_presences }}P / {{ ins.nb_abscences }}A ({% translate "Total" %}: {{ total_pointage }}/{{ nb_seances }})</span>
+                                {% if ins.etudiant.etudiant.id in liste_tricheurs_ids %}
+                                    <span class="cheat-tag" onclick="alert('{% translate "ALERTE SÉCURITÉ :\nCet étudiant a utilisé le même téléphone ou ordinateur qu’un autre camarade pour cet appel.\n\nVérifiez sa présence physique !" %}');">
+                                        ⚠️ {% translate "Appareil partagé !" %}
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center col-action">
+                                <div class="action-btn-group">
+                                    <a href="{% url 'marquer_presence' feuille.id ins.etudiant.id 'present' %}" class="btn-state btn-p" onclick="return confirm('{% translate "Valider cette action ?" %}');">P</a>
+                                    <span class="count-badge">{{ ins.nb_presences }}</span>
+                                    <a href="{% url 'marquer_presence' feuille.id ins.etudiant.id 'annulerP' %}" class="btn-cancel" onclick="return confirm('{% translate "Valider cette action ?" %}');">✕</a>
+                                </div>
+                            </td>
+                            <td class="text-center col-action">
+                                <div class="action-btn-group">
+                                    <a href="{% url 'marquer_presence' feuille.id ins.etudiant.id 'abscent' %}" class="btn-state btn-a" onclick="return confirm('{% translate "Valider cette action ?" %}');">A</a>
+                                    <span class="count-badge">{{ ins.nb_abscences }}</span>
+                                    <a href="{% url 'marquer_presence' feuille.id ins.etudiant.id 'annulerA' %}" class="btn-cancel" onclick="return confirm('{% translate "Valider cette action ?" %}');">✕</a>
+                                </div>
+                            </td>
+                            <td class="text-center col-note">
+                                <strong>{{ ins.note_actuelle }}</strong>
+                            </td>
+                        </tr>
+                        {% endwith %}
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="empty-cell">{% translate "Aucun étudiant inscrit dans ce cours." %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-<script>
-function capturerPositionProf() {
-    const btn = event.currentTarget;
-    const texteOriginal = btn.innerText;
-    btn.innerText = "⏳ Localisation...";
-    btn.disabled = true;
-    const options = {
-        enableHighAccuracy: true,
-        timeout: 4000, // On attend max 4 secondes
-        maximumAge: 0
-    };
-    if (navigator.geolocation) {
-        // Optionnel : afficher un message "Récupération du GPS..." sur le bouton
-        navigator.geolocation.getCurrentPosition(function(position) {
-            document.getElementById('lat_prof').value = position.coords.latitude;
-            document.getElementById('lon_prof').value = position.coords.longitude;
-            
-            // Une fois les coordonnées récupérées, on envoie le formulaire
-            document.getElementById('form-lancer-appel').submit();
-        }, function(error) {
-            alert("Erreur GPS : " + error.message + ". L'appel sera lancé sans géolocalisation.");
-            document.getElementById('form-lancer-appel').submit();
-        }, {
-            enableHighAccuracy: true, // Pour plus de précision en amphi
-            timeout: 5000
-        });
-    } else {
-        alert("Géolocalisation non supportée par votre navigateur.");
-        document.getElementById('form-lancer-appel').submit();
-    }
-}
-</script>
+    <!-- Section Détection Doublons Appareils -->
+    {% if liste_tricheurs_ids %}
+    <div class="table-card warning-card">
+        <h3 class="card-title text-danger">⚠️ {% translate "Appareils partagés détectés" %}</h3>
+        <div class="table-responsive">
+            <table class="attendance-table">
+                <thead>
+                    <tr>
+                        <th>{% translate "Étudiant" %}</th>
+                        <th>{% translate "Statut" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in presences %}
+                        {% if p.device_id in liste_tricheurs %}
+                        <tr class="row-cheat">
+                            <td>
+                                <span class="student-name">{{ p.etudiant.last_name }} {{ p.etudiant.first_name }}</span>
+                                <span class="student-matricule">{{ p.etudiant.matricule }}</span>
+                            </td>
+                            <td>
+                                {% if p.est_present %}
+                                    <span class="badge badge-success">{% translate "PRÉSENT" %}</span>
+                                {% else %}
+                                    <span class="badge badge-muted">{% translate "ABSENT" %}</span>
+                                {% endif %}
+                                <span class="badge badge-danger">{% translate "Doublon" %}</span>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/enseignant/faire_appel.js' %}"></script>
 {% endblock %}

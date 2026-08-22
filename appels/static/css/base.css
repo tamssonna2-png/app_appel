@@ -1,0 +1,149 @@
+/* Style pour base.html */
+/* ==========================================================================
+   ATTENDO - Mobile-Only Layout (Theme Rouge & Jaune)
+   ========================================================================== */
+
+:root {
+    /* Palette Principale (Rouge & Jaune) */
+    --color-primary-red: #D32F2F;        /* Rouge Institutionnel */
+    --color-primary-red-dark: #B71C1C;
+    --color-accent-yellow: #F5B400;      /* Jaune Signal / Live */
+    --color-yellow-light: #FFF8E1;
+
+    /* Neutres & Arrière-plans */
+    --color-bg: #F8FAFC;
+    --color-surface: #FFFFFF;
+    --color-text-main: #0B1C30;
+    --color-text-muted: #546E7A;
+    --color-border: #E2E8F0;
+
+    /* Typographie */
+    --font-heading: 'Space Grotesk', -apple-system, sans-serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+
+    /* UI Measurements */
+    --radius-md: 8px;
+    --radius-full: 9999px;
+    --header-height: 64px;
+}
+
+/* Reset de sécurité pour mobile */
+*, *::before, *::after {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-bg);
+    font-family: var(--font-body);
+    color: var(--color-text-main);
+    padding-top: var(--header-height); /* Espace pour la barre fixe */
+    min-height: 100vh;
+}
+
+/* Navigation fixe en haut */
+.mobile-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+    background-color: var(--color-primary-red);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    box-shadow: 0 2px 10px rgba(211, 47, 47, 0.25);
+    z-index: 1000;
+}
+
+/* Badge Marque + Puce Jaune */
+.brand-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+}
+
+.brand-title {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 0.05em;
+}
+
+.live-dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-accent-yellow);
+    border-radius: 50%;
+    position: relative;
+}
+
+/* Pulsation Jaune */
+.live-dot::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-accent-yellow);
+    border-radius: 50%;
+    animation: pulse-yellow 2s infinite ease-out;
+}
+
+@keyframes pulse-yellow {
+    0% { transform: scale(1); opacity: 0.9; }
+    100% { transform: scale(2.6); opacity: 0; }
+}
+
+/* Navigation et Liens */
+.mobile-nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-link {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Boutons d'action En-tête */
+.btn-login, .btn-logout {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: transform 0.1s ease;
+}
+
+.btn-login {
+    background-color: var(--color-accent-yellow);
+    color: var(--color-text-main);
+}
+
+.btn-logout {
+    background-color: #FFFFFF;
+    color: var(--color-primary-red);
+}
+
+.btn-login:active, .btn-logout:active {
+    transform: scale(0.95);
+}
+
+/* Conteneur de contenu Mobile */
+.mobile-container {
+    padding: 16px;
+    max-width: 500px; /* Force un affichage compact même sur grande tablette */
+    margin: 0 auto;
+}

@@ -32,22 +32,87 @@ def etudiant_requis(view_func):
     return _wrapped_view
 
 
-
+import random
 
 def inscription_etudiant(request):
     if request.method == "POST":
         form = EtudiantForm(request.POST)
         if form.is_valid():
-            etudiant = form.save()
-            login(request, etudiant)
+            etudiant = form.save(commit=False)
+            etudiant.is_active = False
+            etudiant.save()
+            code_verification = str (random.randint(100000,999999))  
+            request.session['signupe_email']=etudiant.email #est ce qu'on a besoin de ca
+            request.session['signupe_code']=code_verification# et de ca ?
+            delais =600
+            request.session.set_expiry(delais)
+            sujet= "Validation de votre compte etudiant sur ATTENDO"
+            message = f"Bonjour {etudiant.first_name},\n\nVotre code de vérification est : {code_verification}\n\nCe code est valide pendant 10 minutes."
+            expediteur = settings.DEFAULT_FROM_EMAIL
+            print("voici le code d recupération : ",code_verification)
+            try:
+                send_mail(sujet,message,expediteur,[etudiant.email])
+                messages.success(request,_("Un code de verification a été envoyé a votre email"))
+                return redirect('verifier_email_etudiant')
+            except Exception as e:
+                if etudiant.pk:
+                    etudiant.delete()
+                messages.error(request,_("Une erreur est survenue lors de l'envoie. Réessayez"))
+                print("probleme",e)
+            """login(request, etudiant)
             messages.success(request,_('Compte étudiant créé!'))
-            return redirect('dashboard_etudiant')
+            return redirect('dashboard_etudiant')"""
     else:
         form = EtudiantForm()
 
     toutes_les_ecoles = Ecole.objects.all().order_by('nom')
+
     return render(request,'etudiant/inscription_etudiant.html',{'form':form,'ecoles_all':toutes_les_ecoles})
 #http://127.0.0.1:8000/inscription-etudiant/
+
+def verifier_email_etudiant(request):
+    email_saisie = request.session.get('signupe_email')
+    code_attendu = request.session.get('signupe_code')
+
+    # Sécurité : Si pas de session, retour à l'inscription
+    if not email_saisie or not code_attendu:
+        messages.error(request, _("Session expirée ou invalide. Veuillez recommencer."))
+        return redirect('inscription_etudiant')
+    
+    if request.method == 'POST':
+        form_code = VerifierCodeForm(request.POST)
+        if form_code.is_valid():
+            code_saisi = form_code.cleaned_data['code_saisi']
+
+            if code_saisi == code_attendu:
+                try:
+                    # 1. Récupération et activation de l'utilisateur
+                    etudiant = User.objects.get(email=email_saisie)
+                    etudiant.is_active = True
+                    etudiant.save()
+
+                    # 2. Nettoyage des variables de session
+                    del request.session['signupe_email']
+                    del request.session['signupe_code']
+
+                    # 3. Connexion automatique (ou redirection vers connexion)
+                    login(request, etudiant) # Optionnel : connecte l'utilisateur directement
+                    
+                    messages.success(request, _("Votre compte a été activé avec succès ! Bienvenue."))
+                    return redirect('dashboard_etudiant')
+
+                except User.DoesNotExist:
+                    messages.error(request, _("Utilisateur introuvable. Veuillez vous réinscrire."))
+                    return redirect('inscription_etudiant')
+            else:
+                messages.error(request, _("Code incorrect. Veuillez réessayer."))
+    else:
+        form_code = VerifierCodeForm()
+
+    return render(request, 'etudiant/verifier_email_etudiant.html', {
+        'form_code': form_code,
+        'etape': 'saisie_code'
+    })
 
 from django.views.decorators.csrf import ensure_csrf_cookie
 
@@ -78,7 +143,7 @@ def connexion_etudiant(request):
     return render(request,'etudiant/connexion_etudiant.html')
 
 
-@login_required
+@login_required(login_url='connexion_etudiant')
 def dashboard_etudiant(request):
     mes_inscriptions=Inscription.objects.filter(etudiant=request.user.etudiant)
     etudiant=get_object_or_404(Etudiant,id=request.user.id)
@@ -150,8 +215,11 @@ def valider_presence(request):
         lat_etudiant = request.POST.get('lat_etudiant')
         lon_etudiant = request.POST.get('lon_etudiant')
         feuille = get_object_or_404(FeuilleAppel,id=feuille_id)
+        inscription = Inscription.objects.get(etudiant=request.user.etudiant,matiere=feuille.matiere)
         if timezone.now() > feuille.date_fin_appel:
             messages.error(request, _("Désolé l'appel est terminé veuillez consulter votre enseignant."))
+            #inscription.nb_abscences +=1
+            #inscription.save()
             return redirect('dashboard_etudiant')
         if (feuille.latitude_prof and feuille.longitude_prof) and feuille.rayon_autorise!=0:
             if not lat_etudiant or not lon_etudiant:
@@ -174,10 +242,10 @@ def valider_presence(request):
                 presence.est_present = True
                 presence.device_id=user_agent
                 presence.save()
-                inscription = Inscription.objects.get(etudiant=request.user.etudiant,matiere=feuille.matiere)
+                #inscription = Inscription.objects.get(etudiant=request.user.etudiant,matiere=feuille.matiere)
                 inscription.nb_presences +=1
                 inscription.save()
-                messages.error(request,_("Presence validéé avec succès !"))
+                messages.success(request,_("Presence validéé avec succès !"))
             else:
                 messages.info(request,_("Tu es déjà marqué(e) present"))
         else:
@@ -189,3 +257,4 @@ def valider_presence(request):
 def deconnexion_etudiant(request):
     logout(request)
     return redirect('connexion_etudiant')
+    

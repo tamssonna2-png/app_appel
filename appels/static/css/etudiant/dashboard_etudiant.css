@@ -1,1 +1,324 @@
 /* Style pour dashboard_etudiant.html */
+/* Conteneur principal PWA Mobile */
+.mobile-dashboard-container {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 16px;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Carte Profil - Thème Bleu & Jaune */
+.profile-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.1);
+    border: 1px solid #bfdbfe;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.brand-badge {
+    background-color: #ffc107;
+    color: #1e3a8a;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 800;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.8px;
+}
+
+.matricule-tag {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    background-color: #eff6ff;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid #dbeafe;
+}
+
+.student-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin: 0 0 4px 0;
+}
+
+.school-info {
+    font-size: 0.82rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Messages Flash */
+.messages-container {
+    margin-bottom: 16px;
+}
+
+.alert-message {
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.alert-info, .alert-success { background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+.alert-error, .alert-danger { background-color: #fef2f2; color: #dc3545; border: 1px solid #fecaca; }
+
+/* Carte Inscription */
+.action-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.card-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin: 0 0 4px 0;
+}
+
+.card-subtitle {
+    font-size: 0.78rem;
+    color: #64748b;
+    margin: 0 0 12px 0;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-url {
+    width: 100%;
+    height: 44px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    background-color: #f8fafc;
+    font-size: 0.85rem;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.input-url:focus {
+    outline: none;
+    border-color: #2563eb;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.btn-subscribe {
+    height: 44px;
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    transition: background-color 0.2s ease;
+}
+
+.btn-subscribe:active {
+    background-color: #1d4ed8;
+}
+
+/* Titre Section */
+.section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 12px;
+}
+
+/* Carte Matière */
+.courses-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.course-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.course-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.course-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+.rate-badge {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+.rate-good { background-color: #dcfce7; color: #166534; }
+.rate-medium { background-color: #fef9c3; color: #854d0e; }
+.rate-bad { background-color: #fef2f2; color: #dc3545; }
+
+.stats-row {
+    display: flex;
+    gap: 16px;
+    background-color: #f8fafc;
+    padding: 8px 12px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+}
+
+.stat-label { color: #64748b; }
+.stat-value { font-weight: 700; }
+.text-success { color: #16a34a; }
+.text-danger { color: #dc3545; }
+
+/* Box Appel Actif (Design Alert Jaune & Bleu) */
+.active-call-box {
+    background-color: #fffbeb;
+    border: 2px dashed #fde68a;
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+}
+
+.active-call-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #d97706;
+    border-radius: 50%;
+    box-shadow: 0 0 0 rgba(217, 119, 6, 0.4);
+    animation: pulse-yellow 1.5s infinite;
+}
+
+@keyframes pulse-yellow {
+    0% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.7); }
+    70% { box-shadow: 0 0 0 8px rgba(217, 119, 6, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
+}
+
+.active-call-title {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #b45309;
+    letter-spacing: 0.5px;
+}
+
+.timer-wrapper {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #92400e;
+    margin-bottom: 10px;
+}
+
+.timer {
+    font-family: monospace;
+    font-weight: 800;
+}
+
+.validation-row {
+    display: flex;
+    gap: 8px;
+}
+
+.code-input {
+    flex: 1;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    color: #1e3a8a;
+}
+
+.code-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.btn-validate {
+    padding: 0 16px;
+    height: 40px;
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+    transition: background-color 0.2s ease;
+}
+
+.btn-validate:active {
+    background-color: #1d4ed8;
+}
+
+.no-call-box {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #94a3b8;
+    padding: 6px 0;
+}
+
+.empty-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+    color: #64748b;
+    font-size: 0.88rem;
+    border: 1px dashed #cbd5e1;
+}

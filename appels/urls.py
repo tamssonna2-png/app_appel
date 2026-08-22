@@ -43,6 +43,7 @@ urlpatterns = [
     # ==========================================
     # Authentification Pro
     path('pro/inscription/', views.inscription_enseignant, name='inscription_enseignant'),
+    path('pro/verifier-email/',views.verifier_email,name='verifier_email'),
     path('pro/connexion/', views.connexion_enseignant, name='connexion_enseignant'),
     path('pro/deconnexion/', views.deconnexion_enseignant, name='deconnexion_enseignant'),
     path('pro/dashboard/', views.dashboard, name='dashboard'),
@@ -80,6 +81,7 @@ urlpatterns = [
     # ==========================================
     # Authentification Étudiant
     path('student/inscription/', views.inscription_etudiant, name='inscription_etudiant'),
+    path('student/verifier-email-etudiant',views.verifier_email_etudiant,name='verifier_email_etudiant'),
     path('student/connexion/', views.connexion_etudiant, name='connexion_etudiant'),
     path('student/deconnexion/', views.deconnexion_etudiant, name='deconnexion_etudiant'),
     path('student/dashboard/', views.dashboard_etudiant, name='dashboard_etudiant'),

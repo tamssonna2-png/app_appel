@@ -3,39 +3,57 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="manifest" href="{% static 'manifest_prof.json' %}" crossorigin="use-credentials">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Viewport strict optimisé pour mobile/PWA -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="manifest" href="{% static 'manifest_prof.json' %}" crossorigin="use-credentials">
+    
     <title>{% block title %}{% translate "Gestion d'Appel" %}{% endblock %}</title>
-    <style>
-        nav { background: #333; color: white; padding: 1rem; display: flex; gap: 20px; }
-        nav a { color: white; text-decoration: none; }
-        .container { padding: 20px; }
-    </style>
+
+    <!-- Polices & Style CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
 
-    <nav>
-        <a href="{% url 'dashboard' %}">{% translate "Tableau de bord" %}</a>
-        
-        {% if user.is_authenticated %}
-            <!--<a href="{% url 'deconnexion_enseignant' %}" style="margin-left: auto; color: #ff6666;" onclick ="return confirm('Êtes-vous sûr de vouloir vous déconnecter ?');">{% translate "Déconnexion" %} ({{ user.username }})</a>-->
-            {% translate "Êtes-vous sûr de vouloir vous déconnecter ?" as confirm_logout %}
+    <!-- Barre de navigation supérieure (Mobile Top Bar) -->
+    <header class="mobile-header">
+        <div class="brand-badge">
+            <span class="brand-title">ATTENDO</span>
+            <span class="live-dot" title="Système Live"></span>
+        </div>
 
-            <a href="{% url 'deconnexion_enseignant' %}" 
-            style="margin-left: auto; color: #ff6666;" 
-            onclick="return confirm('{{ confirm_logout|escapejs }}');">
-            {% translate "Déconnexion" %} ({{ user.username }})
+        <nav class="mobile-nav">
+            <a href="{% url 'dashboard' %}" class="nav-link">
+                {% translate "Tableau de bord" %}
             </a>
-        {% else %}
-            <a href="{% url 'connexion_enseignant' %}" style="margin-left: auto;">{% translate "Connexion" %}</a>
-        {% endif %}
-    </nav>
 
-    <div class="container">
+            {% if user.is_authenticated %}
+                {% translate "Êtes-vous sûr de vouloir vous déconnecter ?" as confirm_logout %}
+                <a href="{% url 'deconnexion_enseignant' %}" 
+                   class="btn-logout" 
+                   onclick="return confirm('{{ confirm_logout|escapejs }}');">
+                    {% translate "Déconnexion" %}
+                </a>
+            {% else %}
+                <a href="{% url 'connexion_enseignant' %}" class="btn-login">
+                    {% translate "Connexion" %}
+                </a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <!-- Conteneur principal mobile -->
+    <main class="mobile-container">
         {% block content %}
         {% endblock %}
-    </div>
+    </main>
+
+    <!-- Fichier JS dédié -->
+    <script src="{% static 'js/base.js' %}"></script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>
-
