@@ -755,3 +755,5 @@ def deconnexion_enseignant(request):
 #obliger les personnes a entrer un mot de passe robuste (plus de 7 caracteres avec des chiffres)
 #metre l'accent sur la securité (comme masquer le lien de l'inscription d'une matiere)
 #proposer la supression du compte (optionel)
+#mon email d'envoie doit avoir son propre non de domaine
+#permetre aux etudiant de changer de mot de passe
